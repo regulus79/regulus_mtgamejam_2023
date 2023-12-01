@@ -1,0 +1,1 @@
+dofile(minetest.get_modpath("regulus_nodes").."/nodes.lua")
