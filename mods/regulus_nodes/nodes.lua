@@ -25,6 +25,55 @@ minetest.register_node("regulus_nodes:x_panel",{
     groups={undiggable=1},
 })
 
+minetest.register_node("regulus_nodes:blank_panel",{
+    description="blank panel",
+    tiles={"regulus_blank_panel.png"},
+    groups={undiggable=1},
+})
+
+minetest.register_node("regulus_nodes:hex_panel1",{
+    description="hex panel1",
+    tiles={"regulus_hex_panel1.png"},
+    groups={undiggable=1},
+})
+
+minetest.register_node("regulus_nodes:cp",{
+    description="checkpoint",
+    tiles={"regulus_cp1.png"},
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.5,-0.5,-0.5,0.5,-0.4,0.5},
+            {-0.1,-0.5,-0.1,0.1,0.2,0.1},
+            {-0.2,0.2,-0.2,0.2,0.5,0.2}
+        }
+    },
+    paramtype="light",
+    on_punch=function(pos,node,puncher,pointed_thing)
+        local meta=puncher:get_meta()
+        meta:set_string("respawn_pos",minetest.serialize(pos))
+        minetest.chat_send_player(puncher:get_player_name(),"Progress Saved")
+    end,
+    groups={undiggable=1},
+})
+
+minetest.register_on_dieplayer(function(player,reason)
+    minetest.chat_send_all(dump(reason))
+    local meta=player:get_meta():get_string("respawn_pos")
+    if meta~="" then
+        player:set_pos(minetest.deserialize(meta))
+    end
+end)
+
+minetest.register_on_respawnplayer(function(player)
+    local meta=player:get_meta():get_string("respawn_pos")
+    if meta~="" then
+        player:set_pos(minetest.deserialize(meta))
+        return true
+    end
+end)
+
 minetest.register_node("regulus_nodes:square_window",{
     description="square_window",
     tiles={"regulus_square_window.png"},
@@ -39,3 +88,25 @@ minetest.register_node("regulus_nodes:v_panel",{
     tiles={"regulus_v_panel.png"},
     groups={undiggable=1},
 })
+
+minetest.register_node("regulus_nodes:killzone",{
+    description="killzone",
+    tiles={"regulus_killzone.png"},
+    drawtype="nodebox",
+    paramtype="light",
+    node_box={
+        type="fixed",
+        fixed={-0.5,-0.5,-0.5,0.5,0,0.5}
+    },
+    use_texture_alpha=true,
+    groups={undiggable=1},
+    walkable=true,
+})
+
+minetest.register_globalstep(function(dtime)
+    for _,player in pairs(minetest.get_connected_players()) do
+        if player:get_pos().y<-100 or minetest.get_node(player:get_pos()).name=="regulus_nodes:killzone" then
+            player:set_hp(0,{reason="set_hp"})
+        end
+    end
+end)

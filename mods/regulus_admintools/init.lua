@@ -20,6 +20,16 @@ minetest.register_chatcommand("fill_inv",{
     end
 })
 
+minetest.register_chatcommand("respawn",{
+    description="respawn to the pos in your meta, else do nothing if no meta",
+    func=function(name,param)
+        local meta=minetest.get_player_by_name(name):get_meta()
+        if meta~="" then
+            minetest.get_player_by_name(name):set_pos(minetest.deserialize(meta:get_string("respawn_pos")))
+        end
+    end
+})
+
 minetest.register_tool("regulus_admintools:dig",{
     description="dig blocks",
     tool_capabilities={
@@ -28,3 +38,14 @@ minetest.register_tool("regulus_admintools:dig",{
         }
     }
 })
+
+if minetest.is_creative_enabled() then
+    minetest.register_tool(":",{
+        description="hand",
+        tool_capabilities={
+            groupcaps={
+                undiggable={maxlevel=1,times={0.2}}
+            }
+        }
+    })
+end
