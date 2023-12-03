@@ -35,19 +35,35 @@ regulus_powerups.fly=function(player)
     physics.speed=0
     physics.gravity=0
     player:set_physics_override(physics)
-    local ids=regulus_gui.enable_powerup_effect(player,"Fly, you fools!",true)
+    regulus_gui.splash_text_effect(player,"Fly, you fools!","#0045ff")
     minetest.after(1.5,function()
-        regulus_gui.disable_powerup_effect(player,ids)
         player:set_physics_override(default_physics_override)
     end)
 end
 
+local return_to_normal_size
+return_to_normal_size=function(player)
+    if not minetest.registered_nodes[minetest.get_node(player:get_pos()+vector.new(0,1.625,0)).name].walkable then
+        local props=player:get_properties()
+        props.visual_size={x=1,y=1,z=1}
+        props.collisionbox={-0.3,0,-0.3,0.3,1.77,0.3}
+        props.eye_height=1.625
+        player:set_properties(props)
+    else
+        minetest.after(1,function()return_to_normal_size(player)end)
+    end
+end
 
+local tiny_scalar=0.5
 regulus_powerups.tiny=function(player)
-    local ids=regulus_gui.enable_powerup_effect(player,"you are tiny",true)
-    
+    regulus_gui.splash_text_effect(player,"you are tiny","#45ff00")
+    local props=player:get_properties()
+    props.visual_size=vector.new(tiny_scalar,tiny_scalar,tiny_scalar)
+    props.collisionbox={-0.3*tiny_scalar,0,-0.3*tiny_scalar,0.3*tiny_scalar,1.77*tiny_scalar,0.3*tiny_scalar}
+    props.eye_height=1.625*tiny_scalar
+    player:set_properties(props)
     minetest.after(1.5,function()
-        regulus_gui.disable_powerup_effect(player,ids)
+        return_to_normal_size(player)
     end)
 end
 

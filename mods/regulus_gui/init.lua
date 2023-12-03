@@ -1,20 +1,28 @@
 regulus_gui={}
 
-regulus_gui.enable_powerup_effect=function(player,name,good)
+regulus_gui.splash_text_effect=function(player,name,color)
+    local ids=regulus_gui.enable_powerup_effect(player,name,color)
+    minetest.after(1.5,function()
+        regulus_gui.disable_powerup_effect(player,ids)
+    end)
+end
+
+
+regulus_gui.enable_powerup_effect=function(player,name,color)
     local image={
         hud_elem_type="image",
-        text=(good and "regulus_green_splash.png") or "regulus_red_splash.png",
-        position={x=0.5,y=0.3},
+        text="regulus_gray_splash.png^[multiply:"..color,
+        position={x=0.5,y=0.0},
         scale={x=1,y=1},
-        alignment={x=0,y=0},
+        alignment={x=0,y=1},
     }
     local text={
         hud_elem_type="text",
         text=name,
-        position={x=0.5,y=0.13},
+        position={x=0.5,y=0},
         --scale={x=2,y=2},
         size={x=5},
-        --alignment={x=0,y=0},
+        alignment={x=0,y=2},
         style=2
     }
     local id1=player:hud_add(image)

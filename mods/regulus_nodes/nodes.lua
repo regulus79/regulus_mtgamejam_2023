@@ -110,7 +110,7 @@ minetest.register_node("regulus_nodes:killzone",{
 
 minetest.register_node("regulus_nodes:fly_powerup",{
     description="fly powerup zone",
-    tiles={"regulus_killzone.png"},
+    tiles={"regulus_transparent_white.png^[multiply:#0045ff"},
     drawtype="glasslike",
     paramtype="light",
     use_texture_alpha=true,
@@ -120,7 +120,7 @@ minetest.register_node("regulus_nodes:fly_powerup",{
 
 minetest.register_node("regulus_nodes:tiny_powerup",{
     description="tiny powerup zone",
-    tiles={"regulus_killzone.png"},
+    tiles={"regulus_transparent_white.png^[multiply:#45ff00"},
     drawtype="glasslike",
     paramtype="light",
     use_texture_alpha=true,
