@@ -55,6 +55,11 @@ minetest.register_node("regulus_nodes:cp",{
         meta:set_string("respawn_pos",minetest.serialize(pos))
         minetest.chat_send_player(puncher:get_player_name(),"Progress Saved")
     end,
+    on_rightclick=function(pos,node,puncher,itemstack,pointed_thing)
+        local meta=puncher:get_meta()
+        meta:set_string("respawn_pos",minetest.serialize(pos))
+        minetest.chat_send_player(puncher:get_player_name(),"Progress Saved")
+    end,
     groups={undiggable=1},
 })
 
@@ -103,10 +108,45 @@ minetest.register_node("regulus_nodes:killzone",{
     walkable=true,
 })
 
+minetest.register_node("regulus_nodes:fly_powerup",{
+    description="fly powerup zone",
+    tiles={"regulus_killzone.png"},
+    drawtype="glasslike",
+    paramtype="light",
+    use_texture_alpha=true,
+    groups={undiggable=1},
+    walkable=false,
+})
+
+minetest.register_node("regulus_nodes:tiny_powerup",{
+    description="tiny powerup zone",
+    tiles={"regulus_killzone.png"},
+    drawtype="glasslike",
+    paramtype="light",
+    use_texture_alpha=true,
+    groups={undiggable=1},
+    walkable=false,
+})
+
 minetest.register_globalstep(function(dtime)
     for _,player in pairs(minetest.get_connected_players()) do
-        if player:get_pos().y<-100 or minetest.get_node(player:get_pos()).name=="regulus_nodes:killzone" then
+        local nodename=minetest.get_node(player:get_pos()).name
+        if player:get_pos().y<-100 or nodename=="regulus_nodes:killzone" then
             player:set_hp(0,{reason="set_hp"})
+        end
+        local nodename_slightly_above=minetest.get_node(player:get_pos()+vector.new(0,0.1,0)).name
+        if nodename_slightly_above=="regulus_nodes:fly_powerup" then
+            local old_powerup=player:get_meta():get_string("powerup")
+            if old_powerup~="fly" then
+                player:get_meta():set_string("powerup","fly")
+                minetest.chat_send_all("You can now fly!")
+            end
+        elseif nodename_slightly_above=="regulus_nodes:tiny_powerup" then
+            local old_powerup=player:get_meta():get_string("powerup")
+            if old_powerup~="tiny" then
+                player:get_meta():set_string("powerup","tiny")
+                minetest.chat_send_all("You are now tiny!")
+            end
         end
     end
 end)
