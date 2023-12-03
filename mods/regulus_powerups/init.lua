@@ -45,6 +45,7 @@ end
 
 regulus_powerups.tiny=function(player)
     local ids=regulus_gui.enable_powerup_effect(player,"you are tiny",true)
+    
     minetest.after(1.5,function()
         regulus_gui.disable_powerup_effect(player,ids)
     end)
