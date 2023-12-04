@@ -1,6 +1,12 @@
 --todo
 regulus_powerups={}
 
+regulus_powerups.list_of_powerups={
+    fly={color="#ff4500",motto="Fly, you fools!"},
+    tiny={color="#45ff00",motto="Man of Ants"},
+    huge={color="#0045ff",motto=""},
+}
+
 regulus_powerups.random_teleport=function(player)
     local vec=vector.new(math.random(-10,10),math.random(-10,10),math.random(-10,10))
     local ray=minetest.raycast(player:get_pos(),player:get_pos()+vec,false)
@@ -31,11 +37,11 @@ local default_physics_override={
 }
 
 regulus_powerups.fly=function(player)
+    regulus_achievements.trigger_achieve(player,"achievements_fly")
     local physics=player:get_physics_override()
     physics.speed=0
     physics.gravity=0
     player:set_physics_override(physics)
-    regulus_gui.splash_text_effect(player,"Fly, you fools!","#0045ff")
     minetest.after(1.5,function()
         player:set_physics_override(default_physics_override)
     end)
@@ -54,9 +60,8 @@ return_to_normal_size=function(player)
     end
 end
 
-local tiny_scalar=0.5
+local tiny_scalar=0.25
 regulus_powerups.tiny=function(player)
-    regulus_gui.splash_text_effect(player,"you are tiny","#45ff00")
     local props=player:get_properties()
     props.visual_size=vector.new(tiny_scalar,tiny_scalar,tiny_scalar)
     props.collisionbox={-0.3*tiny_scalar,0,-0.3*tiny_scalar,0.3*tiny_scalar,1.77*tiny_scalar,0.3*tiny_scalar}

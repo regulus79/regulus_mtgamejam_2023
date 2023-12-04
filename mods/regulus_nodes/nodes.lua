@@ -50,15 +50,13 @@ minetest.register_node("regulus_nodes:cp",{
         }
     },
     paramtype="light",
-    on_punch=function(pos,node,puncher,pointed_thing)
-        local meta=puncher:get_meta()
+    on_punch=function(pos,node,clicker)
+        local meta=clicker:get_meta()
         meta:set_string("respawn_pos",minetest.serialize(pos))
-        minetest.chat_send_player(puncher:get_player_name(),"Progress Saved")
-    end,
-    on_rightclick=function(pos,node,puncher,itemstack,pointed_thing)
-        local meta=puncher:get_meta()
-        meta:set_string("respawn_pos",minetest.serialize(pos))
-        minetest.chat_send_player(puncher:get_player_name(),"Progress Saved")
+        --minetest.chat_send_player(clicker:get_player_name(),"Progress Saved")
+        regulus_gui.splash_text_effect(clicker,"Progress Saved","#444444")
+        --play sound
+        minetest.sound_play("regulus_checkpoint",{to_player=name},true)
     end,
     groups={undiggable=1},
 })
@@ -107,17 +105,18 @@ minetest.register_node("regulus_nodes:killzone",{
     groups={undiggable=1},
     walkable=true,
 })
-
-minetest.register_node("regulus_nodes:fly_powerup",{
-    description="fly powerup zone",
-    tiles={"regulus_transparent_white.png^[multiply:#0045ff"},
-    drawtype="glasslike",
-    paramtype="light",
-    use_texture_alpha=true,
-    groups={undiggable=1},
-    walkable=false,
-})
-
+for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
+    minetest.register_node("regulus_nodes:"..powerupname.."_powerup",{
+        description=powerupname.." powerup zone",
+        tiles={"regulus_transparent_white.png^[multiply:"..settings.color},
+        drawtype="glasslike",
+        paramtype="light",
+        use_texture_alpha=true,
+        groups={undiggable=1},
+        walkable=false,
+    })
+end
+--[[
 minetest.register_node("regulus_nodes:tiny_powerup",{
     description="tiny powerup zone",
     tiles={"regulus_transparent_white.png^[multiply:#45ff00"},
@@ -126,7 +125,7 @@ minetest.register_node("regulus_nodes:tiny_powerup",{
     use_texture_alpha=true,
     groups={undiggable=1},
     walkable=false,
-})
+})]]
 
 minetest.register_globalstep(function(dtime)
     for _,player in pairs(minetest.get_connected_players()) do
@@ -135,18 +134,67 @@ minetest.register_globalstep(function(dtime)
             player:set_hp(0,{reason="set_hp"})
         end
         local nodename_slightly_above=minetest.get_node(player:get_pos()+vector.new(0,0.1,0)).name
-        if nodename_slightly_above=="regulus_nodes:fly_powerup" then
-            local old_powerup=player:get_meta():get_string("powerup")
-            if old_powerup~="fly" then
-                player:get_meta():set_string("powerup","fly")
-                minetest.chat_send_all("You can now fly!")
-            end
-        elseif nodename_slightly_above=="regulus_nodes:tiny_powerup" then
-            local old_powerup=player:get_meta():get_string("powerup")
-            if old_powerup~="tiny" then
-                player:get_meta():set_string("powerup","tiny")
-                minetest.chat_send_all("You are now tiny!")
+        for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
+            if nodename_slightly_above=="regulus_nodes:"..powerupname.."_powerup" then
+                local old_powerup=player:get_meta():get_string("powerup")
+                if old_powerup~=powerupname then
+                    player:get_meta():set_string("powerup",powerupname)
+                    regulus_gui.splash_text_effect(player,settings.motto,settings.color)
+                end
             end
         end
     end
 end)
+
+minetest.register_node("regulus_nodes:blank_panel_stair",{
+    description="blank panel stair",
+    tiles={"regulus_blank_panel_stair.png"},
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.5,-0.5,-0.5,0.5,0,0.5},
+            {-0.5,0,0,0.5,0.5,0.5}
+        }
+    },
+    paramtype="light",
+    paramtype2="4dir",
+    groups={undiggable=1},
+})
+
+minetest.register_node("regulus_nodes:blank_panel_hole",{
+    description="blank panel hole",
+    tiles={"regulus_blank_panel_stair.png"},
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.5,-0.5,-0.5,0.5,-0.3,0.5},
+            {-0.5,0.3,-0.5,0.5,0.5,0.5},
+            {-0.5,-0.5,-0.5,-0.3,0.5,0.5},
+            {0.3,-0.5,-0.5,0.5,0.5,0.5},
+        }
+    },
+    paramtype="light",
+    paramtype2="4dir",
+    groups={undiggable=1},
+})
+
+
+minetest.register_node("regulus_nodes:blank_panel_vertical_hole",{
+    description="blank panel vertical hole",
+    tiles={"regulus_blank_panel_stair.png"},
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.5,-0.5,-0.2,0.5,0.5,-0.5},
+            {-0.5,-0.5,0.2,0.5,0.5,0.5},
+            {-0.5,-0.5,-0.5,-0.2,0.5,0.5},
+            {0.2,-0.5,-0.5,0.5,0.5,0.5},
+        }
+    },
+    paramtype="light",
+    paramtype2="4dir",
+    groups={undiggable=1},
+})

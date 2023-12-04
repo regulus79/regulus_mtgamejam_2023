@@ -5,13 +5,14 @@ regulus_gui.splash_text_effect=function(player,name,color)
     minetest.after(1.5,function()
         regulus_gui.disable_powerup_effect(player,ids)
     end)
+    --play a sound
 end
 
 
 regulus_gui.enable_powerup_effect=function(player,name,color)
     local image={
         hud_elem_type="image",
-        text="regulus_gray_splash.png^[multiply:"..color,
+        text="regulus_gray_splash"..tostring(math.random(6))..".png^[multiply:"..color,
         position={x=0.5,y=0.0},
         scale={x=1,y=1},
         alignment={x=0,y=1},
