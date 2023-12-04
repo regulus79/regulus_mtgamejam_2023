@@ -1,15 +1,15 @@
 regulus_gui={}
 
-regulus_gui.splash_text_effect=function(player,name,color)
-    local ids=regulus_gui.enable_powerup_effect(player,name,color)
+regulus_gui.splash_text_effect=function(player,text,color,secondary_text)
+    local ids=regulus_gui.enable_splash_text_effect(player,text,color,secondary_text)
     minetest.after(1.5,function()
-        regulus_gui.disable_powerup_effect(player,ids)
+        regulus_gui.disable_splash_text_effect(player,ids)
     end)
     --play a sound
 end
 
 
-regulus_gui.enable_powerup_effect=function(player,name,color)
+regulus_gui.enable_splash_text_effect=function(player,name,color,secondary_text)
     local image={
         hud_elem_type="image",
         text="regulus_gray_splash"..tostring(math.random(6))..".png^[multiply:"..color,
@@ -26,12 +26,22 @@ regulus_gui.enable_powerup_effect=function(player,name,color)
         alignment={x=0,y=2},
         style=2
     }
+    local text2={
+        hud_elem_type="text",
+        text=secondary_text,
+        position={x=0.5,y=0.15},
+        --scale={x=2,y=2},
+        size={x=2},
+        alignment={x=0,y=0},
+        style=2
+    }
     local id1=player:hud_add(image)
     local id2=player:hud_add(text)
-    return {id1,id2}
+    local id3=player:hud_add(text2)
+    return {id1,id2,id3}
 end
 
-regulus_gui.disable_powerup_effect=function(player,ids)
+regulus_gui.disable_splash_text_effect=function(player,ids)
     for _,id in pairs(ids) do
         player:hud_remove(id)
     end

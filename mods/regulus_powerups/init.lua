@@ -37,7 +37,9 @@ local default_physics_override={
 }
 
 regulus_powerups.fly=function(player)
+    --achievement triggering
     regulus_achievements.trigger_achieve(player,"achievements_fly")
+    --
     local physics=player:get_physics_override()
     physics.speed=0
     physics.gravity=0
@@ -62,6 +64,9 @@ end
 
 local tiny_scalar=0.25
 regulus_powerups.tiny=function(player)
+    --achievement triggering
+    regulus_achievements.trigger_achieve(player,"achievements_tiny")
+    --
     local props=player:get_properties()
     props.visual_size=vector.new(tiny_scalar,tiny_scalar,tiny_scalar)
     props.collisionbox={-0.3*tiny_scalar,0,-0.3*tiny_scalar,0.3*tiny_scalar,1.77*tiny_scalar,0.3*tiny_scalar}

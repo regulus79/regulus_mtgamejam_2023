@@ -139,7 +139,7 @@ minetest.register_globalstep(function(dtime)
                 local old_powerup=player:get_meta():get_string("powerup")
                 if old_powerup~=powerupname then
                     player:get_meta():set_string("powerup",powerupname)
-                    regulus_gui.splash_text_effect(player,settings.motto,settings.color)
+                    --regulus_gui.splash_text_effect(player,settings.motto,settings.color)
                 end
             end
         end
