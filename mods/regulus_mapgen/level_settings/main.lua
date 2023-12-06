@@ -1,0 +1,1 @@
+return {relative_spawnpoint={x=65,y=9,z=21}}

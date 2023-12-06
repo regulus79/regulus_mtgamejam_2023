@@ -56,13 +56,13 @@ minetest.register_node("regulus_nodes:cp",{
         --minetest.chat_send_player(clicker:get_player_name(),"Progress Saved")
         regulus_gui.splash_text_effect(clicker,"Progress Saved","#444444")
         --play sound
-        minetest.sound_play("regulus_checkpoint",{to_player=name},true)
+        minetest.sound_play("regulus_checkpoint",{to_player=clicker:get_player_name()},true)
     end,
     groups={undiggable=1},
 })
 
 minetest.register_on_dieplayer(function(player,reason)
-    minetest.chat_send_all(dump(reason))
+    --minetest.chat_send_all(dump(reason))
     local meta=player:get_meta():get_string("respawn_pos")
     if meta~="" then
         player:set_pos(minetest.deserialize(meta))
@@ -105,6 +105,18 @@ minetest.register_node("regulus_nodes:killzone",{
     groups={undiggable=1},
     walkable=true,
 })
+
+minetest.register_node("regulus_nodes:winzone",{
+    description="win zone",
+    tiles={"regulus_transparent_white.png^[multiply:#00ff00"},
+    paramtype="light",
+    drawtype="glasslike",
+    paramtype="light",
+    use_texture_alpha=true,
+    groups={undiggable=1},
+    walkable=false,
+})
+
 for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
     minetest.register_node("regulus_nodes:"..powerupname.."_powerup",{
         description=powerupname.." powerup zone",
@@ -140,8 +152,12 @@ minetest.register_globalstep(function(dtime)
                 if old_powerup~=powerupname then
                     player:get_meta():set_string("powerup",powerupname)
                     --regulus_gui.splash_text_effect(player,settings.motto,settings.color)
+                    minetest.sound_play({name="thx",gain=10.0},{pos=player:get_pos()},true)
                 end
             end
+        end
+        if nodename_slightly_above=="regulus_nodes:winzone" then
+            regulus_story.win(player)
         end
     end
 end)
