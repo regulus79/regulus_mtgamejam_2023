@@ -74,6 +74,8 @@ minetest.register_node("regulus_story:crystal_pedistal_original",{
     end,
     groups={undiggable=1},
     use_texture_alpha=true,
+    paramtype="light",
+    light_source=14,
 })
 
 minetest.register_node("regulus_story:crystal_pedistal_original_empty",{
@@ -84,6 +86,8 @@ minetest.register_node("regulus_story:crystal_pedistal_original_empty",{
     on_rightclick=function(pos,node,clicker,itemstack,pointed_thing)
     end,
     groups={undiggable=1,not_in_creative_inventory=1},
+    paramtype="light",
+    light_source=14,
 })
 
 
@@ -103,6 +107,8 @@ minetest.register_node("regulus_story:crystal_pedistal_finish_empty",{
         end
     end,
     groups={undiggable=1},
+    paramtype="light",
+    light_source=14,
 })
 
 minetest.register_node("regulus_story:crystal_pedistal_finish_full",{
@@ -113,4 +119,6 @@ minetest.register_node("regulus_story:crystal_pedistal_finish_full",{
     on_rightclick=function(pos,node,clicker,itemstack,pointed_thing)
     end,
     groups={undiggable=1,not_in_creative_inventory=1},
+    paramtype="light",
+    light_source=14,
 })

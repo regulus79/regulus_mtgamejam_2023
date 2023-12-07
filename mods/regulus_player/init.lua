@@ -13,4 +13,13 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.mesh="regulus_player_model1.obj"
     props.texture="regulus_character.png",
     player:set_properties(props)
+
+    --add skybox
+    player:set_sky({
+        base_color="#000000",--todo
+        type="plain",
+        --textures={},--todo
+        clouds=true,
+    })
+    player:override_day_night_ratio(0.3)
 end)

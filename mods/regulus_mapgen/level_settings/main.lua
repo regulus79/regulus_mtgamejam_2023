@@ -1,1 +1,1 @@
-return {relative_spawnpoint={x=65,y=9,z=21}}
+return {spawnpoint1={x=65,y=9,z=21}}

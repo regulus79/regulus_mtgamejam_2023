@@ -13,11 +13,13 @@ minetest.register_node("regulus_nodes:wood",{
     groups={undiggable=1},
 })
 
-minetest.register_node("regulus_nodes:stone",{
-    description="stone",
-    tiles={"regulus_stone1.png"},
-    groups={undiggable=1},
-})
+for i=1,5 do
+    minetest.register_node("regulus_nodes:stone"..tostring(i),{
+        description="stone"..tostring(i),
+        tiles={"regulus_stone"..tostring(i)..".png"},
+        groups={undiggable=1},
+    })
+end
 
 minetest.register_node("regulus_nodes:x_panel",{
     description="x panel",
@@ -84,6 +86,7 @@ minetest.register_node("regulus_nodes:square_window",{
     paramtype="light",
     groups={undiggable=1},
     use_texture_alpha=true,
+    sunlight_propagates=true,
 })
 
 minetest.register_node("regulus_nodes:v_panel",{
@@ -159,24 +162,36 @@ minetest.register_globalstep(function(dtime)
         if nodename_slightly_above=="regulus_nodes:winzone" then
             regulus_story.win(player)
         end
+        if nodename_slightly_above=="regulus_mapgen:exit" then
+            regulus_mapgen.exit_level(player)
+        elseif nodename_slightly_above=="regulus_mapgen:next1" then
+            regulus_mapgen.next_level(player,1)
+        elseif nodename_slightly_above=="regulus_mapgen:next2" then
+            regulus_mapgen.next_level(player,2)
+        elseif nodename_slightly_above=="regulus_mapgen:next3" then
+            regulus_mapgen.next_level(player,3)
+        end
     end
 end)
 
-minetest.register_node("regulus_nodes:blank_panel_stair",{
-    description="blank panel stair",
-    tiles={"regulus_blank_panel_stair.png"},
-    drawtype="nodebox",
-    node_box={
-        type="fixed",
-        fixed={
-            {-0.5,-0.5,-0.5,0.5,0,0.5},
-            {-0.5,0,0,0.5,0.5,0.5}
-        }
-    },
-    paramtype="light",
-    paramtype2="4dir",
-    groups={undiggable=1},
-})
+
+for _,nodename in pairs({}) do
+    minetest.register_node("regulus_nodes:blank_panel_stair",{
+        description="blank panel stair",
+        tiles={"regulus_blank_panel_stair.png"},
+        drawtype="nodebox",
+        node_box={
+            type="fixed",
+            fixed={
+                {-0.5,-0.5,-0.5,0.5,0,0.5},
+                {-0.5,0,0,0.5,0.5,0.5}
+            }
+        },
+        paramtype="light",
+        paramtype2="4dir",
+        groups={undiggable=1},
+    })
+end
 
 minetest.register_node("regulus_nodes:blank_panel_hole",{
     description="blank panel hole",
@@ -213,4 +228,21 @@ minetest.register_node("regulus_nodes:blank_panel_vertical_hole",{
     paramtype="light",
     paramtype2="4dir",
     groups={undiggable=1},
+})
+
+minetest.register_node("regulus_nodes:lantern",{
+    description="Lantern",
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.2,-0.5,-0.2,0.2,0.2,0.2},
+        }
+    },
+    tiles={"regulus_wood1.png","regulus_wood1.png","regulus_lantern.png"},
+
+    paramtype="light",
+    light_source=10,
+    groups={undiggable=1},
+
 })

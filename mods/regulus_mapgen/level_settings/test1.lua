@@ -1,0 +1,1 @@
+return {next2="",exit="",next1="you_won",spawnpoint1={y=3,z=2,x=1},next3=""}
