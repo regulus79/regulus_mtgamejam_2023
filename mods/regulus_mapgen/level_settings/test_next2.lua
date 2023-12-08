@@ -1,1 +1,1 @@
-return {spawnpoint2={x=2,y=1,z=2},next3="",spawnpoint3={x=2,y=1,z=2},next2="",spawnpoint4={x=2,y=1,z=2},exit="test_main",spawnpoint1={x=2,y=1,z=2},next1=""}
+return {spawnpoint1={y=1,z=2,x=2},spawnpoint2={y=1,z=2,x=2},spawnpoint3={y=1,z=2,x=2},spawnpoint4={y=1,z=2,x=2},exit="test_main",exit_spawnpoint_num=3,next1="",next2="",next3=""}

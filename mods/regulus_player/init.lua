@@ -14,6 +14,8 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.texture="regulus_character.png",
     player:set_properties(props)
 
+    player:get_meta():set_string("powerup","fly")
+
     --add skybox
     player:set_sky({
         base_color="#000000",--todo
@@ -21,5 +23,10 @@ minetest.register_on_joinplayer(function(player,last_login)
         --textures={},--todo
         clouds=true,
     })
-    player:override_day_night_ratio(0.3)
+    --player:override_day_night_ratio(0.3)
+end)
+
+minetest.register_on_newplayer(function(player)
+    --regulus_mapgen.load_level(player,"main")
+    player:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
 end)

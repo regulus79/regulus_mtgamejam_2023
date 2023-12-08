@@ -1,0 +1,1 @@
+return {spawnpoint4={z=9,x=5,y=3},exit="room2",exit_spawnpoint_num=2,next1="room4",next2="",next3="",spawnpoint1={z=9,x=5,y=3},spawnpoint2={z=9,x=30,y=3},spawnpoint3={z=9,x=5,y=3}}

@@ -175,10 +175,16 @@ minetest.register_globalstep(function(dtime)
 end)
 
 
-for _,nodename in pairs({}) do
-    minetest.register_node("regulus_nodes:blank_panel_stair",{
-        description="blank panel stair",
-        tiles={"regulus_blank_panel_stair.png"},
+for nodename,texture_name in pairs({
+    ["blank_panel"]="regulus_blank_panel_stair.png",
+    ["stone1"]="regulus_stone1.png",
+    ["stone4"]="regulus_stone4.png",
+    ["stone5"]="regulus_stone5.png",
+    ["wood1"]="regulus_wood1.png",
+}) do
+    minetest.register_node("regulus_nodes:"..nodename.."_stair",{
+        description=nodename.." stair",
+        tiles={texture_name},
         drawtype="nodebox",
         node_box={
             type="fixed",
@@ -245,4 +251,47 @@ minetest.register_node("regulus_nodes:lantern",{
     light_source=10,
     groups={undiggable=1},
 
+})
+
+
+minetest.register_node("regulus_nodes:lantern2",{
+    description="Lantern",
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.2,-0.2,-0.2,0.2,0.2,0.2},
+            {-0.1,0,-0.1,0.1,0.5,0.1},
+        }
+    },
+    tiles={"regulus_lantern2.png"},
+
+    paramtype="light",
+    light_source=14,
+    groups={undiggable=1},
+
+})
+
+
+minetest.register_node("regulus_nodes:lantern3",{
+    description="Lantern",
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.1,-0.5,-0.1,0.1,0.5,0.1},
+        }
+    },
+    tiles={"regulus_lantern3.png"},
+
+    paramtype="light",
+    light_source=14,
+    groups={undiggable=1},
+
+})
+
+minetest.register_node("regulus_nodes:bookshelf",{
+    description="bookshelf",
+    tiles={"regulus_wood2.png","regulus_wood2.png","regulus_bookshelf1.png"},
+    groups={undiggable=1},
 })
