@@ -51,9 +51,9 @@ regulus_gui.show_subtitles=function(player,text,time)
     local text_elem={
         hud_elem_type="text",
         text=text,
-        position={x=0.5,y=0.7},
+        position={x=0.5,y=0.8},
         --scale={x=2,y=2},
-        size={x=1},
+        size={x=2},
         alignment={x=0,y=0},
     }
     local id=player:hud_add(text_elem)
