@@ -2,7 +2,7 @@
 minetest.register_entity("regulus_mobs:guide",{
     visual="mesh",
     mesh="regulus_player_model1.obj",
-    textures={"regulus_character.png"},
+    textures={"regulus_character2.png"},
     physical=true,
     selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
     collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
