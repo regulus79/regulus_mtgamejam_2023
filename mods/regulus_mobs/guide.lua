@@ -7,7 +7,7 @@ minetest.register_entity("regulus_mobs:guide",{
     selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
     collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
 
-    _notice_dist=1,
+    _notice_dist=2,
 
     on_activate=function(self, staticdata, dtime_s)
         self.object:set_acceleration(vector.new(0,-10,0))
