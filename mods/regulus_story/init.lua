@@ -26,7 +26,7 @@ end)
 
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
-    regulus_gui.show_subtitles(voiceline.text,voiceline.length)
+    regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
 end
 
 regulus_story.trigger_dialogue=function(player,dialogue_id)

@@ -46,3 +46,18 @@ regulus_gui.disable_splash_text_effect=function(player,ids)
         player:hud_remove(id)
     end
 end
+
+regulus_gui.show_subtitles=function(player,text,time)
+    local text_elem={
+        hud_elem_type="text",
+        text=text,
+        position={x=0.5,y=0.7},
+        --scale={x=2,y=2},
+        size={x=1},
+        alignment={x=0,y=0},
+    }
+    local id=player:hud_add(text_elem)
+    minetest.after(time,function()
+        player:hud_remove(id)
+    end)
+end
