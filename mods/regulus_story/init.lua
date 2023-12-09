@@ -24,15 +24,20 @@ minetest.register_on_newplayer(function(player)
     player:get_meta():set_float("start_time",minetest.get_us_time())
 end)
 
+regulus_story.voiceline_length_pause_inbetween=1
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
-    regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
+    minetest.after(predelay,function()
+        regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
+    end)
 end
 
 regulus_story.trigger_dialogue=function(player,dialogue_id)
-    for i,voiceline in ipairs(regulus_story.dialogues[dialogue_id]) do
-        regulus_story.trigger_voiceline(player,voiceline,i)
+    local total_delay=0
+    for _,voiceline in ipairs(regulus_story.dialogues[dialogue_id]) do
+        regulus_story.trigger_voiceline(player,voiceline,total_delay)
         minetest.chat_send_all(dump(voiceline))
+        total_delay=total_delay+voiceline.length+regulus_story.voiceline_length_pause_inbetween
     end
 end
 
