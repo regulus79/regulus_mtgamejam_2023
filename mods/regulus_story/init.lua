@@ -4,8 +4,11 @@ regulus_story={}
 
 regulus_story.dialogues={
     greeting={
-        {file="todo",text="Why hello everyone",length=1},
-        {file="todo",text="Why hello everyone this fine evening",length=2}
+        {file="todo",text="Ah, hello Rufus!",length=2},
+        {file="todo",text="I believe you were sent to pick up you new wand, yes?",length=4},
+        {file="todo",text="I apologize for not noticing you when you came in. I am very busy thinking over our strategies.",length=6},
+        {file="todo",text="I think I left the wand somewhere in this library. ",length=2.5},
+        {file="todo",text="Perhaps you could go find it?",length=2},
     }
 }
 
@@ -24,7 +27,7 @@ minetest.register_on_newplayer(function(player)
     player:get_meta():set_float("start_time",minetest.get_us_time())
 end)
 
-regulus_story.voiceline_length_pause_inbetween=1
+regulus_story.voiceline_length_pause_inbetween=0.7
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     minetest.after(predelay,function()
