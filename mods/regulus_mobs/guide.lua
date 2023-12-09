@@ -15,7 +15,7 @@ minetest.register_entity("regulus_mobs:guide",{
 
     on_rightclick=function(self,clicker)
         regulus_story.trigger_dialogue(clicker,"greeting")
-        self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+        self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
     end,
 
     on_step=function(self,dtime)
