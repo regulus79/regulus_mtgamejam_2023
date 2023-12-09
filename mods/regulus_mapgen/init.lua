@@ -106,6 +106,14 @@ minetest.register_chatcommand("set_exit_num",{
         minetest.chat_send_all("exit number level set to "..param)
     end
 })
+minetest.register_chatcommand("set_level_name",{
+    description="set the name of the current level. this will the be name of the schematic file and level_settings file",
+    func=function(name,param)
+        local player=minetest.get_player_by_name(name)
+        player:get_meta():set_string("level_name",param)
+        minetest.chat_send_all("level_name set to "..param)
+    end
+})
 minetest.register_chatcommand("get_exit_num",{
     description="get which entrance number the exit goes to",
     func=function(name,param)
@@ -133,11 +141,36 @@ minetest.register_chatcommand("clear_map_meta",{
     end
 })
 
-minetest.register_chatcommand("save_level",{
-    description="save the area between the two pos1 and pos2 nodes as a schematic with the level name as the param",
+minetest.register_chatcommand("get_map_meta",{
+    description="get the level settings table",
     func=function(name,param)
         local player=minetest.get_player_by_name(name)
         local meta=player:get_meta()
+        minetest.chat_send_all(dump(
+            {
+                exit_spawnpoint_num=meta:get_int("exit_spawnpoint_num"),
+                exit=meta:get_string("exit"),
+                next1=meta:get_string("next1"),
+                next2=meta:get_string("next2"),
+                next3=meta:get_string("next3"),
+                spawnpoint1=meta:get_string("spawnpoint1"),
+                spawnpoint2=meta:get_string("spawnpoint2"),
+                spawnpoint3=meta:get_string("spawnpoint3"),
+                spawnpoint4=meta:get_string("spawnpoint4"),
+                pos1=meta:get_string("pos1"),
+                pos2=meta:get_string("pos2"),
+                level_name=meta:get_string("level_name"),
+            }
+        ))
+    end
+})
+
+minetest.register_chatcommand("save_level",{
+    description="save the area between the two pos1 and pos2 nodes as a schematic with the current level data",
+    func=function(name,param)
+        local player=minetest.get_player_by_name(name)
+        local meta=player:get_meta()
+        local level_name=meta:get_string("level_name")
         local pos1=minetest.deserialize(meta:get_string("pos1"))
         local pos2=minetest.deserialize(meta:get_string("pos2"))
         local global_spawnpoint1=minetest.deserialize(meta:get_string("spawnpoint1"))
@@ -146,7 +179,7 @@ minetest.register_chatcommand("save_level",{
         local global_spawnpoint4=minetest.deserialize(meta:get_string("spawnpoint4")) or global_spawnpoint1
         local minpos=vector.new(math.min(pos1.x,pos2.x),math.min(pos1.y,pos2.y),math.min(pos1.z,pos2.z))
         local maxpos=vector.new(math.max(pos1.x,pos2.x),math.max(pos1.y,pos2.y),math.max(pos1.z,pos2.z))
-        minetest.create_schematic(pos1,pos2,{},minetest.get_modpath("regulus_mapgen").."/schems/"..param..".mts")
+        minetest.create_schematic(pos1,pos2,{},minetest.get_modpath("regulus_mapgen").."/schems/"..level_name..".mts")
 
         local level_settings={
             spawnpoint1=global_spawnpoint1-minpos,
@@ -158,8 +191,10 @@ minetest.register_chatcommand("save_level",{
             next2=meta:get_string("next2"),
             next3=meta:get_string("next3"),
             exit_spawnpoint_num=meta:get_int("exit_spawnpoint_num"),
+            extent=maxpos-minpos,
+            level_name=level_name,
         }
-        minetest.safe_file_write(minetest.get_modpath("regulus_mapgen").."/level_settings/"..param..".lua",minetest.serialize(level_settings))
+        minetest.safe_file_write(minetest.get_modpath("regulus_mapgen").."/level_settings/"..level_name..".lua",minetest.serialize(level_settings))
     end
 
 })
@@ -170,8 +205,12 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
         minetest.chat_send_all("Level "..levelname.." does not exist")
         return
     end
+    minetest.chat_send_all(dump(level_settings))
+
+    local random_level_spawn_pos=vector.new(math.random(-100,100),math.random(0,100),math.random(-100,100))
+
     minetest.place_schematic(
-        vector.new(0,0,0),
+        random_level_spawn_pos,
         minetest.get_modpath("regulus_mapgen").."/schems/"..levelname..".mts"
     )
     local respawn_pos=level_settings.spawnpoint1
@@ -179,15 +218,26 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
         respawn_pos=level_settings["spawnpoint"..tostring(spawnpoint_num)]
         minetest.chat_send_all("spawnpoint"..tostring(spawnpoint_num))
     end
-    player:set_pos(respawn_pos)
+    player:set_pos(respawn_pos+random_level_spawn_pos)
 
     local meta=player:get_meta()
-    meta:set_string("respawn_pos",minetest.serialize(respawn_pos))
+    meta:set_string("respawn_pos",minetest.serialize(respawn_pos+random_level_spawn_pos))
     meta:set_string("exit",level_settings.exit)
     meta:set_string("exit_spawnpoint_num",level_settings.exit_spawnpoint_num)
     meta:set_string("next1",level_settings.next1)
     meta:set_string("next2",level_settings.next2)
     meta:set_string("next3",level_settings.next3)
+    meta:set_string("pos1",minetest.serialize(random_level_spawn_pos))
+    meta:set_string("pos2",minetest.serialize(random_level_spawn_pos+(level_settings.extent or vector.new(100,100,100))))
+    meta:set_string("level_name",level_settings.level_name)
+    meta:set_string("spawnpoint1",minetest.serialize(level_settings.spawnpoint1+random_level_spawn_pos))
+    meta:set_string("spawnpoint2",minetest.serialize(level_settings.spawnpoint2+random_level_spawn_pos or ""))
+    meta:set_string("spawnpoint3",minetest.serialize(level_settings.spawnpoint3+random_level_spawn_pos or ""))
+    meta:set_string("spawnpoint4",minetest.serialize(level_settings.spawnpoint4+random_level_spawn_pos or ""))
+    minetest.after(0.2,function()
+        minetest.chat_send_all(dump((level_settings.extent or vector.new(100,100,100))))
+        minetest.fix_light(random_level_spawn_pos,random_level_spawn_pos+(level_settings.extent or vector.new(100,100,100)))
+    end)
 end
 
 
@@ -205,7 +255,11 @@ regulus_mapgen.exit_level=function(player,oldlevel)
     local exit_level_name=player:get_meta():get_string("exit")
     local exit_spawnpoint_num=player:get_meta():get_int("exit_spawnpoint_num")
     if exit_level_name~="" then
-        regulus_mapgen.load_level(player,exit_level_name,exit_spawnpoint_num)
+        if exit_spawnpoint_num~=0 then
+            regulus_mapgen.load_level(player,exit_level_name,exit_spawnpoint_num)
+        else
+            regulus_mapgen.load_level(player,exit_level_name,2)--assuming the prev level had one spawn for the start, and the second spawn by the door to next (this) level
+        end
     else
         minetest.chat_send_all("ERROR, exit level not set")
     end

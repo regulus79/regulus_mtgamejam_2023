@@ -95,18 +95,22 @@ minetest.register_node("regulus_nodes:v_panel",{
     groups={undiggable=1},
 })
 
+minetest.register_node("regulus_nodes:darkness",{
+    description="darkness",
+    tiles={"regulus_v_panel.png^[multiply:#000000"},
+    groups={undiggable=1},
+})
+
+
 minetest.register_node("regulus_nodes:killzone",{
     description="killzone",
-    tiles={"regulus_killzone.png"},
-    drawtype="nodebox",
+    tiles={"regulus_transparent_white.png^[multiply:#007700"},
+    drawtype="glasslike",
     paramtype="light",
-    node_box={
-        type="fixed",
-        fixed={-0.5,-0.5,-0.5,0.5,0,0.5}
-    },
     use_texture_alpha=true,
+    pointable=minetest.is_creative_enabled(),
     groups={undiggable=1},
-    walkable=true,
+    walkable=false,
 })
 
 minetest.register_node("regulus_nodes:winzone",{
@@ -145,7 +149,7 @@ minetest.register_node("regulus_nodes:tiny_powerup",{
 minetest.register_globalstep(function(dtime)
     for _,player in pairs(minetest.get_connected_players()) do
         local nodename=minetest.get_node(player:get_pos()).name
-        if player:get_pos().y<-100 or nodename=="regulus_nodes:killzone" then
+        if player:get_pos().y<-10 or nodename=="regulus_nodes:killzone" then
             player:set_hp(0,{reason="set_hp"})
         end
         local nodename_slightly_above=minetest.get_node(player:get_pos()+vector.new(0,0.1,0)).name

@@ -52,6 +52,7 @@ if minetest.is_creative_enabled() then
 else
     minetest.register_tool(":",{
         description="hand",
+        wield_image="regulus_hand.png",
         tool_capabilities={
             groupcaps={
                 diggable={maxlevel=1,times={1.0}}

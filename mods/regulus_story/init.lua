@@ -2,8 +2,11 @@
 regulus_story={}
 
 
-regulus_story.voicelines={
-    ["hello_everyone"]={file="todo",text="Why hello everyone this fine evening",length=1}
+regulus_story.dialogues={
+    greeting={
+        {file="todo",text="Why hello everyone",length=1},
+        {file="todo",text="Why hello everyone this fine evening",length=2}
+    }
 }
 
 
@@ -22,9 +25,15 @@ minetest.register_on_newplayer(function(player)
 end)
 
 
-regulus_story.trigger_voiceline=function(player,line_id)
-    local voiceline_metadata=regulus_story[line_id]
-    regulus_gui.show_subtitles(voiceline_metadata.text,voiceline_metadata.length)
+regulus_story.trigger_voiceline=function(player,voiceline,predelay)
+    regulus_gui.show_subtitles(voiceline.text,voiceline.length)
+end
+
+regulus_story.trigger_dialogue=function(player,dialogue_id)
+    for i,voiceline in ipairs(regulus_story.dialogues[dialogue_id]) do
+        regulus_story.trigger_voiceline(player,voiceline,i)
+        minetest.chat_send_all(dump(voiceline))
+    end
 end
 
 minetest.register_node("regulus_story:crystal",{
@@ -121,4 +130,42 @@ minetest.register_node("regulus_story:crystal_pedistal_finish_full",{
     groups={undiggable=1,not_in_creative_inventory=1},
     paramtype="light",
     light_source=14,
+})
+
+
+minetest.register_node("regulus_story:wand_on_ground",{
+    description="wand stand finish full",
+    tiles={"regulus_wood2.png"},
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.7,-0.5,-0.05,0.7,-0.4,0.05},
+        }
+    },
+    on_punch=function(pos,node,clicker)
+        clicker:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
+        minetest.set_node(pos,{name="air"})
+        if minetest.get_node(pos-vector.new(0,1,0)).name=="regulus_story:wand_stand_full" then
+            minetest.set_node(pos-vector.new(0,1,0),{name="regulus_story:wand_stand_empty"})
+        end
+    end,
+    groups={undiggable=1},
+    paramtype="light",
+    paramtype2="facedir",
+    light_source=14,
+})
+minetest.register_node("regulus_story:wand_stand_full",{
+    description="wand stand finish full",
+    tiles={"regulus_wand_stand.png"},
+    groups={undiggable=1},
+    paramtype="facedir",
+    paramtype="light",
+    light_source=14,
+})
+minetest.register_node("regulus_story:wand_stand_empty",{
+    description="wand stand finish empty",
+    tiles={"regulus_stone2.png"},
+    groups={undiggable=1,not_in_creative_inventory=1},
+    paramtype="facedir",
 })

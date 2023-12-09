@@ -11,7 +11,7 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.eye_height=1.625
     props.visual="mesh"
     props.mesh="regulus_player_model1.obj"
-    props.texture="regulus_character.png",
+    props.textures={"regulus_character.png"},
     player:set_properties(props)
 
     player:get_meta():set_string("powerup","fly")
@@ -23,10 +23,14 @@ minetest.register_on_joinplayer(function(player,last_login)
         --textures={},--todo
         clouds=true,
     })
-    --player:override_day_night_ratio(0.3)
+    player:override_day_night_ratio(0.3)
 end)
 
 minetest.register_on_newplayer(function(player)
     --regulus_mapgen.load_level(player,"main")
-    player:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
+    player:set_look_horizontal(2*math.pi*3/4)
+    if not minetest.is_creative_enabled() then
+        regulus_mapgen.load_level(player,"room1")
+    end
+    --player:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
 end)
