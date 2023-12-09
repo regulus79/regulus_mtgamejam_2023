@@ -7,7 +7,7 @@ minetest.register_entity("regulus_mobs:guide",{
     selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
     collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
 
-    _notice_dist=5,
+    _notice_dist=1,
 
     on_activate=function(self, staticdata, dtime_s)
         self.object:set_acceleration(vector.new(0,-10,0))
@@ -15,6 +15,7 @@ minetest.register_entity("regulus_mobs:guide",{
 
     on_rightclick=function(self,clicker)
         regulus_story.trigger_dialogue(clicker,"greeting")
+        self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
     end,
 
     on_step=function(self,dtime)
