@@ -11,10 +11,13 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.eye_height=1.625
     props.visual="mesh"
     props.mesh="regulus_player_model1.obj"
-    props.textures={"regulus_character.png"},
-    player:set_properties(props)
+    props.textures={"regulus_character2.png"},
+    minetest.after(0.5,function()
+        player:set_properties(props)
+    end)
 
     player:get_meta():set_string("powerup","fly")
+    minetest.chat_send_all(dump(player:get_properties().textures))
 
     --add skybox
     player:set_sky({
