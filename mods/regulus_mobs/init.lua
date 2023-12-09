@@ -9,6 +9,6 @@ minetest.register_node("regulus_mobs:spawn_guide1",{
     tiles={"regulus_stone1.png"},
     after_place_node=function(pos,placer)
         minetest.add_entity(pos+vector.new(0,1,0),"regulus_mobs:guide")
-    end
-    groups={undiggable=true},
+    end,
+    groups={undiggable=1},
 })

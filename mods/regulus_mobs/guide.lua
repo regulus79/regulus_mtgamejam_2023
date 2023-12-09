@@ -21,7 +21,7 @@ minetest.register_entity("regulus_mobs:guide",{
         for _,player in pairs(minetest.get_connected_players()) do
             local dist=self.object:get_pos():distance(player:get_pos())
             if dist<self._notice_dist then
-                self.object:set_rotation(player:get_pos():direction(self.object:get_pos()):dir_to_rotation(vector.new(0,1,0)))
+                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
             end
         end
     end,
