@@ -124,7 +124,7 @@ minetest.register_node("regulus_story:crystal",{
             {-0.5,-0.5,-0.5,0.5,0.5,0.5},
         },
     },
-    groups={diggable=1},
+    groups={diggable=1,crystal=1},
 })
 
 
@@ -142,7 +142,7 @@ minetest.register_node("regulus_story:unbreakable_crystal",{
             {-0.5,-0.5,-0.5,0.5,0.5,0.5},
         },
     },
-    groups={undiggable=1},
+    groups={undiggable=1,crystal=1},
 })
 
 minetest.register_node("regulus_story:crystal_pedistal_original",{

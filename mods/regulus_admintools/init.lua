@@ -42,10 +42,14 @@ minetest.register_tool("regulus_admintools:dig",{
 if minetest.is_creative_enabled() then
     minetest.register_tool(":",{
         description="hand",
+        wield_image="regulus_hand.png",
         tool_capabilities={
             groupcaps={
                 undiggable={maxlevel=1,times={0.2}},
                 diggable={maxlevel=1,times={1.0}}
+            },
+            damage_groups={
+                fleshy=1,
             }
         }
     })
@@ -56,6 +60,9 @@ else
         tool_capabilities={
             groupcaps={
                 diggable={maxlevel=1,times={1.0}}
+            },
+            damage_groups={
+                fleshy=10,
             }
         }
     })
