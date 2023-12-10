@@ -38,7 +38,7 @@ local default_physics_override={
 
 regulus_powerups.fly=function(player)
     --achievement triggering
-    --regulus_achievements.trigger_achieve(player,"achievements_fly")
+    regulus_achievements.trigger_achieve(player,"achievements_fly")
     --
     local physics=player:get_physics_override()
     physics.speed=0
@@ -66,7 +66,7 @@ end
 local tiny_scalar=0.25
 regulus_powerups.tiny=function(player)
     --achievement triggering
-    --regulus_achievements.trigger_achieve(player,"achievements_tiny")
+    regulus_achievements.trigger_achieve(player,"achievements_tiny")
     --
     local props=player:get_properties()
     props.visual_size=vector.new(tiny_scalar,tiny_scalar,tiny_scalar)

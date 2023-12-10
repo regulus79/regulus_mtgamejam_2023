@@ -95,6 +95,14 @@ minetest.register_node("regulus_nodes:v_panel",{
     groups={undiggable=1},
 })
 
+for i=1,2 do
+    minetest.register_node("regulus_nodes:evil_panel"..tostring(i),{
+        description="evil panel"..tostring(i),
+        tiles={"regulus_evil_panel"..tostring(i)..".png"},
+        groups={undiggable=1},
+    })
+end
+
 minetest.register_node("regulus_nodes:darkness",{
     description="darkness",
     tiles={"regulus_v_panel.png^[multiply:#000000"},
@@ -185,6 +193,8 @@ for nodename,texture_name in pairs({
     ["stone4"]="regulus_stone4.png",
     ["stone5"]="regulus_stone5.png",
     ["wood1"]="regulus_wood1.png",
+    ["v_panel"]="regulus_v_panel.png",
+    ["evil_panel1"]="regulus_evil_panel1.png",
 }) do
     minetest.register_node("regulus_nodes:"..nodename.."_stair",{
         description=nodename.." stair",
@@ -195,6 +205,38 @@ for nodename,texture_name in pairs({
             fixed={
                 {-0.5,-0.5,-0.5,0.5,0,0.5},
                 {-0.5,0,0,0.5,0.5,0.5}
+            }
+        },
+        paramtype="light",
+        paramtype2="4dir",
+        groups={undiggable=1},
+    })
+    minetest.register_node("regulus_nodes:"..nodename.."_inner_stair",{
+        description=nodename.." stair",
+        tiles={texture_name},
+        drawtype="nodebox",
+        node_box={
+            type="fixed",
+            fixed={
+                {-0.5,-0.5,-0.5,0.5,0,0.5},
+                {-0.5,0,0,0.5,0.5,0.5},
+                {0,0,-0.5,0.5,0.5,0}
+            }
+        },
+        paramtype="light",
+        paramtype2="4dir",
+        groups={undiggable=1},
+    })
+
+    minetest.register_node("regulus_nodes:"..nodename.."_outer_stair",{
+        description=nodename.." stair",
+        tiles={texture_name},
+        drawtype="nodebox",
+        node_box={
+            type="fixed",
+            fixed={
+                {-0.5,-0.5,-0.5,0.5,0,0.5},
+                {0,0,0,0.5,0.5,0.5}
             }
         },
         paramtype="light",

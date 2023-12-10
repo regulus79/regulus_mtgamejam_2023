@@ -32,6 +32,7 @@ end
 regulus_achievements.finish_achievement=function(player,achievement_name)
     --do a hud thing
     --save some meta
+    --[[
     regulus_gui.splash_text_effect(
         player,
         regulus_achievements.achievements[achievement_name].name,
@@ -39,6 +40,7 @@ regulus_achievements.finish_achievement=function(player,achievement_name)
         regulus_achievements.achievements[achievement_name].description
     )
     minetest.sound_play({name="regulus_achieve_minor",gain=10.0},{to_player=name,gain=10.0},true)
+    ]]
 end
 
 regulus_achievements.show_achievements_menu=function(player)

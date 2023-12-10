@@ -199,15 +199,25 @@ minetest.register_chatcommand("save_level",{
 
 })
 
+local level_finished_loading=true
+
 regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
+    if not level_finished_loading then
+        minetest.after(1,function()
+            level_finished_loading=true
+        end)
+        return
+    end
     local does_level_exist,level_settings=pcall(dofile,minetest.get_modpath("regulus_mapgen").."/level_settings/"..levelname..".lua")
     if not does_level_exist then
         minetest.chat_send_all("Level "..levelname.." does not exist")
         return
     end
     minetest.chat_send_all(dump(level_settings))
+    
+    local random_level_spawn_pos=vector.new(math.random(-300,300),0,math.random(-300,300))
 
-    local random_level_spawn_pos=vector.new(math.random(-100,100),math.random(0,100),math.random(-100,100))
+    level_finished_loading=false
 
     minetest.place_schematic(
         random_level_spawn_pos,
@@ -234,7 +244,8 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
     meta:set_string("spawnpoint2",minetest.serialize(level_settings.spawnpoint2+random_level_spawn_pos or ""))
     meta:set_string("spawnpoint3",minetest.serialize(level_settings.spawnpoint3+random_level_spawn_pos or ""))
     meta:set_string("spawnpoint4",minetest.serialize(level_settings.spawnpoint4+random_level_spawn_pos or ""))
-    minetest.after(0.2,function()
+    minetest.after(1,function()
+        level_finished_loading=true
         minetest.chat_send_all(dump((level_settings.extent or vector.new(100,100,100))))
         minetest.fix_light(random_level_spawn_pos,random_level_spawn_pos+(level_settings.extent or vector.new(100,100,100)))
     end)

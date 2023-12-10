@@ -3,13 +3,67 @@ regulus_story={}
 
 
 regulus_story.dialogues={
-    greeting={
-        {file="todo",text="Ah, hello Rufus!",length=2},
-        {file="todo",text="I believe you were sent to pick up you new wand, yes?",length=4},
-        {file="todo",text="I apologize for not noticing you when you came in. I am very busy thinking over our strategies.",length=6},
-        {file="todo",text="I think I left the wand somewhere in this library. ",length=2.5},
-        {file="todo",text="Perhaps you could go find it?",length=2},
-    }
+    intro={
+        {file="todo",text="Greetings, young one!",length=2},
+        {file="todo",text="Congratulations for completing your training",length=3},
+        {file="todo",text="You are now a real wizard",length=2},
+        {file="todo",text="But alas, this guild may not remain for long.",length=3},
+        {file="todo",text="Our main source of energy was a large velvet crystal",length=5},
+        {file="todo",text="But someone stole it in the night.",length=3},
+        {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
+        {file="todo",text="Your first mission as a wizard is to retrieve the stolen crystal",length=5},
+        {file="todo",text="Before you go, make sure to pick up your new wand at the library.",length=5},
+    },
+    intro_idle={
+        {file="todo",text="Go to the library to pick up your wand",length=4},
+    },
+    library1={
+        {file="todo",text="Ah, hello young one!",length=2},
+        {file="todo",text="I apologize for not noticing you when you came in. ",length=4},
+        {file="todo",text="I am very busy thinking over our strategies to retrieve the crystal.",length=6},
+        {file="todo",text="I believe you were sent to pick up your new wand, right? ",length=4},
+        {file="todo",text="It must be exciting to have finished your training.",length=3},
+        {file="todo",text="The wand is somewhere in this library, I believe",length=3},
+        {file="todo",text="I am very busy at the moment,",length=1.5},
+        {file="todo",text="perhaps you could go find it for me?",length=2},
+    },
+    library2={
+        {file="todo",text="You found it? Oh, very good.",length=2},
+        {file="todo",text="The defense obstacles in the base have been active ever since the crystal was stolen",length=6},
+        {file="todo",text="You will need your wand to get past them",length=2},
+        {file="todo",text="Good luck on your mission!",length=3},
+    },
+    library_idle={
+        {file="todo",text="Use your wand to fly out of the library",length=4},
+    },
+    second_meeting1={
+        {file="todo",text="Why, long time no see!",length=2},
+        {file="todo",text="I wasn't expecting you to get here so fast.",length=3},
+        {file="todo",text="The crystal is just after this room.",length=2},
+        {file="todo",text="Is your new wand working okay?",length=3},
+    },
+    second_meeting2={
+        {file="todo",text="Oh, dear, that is not right. You are so tiny!",length=2},
+        {file="todo",text="You wand appears to be malfunctioning",length=3},
+        {file="todo",text="I suppose you will have to take a detour through that small hole in the wall.",length=5},
+        {file="todo",text="You'll still make it to the crystal, but it will take a bit longer.",length=3},
+    },
+    second_meeting_idle={
+        {file="todo",text="Go through the hole in the wall to get to the next room",length=2},
+        {file="todo",text="Your wand is malfunctioning. That's is why you become tiny when you use it.",length=3},
+    },
+    bossfight1={
+        {file="todo",text="How did you get here so quickly? I wasn't finished preparing--",length=3},
+        {file="todo",text="No matter.",length=1},
+        {file="todo",text="I think it is time that I tell you the truth",length=3},
+        {file="todo",text="I am not on your side",length=2},
+        {file="todo",text="You see that crystal behind me? I am the one who stole it.",length=4},
+    },
+    bossfight2={
+        {file="todo",text="For I am a master wizard",length=2},
+        {file="todo",text="None can compare to me",length=2},
+        {file="todo",text="You shall die, but I will live forever with the energy of this crystal.",length=4},
+    },
 }
 
 
@@ -18,7 +72,7 @@ regulus_story.win=function(player)
         player:get_meta():set_int("finished",1)
         local total_time=(minetest.get_us_time()-player:get_meta():get_float("start_time"))/10^6
         minetest.chat_send_all("You completed the game in "..total_time.." seconds")
-        regulus_mapgen.load_level(player,"you_won")
+        --regulus_mapgen.load_level(player,"you_won")
     end
 end
 
@@ -27,7 +81,9 @@ minetest.register_on_newplayer(function(player)
     player:get_meta():set_float("start_time",minetest.get_us_time())
 end)
 
-regulus_story.voiceline_length_pause_inbetween=0.7
+regulus_story.is_dialogue_playing=false
+
+regulus_story.voiceline_length_pause_inbetween=0.5
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     minetest.after(predelay,function()
@@ -35,13 +91,23 @@ regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     end)
 end
 
-regulus_story.trigger_dialogue=function(player,dialogue_id)
+regulus_story.trigger_dialogue=function(player,dialogue_id,do_after)
+    if regulus_story.is_dialogue_playing then
+        return
+    end
     local total_delay=0
     for _,voiceline in ipairs(regulus_story.dialogues[dialogue_id]) do
         regulus_story.trigger_voiceline(player,voiceline,total_delay)
         minetest.chat_send_all(dump(voiceline))
         total_delay=total_delay+voiceline.length+regulus_story.voiceline_length_pause_inbetween
     end
+    minetest.after(total_delay,function()
+        regulus_story.is_dialogue_playing=false
+        player:get_meta():set_int("dialogue_"..dialogue_id,1)
+        if do_after then
+            do_after()
+        end
+    end)
 end
 
 minetest.register_node("regulus_story:crystal",{
@@ -157,6 +223,7 @@ minetest.register_node("regulus_story:wand_on_ground",{
         if minetest.get_node(pos-vector.new(0,1,0)).name=="regulus_story:wand_stand_full" then
             minetest.set_node(pos-vector.new(0,1,0),{name="regulus_story:wand_stand_empty"})
         end
+        clicker:get_meta():set_int("has_wand",1)
     end,
     groups={undiggable=1},
     paramtype="light",
