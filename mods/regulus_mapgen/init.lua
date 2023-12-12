@@ -1,6 +1,6 @@
 regulus_mapgen={}
 
-
+local mod_storage=minetest.get_mod_storage()
 
 for i=1,4 do
     minetest.register_node("regulus_mapgen:spawnpoint"..tostring(i),{
@@ -263,6 +263,9 @@ minetest.register_chatcommand("load_level",{
 
 
 regulus_mapgen.exit_level=function(player,oldlevel)
+    if mod_storage:get_int("bossfight_in_progress")==1 then
+        return
+    end
     local exit_level_name=player:get_meta():get_string("exit")
     local exit_spawnpoint_num=player:get_meta():get_int("exit_spawnpoint_num")
     if exit_level_name~="" then
