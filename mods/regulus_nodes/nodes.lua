@@ -1,4 +1,4 @@
-
+local mod_storage=minetest.get_mod_storage()
 
 
 minetest.register_node("regulus_nodes:testnode",{
@@ -316,6 +316,38 @@ minetest.register_node("regulus_nodes:lantern2",{
     light_source=14,
     groups={undiggable=1},
 
+})
+
+minetest.register_node("regulus_nodes:lantern2_good",{
+    description="Lantern Good",
+    drawtype="nodebox",
+    node_box={
+        type="fixed",
+        fixed={
+            {-0.2,-0.2,-0.2,0.2,0.2,0.2},
+            {-0.1,0,-0.1,0.1,0.5,0.1},
+        }
+    },
+    tiles={"regulus_lantern2_good.png"},
+
+    paramtype="light",
+    light_source=14,
+    groups={undiggable=1},
+
+})
+
+minetest.register_abm({
+    label="replace green ligths with yellow",
+    nodenames={"regulus_nodes:lantern2"},
+    interval=1,
+    chance=1,
+    action=function(pos)
+        for _,player in pairs(minetest.get_connected_players()) do 
+            if player:get_meta():get_int("crystal_taken",1)==1 then
+                minetest.set_node(pos,{name="regulus_nodes:lantern2_good"})
+            end
+        end
+    end
 })
 
 

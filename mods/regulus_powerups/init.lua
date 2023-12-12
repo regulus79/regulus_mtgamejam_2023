@@ -54,7 +54,7 @@ local return_to_normal_size
 return_to_normal_size=function(player)
     if not minetest.registered_nodes[minetest.get_node(player:get_pos()+vector.new(0,1.625,0)).name].walkable then
         local props=player:get_properties()
-        props.visual_size={x=1,y=1,z=1}
+        props.visual_size=regulus_player.default_player_size
         props.collisionbox={-0.3,0,-0.3,0.3,1.77,0.3}
         props.eye_height=1.625
         player:set_properties(props)

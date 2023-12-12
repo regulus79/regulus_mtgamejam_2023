@@ -1,12 +1,13 @@
 
-local register_npc=function(name,textures,on_rightclick,on_step,_notice_dist)
+local register_npc=function(name,textures,on_rightclick,on_step,on_spot,_notice_dist)
     minetest.register_entity("regulus_mobs:"..name,{
         visual="mesh",
-        mesh="regulus_player_model1.obj",
+        mesh="regulus_player_model2.obj",
         textures=textures,
         physical=true,
         selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
         collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
+        _spotted=false,
 
         _notice_dist=_notice_dist or 2,
 
@@ -20,6 +21,10 @@ local register_npc=function(name,textures,on_rightclick,on_step,_notice_dist)
             for _,player in pairs(minetest.get_connected_players()) do
                 local dist=self.object:get_pos():distance(player:get_pos())
                 if dist<self._notice_dist then
+                    if not self._spotted and on_spot then
+                        on_spot(self,player)
+                        self._spotted=true
+                    end
                     self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
                 end
             end
@@ -30,7 +35,7 @@ end
 
 register_npc(
     "guide_library",
-    {"regulus_character2.png"},
+    {"regulus_character_new3.png"},
     function(self,clicker)
         local meta=clicker:get_meta()
         if meta:get_int("dialogue_library1")~=1 then
@@ -41,28 +46,55 @@ register_npc(
             regulus_story.trigger_dialogue(clicker,"library_idle")
         end
         self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
-    end
+    end,
+    function(self,dtime)
+        for _,player in pairs(minetest.get_connected_players()) do
+            if player:get_pos():distance(self.object:get_pos())<self._notice_dist then
+                if not self._spotted then
+                    local meta=player:get_meta()
+                    if meta:get_int("dialogue_library1")~=1 then
+                        regulus_story.trigger_dialogue(player,"library1")
+                        self._spotted=true
+                    end
+                end
+                if not self._spotted2 then
+                    local meta=player:get_meta()
+                    if meta:get_int("dialogue_library1")==1 and meta:get_int("dialogue_library2")~=1 and meta:get_int("has_wand")==1 then
+                        regulus_story.trigger_dialogue(player,"library2")
+                        self._spotted2=true
+                    end
+                end
+                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+            end
+        end
+    end,
+    nil,
+    5
 )
 
 
 register_npc(
     "guide_room1",
-    {"regulus_character2.png"},
+    {"regulus_character_new2.png"},
     function(self,clicker)
         local meta=clicker:get_meta()
-        if meta:get_int("dialogue_intro")~=1 then
-            regulus_story.trigger_dialogue(clicker,"intro")
-        else
-            regulus_story.trigger_dialogue(clicker,"intro_idle")
-        end
+        regulus_story.trigger_dialogue(clicker,"intro_idle")
         self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
-    end
+    end,
+    nil,
+    function(self,player)
+        local meta=player:get_meta()
+        if meta:get_int("dialogue_intro")~=1 then
+            regulus_story.trigger_dialogue(player,"intro")
+        end
+    end,
+    5
 )
 
 
 register_npc(
     "guide_room5",
-    {"regulus_character2.png"},
+    {"regulus_character_new3.png"},
     function(self,clicker)
         local meta=clicker:get_meta()
         if meta:get_int("dialogue_second_meeting1")~=1 then
@@ -73,14 +105,36 @@ register_npc(
             regulus_story.trigger_dialogue(clicker,"second_meeting_idle")
         end
         self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
-    end
+    end,
+    function(self,dtime)
+        for _,player in pairs(minetest.get_connected_players()) do
+            if player:get_pos():distance(self.object:get_pos())<self._notice_dist then
+                local meta=player:get_meta()
+                if not self._spotted then
+                    if meta:get_int("dialogue_second_meeting1")~=1 then
+                        regulus_story.trigger_dialogue(player,"second_meeting1")
+                        self._spotted=true
+                    end
+                end
+                if not self._spotted2 and meta:get_int("dialogue_second_meeting1")==1 then
+                    if meta:get_int("dialogue_second_meeting2")~=1 and meta:get_int("achievements_tiny")==1 then
+                        regulus_story.trigger_dialogue(player,"second_meeting2")
+                        self._spotted2=true
+                    end
+                end
+                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+            end
+        end
+    end,
+    nil,
+    10
 )
 
 
 
 register_npc(
     "guide_bossfight",
-    {"regulus_character2.png"},
+    {"regulus_character_new3.png"},
     nil,
     function(self,dtime)
         for _,player in pairs(minetest.get_connected_players()) do
@@ -89,6 +143,8 @@ register_npc(
                 if meta:get_int("dialogue_bossfight1")~=1 then
                     regulus_story.trigger_dialogue(player,"bossfight1",function()
                         minetest.chat_send_all("Time to shapeshift!")
+                        minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss")
+                        self.object:remove()
                     end)
                 end
                 self._spotted=true
@@ -99,5 +155,6 @@ register_npc(
             end
         end
     end,
+    nil,
     30
 )
