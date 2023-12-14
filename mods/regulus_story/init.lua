@@ -9,9 +9,7 @@ regulus_story.dialogues={
         {file="todo",text="Greetings, young one!",length=2},
         {file="todo",text="Congratulations for completing your training",length=3},
         {file="todo",text="You are now a real wizard",length=2},
-        {file="todo",text="But alas, this guild may not remain for long.",length=3},
-        {file="todo",text="Our main source of energy was a large velvet crystal",length=5},
-        {file="todo",text="But someone stole it in the night.",length=3},
+        {file="todo",text="But alas, now that the crystal is gone, this guild may not remain for long.",length=5},
         {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
         {file="todo",text="Your first mission as a wizard is to retrieve the stolen crystal",length=5},
         {file="todo",text="Along your way, make sure to pick up your new wand at the library.",length=5},
@@ -20,7 +18,7 @@ regulus_story.dialogues={
         {file="todo",text="Go to the library to pick up your wand",length=4},
     },
     library1={
-        {file="todo",text="Ah, hello young one!",length=2},
+        {file="todo",text="Ah, hello there!",length=2},
         {file="todo",text="I apologize for not noticing you when you came in. ",length=4},
         {file="todo",text="I was very busy thinking over our strategies to retrieve the crystal.",length=6},
         {file="todo",text="I believe you were sent to pick up your new wand, yes? ",length=4},
@@ -30,9 +28,9 @@ regulus_story.dialogues={
         {file="todo",text="perhaps you could go find it for me?",length=2},
     },
     library2={
-        {file="todo",text="You found it? Oh, very good.",length=2},
+        {file="todo",text="You found it? Oh, excellent.",length=2},
         {file="todo",text="The defense obstacles in the base have been active ever since the crystal was stolen",length=6},
-        {file="todo",text="You will need your wand to get past them to where the crystal was hidden",length=2},
+        {file="todo",text="You will need your wand to get past them to where the crystal was hidden",length=4},
         {file="todo",text="Good luck on your mission!",length=3},
     },
     library_idle={
@@ -48,7 +46,7 @@ regulus_story.dialogues={
         {file="todo",text="",length=1},--pause
         {file="todo",text="Oh, dear, that is not right. You are so tiny!",length=2},
         {file="todo",text="You wand appears to be malfunctioning",length=3},
-        {file="todo",text="I suppose you will have to take a detour through that small hole in the wall.",length=5},
+        {file="todo",text="I suppose you will have to take a detour through that small hole in the wall behind me.",length=5},
         {file="todo",text="You'll still make it to the crystal, but it will take a bit longer.",length=3},
     },
     second_meeting_idle={
@@ -56,7 +54,7 @@ regulus_story.dialogues={
         {file="todo",text="Your wand is malfunctioning. That's is why you become tiny when you use it.",length=3},
     },
     bossfight1={
-        {file="todo",text="How did you get here so quickly? I wasn't finished preparing--",length=3},
+        {file="todo",text="How did you get here so quickly? I wasn't finished--",length=3},
         {file="todo",text="No matter.",length=1},
         {file="todo",text="I think it is time that I tell you the truth",length=3},
         {file="todo",text="I am not on your side",length=2},
@@ -70,7 +68,7 @@ regulus_story.dialogues={
     bossfight_try_dig_crystal={
         {file="todo",text="",length=2},
         {file="todo",text="I have set a spell over the crystal",length=2},
-        {file="todo",text="You cannot remove it until I am dead",length=3},
+        {file="todo",text="No one cannot remove it until I am dead",length=3},
     },
     you_won={
         {file="todo",text="",length=2},
@@ -120,9 +118,13 @@ regulus_story.is_dialogue_playing=false
 regulus_story.voiceline_length_pause_inbetween=0.5
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
-    minetest.after(predelay,function()
+    if predelay then
+        minetest.after(predelay,function()
+            regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
+        end)
+    else
         regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
-    end)
+    end
 end
 
 regulus_story.trigger_dialogue=function(player,dialogue_id,do_after)
@@ -162,7 +164,21 @@ minetest.register_node("regulus_story:crystal",{
     after_dig_node=function(pos,oldnode,oldmeta,digger)
         mod_storage:set_int("crystal_taken",1)
         digger:get_meta():set_int("crystal_taken",1)
-        minetest.chat_send_all(dump({"Yelloooo",digger:get_meta():get_int("crystal_taken")}))
+        --minetest.chat_send_all(dump({"Yelloooo",digger:get_meta():get_int("crystal_taken")}))
+        minetest.add_particlespawner({
+            amount=20,
+            time=1,
+            pos=pos,
+            texture={
+                name="regulus_crystal_sparkle1.png",
+                scale=5,
+                alpha_tween={1,0},
+            },
+            vel={
+                min=vector.new(-10,-1,-10),
+                max=vector.new(10,1,10),
+            }
+        })
     end,
 
     groups={diggable=1,crystal=1},
@@ -226,9 +242,9 @@ minetest.register_node("regulus_story:crystal_pedistal_finish_empty",{
     drawtype="mesh",
     mesh="regulus_pedistal.obj",
     on_rightclick=function(pos,node,clicker,itemstack,pointed_thing)
-        minetest.chat_send_all(dump(itemstack:to_string()))
+        --minetest.chat_send_all(dump(itemstack:to_string()))
         if itemstack:get_name()=="regulus_story:crystal" then
-            minetest.chat_send_all("Well done, player! you won!")
+            --minetest.chat_send_all("Well done, player! you won!")
             minetest.set_node(pos+vector.new(0,1,0),{name="regulus_story:unbreakable_crystal"})
             minetest.set_node(pos,{name="regulus_story:crystal_pedistal_finish_full"})
             itemstack:clear()
@@ -341,3 +357,84 @@ minetest.register_entity("regulus_story:crystal_laser_backward",{
         end)
     end,
 })
+
+
+regulus_story.current_music=nil
+regulus_story.current_music_beat_start=nil
+regulus_story.current_music_spb=60/140*4--seconds per beat (bpm of my music is 140)
+
+regulus_story.play_music=function(music_name)
+    if not regulus_story.current_music_beat_start then
+        regulus_story.current_music_beat_start=minetest.get_us_time()
+    end
+    if regulus_story.current_music then
+        minetest.sound_fade(regulus_story.current_music,1,0)
+        local delay_until_beat=regulus_story.current_music_spb-((minetest.get_us_time()-regulus_story.current_music_beat_start)/10^6 % (regulus_story.current_music_spb))
+        --minetest.chat_send_all(dump(delay_until_beat))
+        minetest.after(delay_until_beat,function()
+            --minetest.sound_stop(regulus_story.current_music)
+            regulus_story.current_music=minetest.sound_play(music_name,{loop=true})
+            regulus_story.current_music_beat_start=minetest.get_us_time()
+        end)
+        --minetest.chat_send_all(dump(delay_until_beat))
+    else
+        regulus_story.current_music=minetest.sound_play(music_name,{loop=true})
+    end
+end
+
+regulus_story.after_beat=function(delay,func)
+    if regulus_story.current_music and regulus_story.current_music_beat_start then
+        local at_that_time=minetest.get_us_time()+delay*10^6
+        local delay_until_beat=regulus_story.current_music_spb-((at_that_time-regulus_story.current_music_beat_start)/10^6 % (regulus_story.current_music_spb))
+        return minetest.after(delay+delay_until_beat,func)
+    else
+        return minetest.after(delay,func)
+    end
+end
+
+regulus_story.do_functions_on_beat=function(list_of_funcs,beats_per_execution,predelay_beats)
+    for i,func in ipairs(list_of_funcs) do
+        regulus_story.after_beat((i-1)*regulus_story.current_music_spb*beats_per_execution+regulus_story.current_music_spb*predelay_beats,func)
+    end
+end
+
+
+minetest.register_chatcommand("play_music",{
+    description="test playing music",
+    func=function(name,param)
+        regulus_story.play_music("mtgj_song2")
+    end
+})
+minetest.register_chatcommand("on_beat",{
+    description="test playing music",
+    func=function(name,param)
+        regulus_story.after_beat(1,function()regulus_story.trigger_voiceline(minetest.get_player_by_name(name),{text="Hello",length=1})end)
+        regulus_story.after_beat(2,function()regulus_story.trigger_voiceline(minetest.get_player_by_name(name),{text="How are you",length=1})end)
+        regulus_story.after_beat(3,function()regulus_story.trigger_voiceline(minetest.get_player_by_name(name),{text="I am good",length=1})end)
+    end
+})
+
+regulus_story.show_intro=function(player)
+    local blackscreen={
+        hud_elem_type="image",
+        text="regulus_blackscreen.png",
+        position={x=0.5,y=0.5},
+        scale={x=2,y=2},
+        alignment={x=0,y=0},
+    }
+    local id=player:hud_add(blackscreen)
+    local bar=regulus_story.current_music_spb
+    regulus_story.do_functions_on_beat({
+        function()regulus_story.trigger_voiceline(player,{text="Long ago, the world was peaceful",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="The guild of wizards kept the world in balance with the power of the velvet crystal",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="But one day, a terrible monster appeared",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="It tried to steal the crystal, but the guilders fought it off",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="Many believed that the monster was gone forever",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="But just this past night, it struck again during the night",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="It stealthily stole the crystal and flew off with it to its lair",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="Darkness enveloped the land, and the sun disappeared from the sky",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="It is up to you, young wizard, to retrieve the crystal and save the land",length=bar*3})end,
+        function()player:hud_remove(id)end,
+    },4,-1)
+
+end

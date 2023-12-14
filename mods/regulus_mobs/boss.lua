@@ -25,9 +25,10 @@ minetest.register_entity("regulus_mobs:boss",{
     _shoot_interval=3,
     _projectile_speed=5,
     on_activate=function(self)
+        regulus_story.play_music("mtgj_boss2")
         mod_storage:set_int("bossfight_in_progress",1)
         self._crystal_pos=minetest.find_node_near(self.object:get_pos(),30,"group:crystal") or self.object:get_pos()
-        minetest.chat_send_all(dump(minetest.find_node_near(self.object:get_pos(),30,"group:crystal")))
+        --minetest.chat_send_all(dump(minetest.find_node_near(self.object:get_pos(),30,"group:crystal")))
         for _,player in pairs(minetest.get_connected_players()) do
             regulus_story.trigger_dialogue(player, "bossfight2")
         end
@@ -98,12 +99,12 @@ minetest.register_entity("regulus_mobs:boss",{
             self._state="final"
             self._shoot_interval=0.5
             self._projectile_speed=20,
-            minetest.chat_send_all("FINAL STAGE")
+            --minetest.chat_send_all("FINAL STAGE")
         elseif self.object:get_hp()<70 and self._state=="primary" then
             self._state="secondary"
             self._shoot_interval=1.0
             self._projectile_speed=10,
-            minetest.chat_send_all("SECONDARY STAGE")
+            --minetest.chat_send_all("SECONDARY STAGE")
         end
     end,
     on_death=function(self,killer)

@@ -167,7 +167,18 @@ minetest.register_globalstep(function(dtime)
                 if old_powerup~=powerupname then
                     player:get_meta():set_string("powerup",powerupname)
                     --regulus_gui.splash_text_effect(player,settings.motto,settings.color)
-                    minetest.sound_play({name="thx",gain=10.0},{pos=player:get_pos()},true)
+                    minetest.sound_play({name="thx",gain=0.04},{pos=player:get_pos()},true)
+                    minetest.add_particlespawner({
+                        amount=30,
+                        time=0.5,
+                        texture="regulus_spark.png",
+                        vel={
+                            min=vector.new(-1,-1,-1)+player:get_velocity(),
+                            max=vector.new(1,1,1)+player:get_velocity(),
+                        },
+                        acc=vector.new(0,-1,0),
+                        pos=player:get_pos()+vector.new(0,1.625,0)+player:get_look_dir(),
+                    })
                 end
             end
         end

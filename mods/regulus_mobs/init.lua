@@ -40,16 +40,3 @@ for _,spawner in pairs({
         })
     end
 end
-
-minetest.register_abm({
-    label="spawn guide2",
-    name="regulus_mobs:spawn_guide2",
-    nodenames={"regulus_mobs:spawn_guide2"},
-    --run_at_every_load=true,
-    action=function(pos,node)
-        minetest.chat_send_all("help me spawn mob2")
-        --minetest.after(0.1,function()
-        minetest.add_entity(pos+vector.new(0,1,0),"regulus_mobs:guide2")
-        --end)
-    end
-})

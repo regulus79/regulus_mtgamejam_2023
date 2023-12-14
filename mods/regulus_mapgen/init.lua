@@ -14,16 +14,22 @@ for i=1,4 do
         paramtype="light",
         use_texture_alpha=true,
         after_place_node=function(pos,placer,itemstack,pointed_thing)
-            placer:get_meta():set_string("spawnpoint"..tostring(i),minetest.serialize(pos))
-            minetest.chat_send_all("spawnpoint"..tostring(i).." set to "..dump(pos))
+            if minetest.is_creative_enabled() then
+                placer:get_meta():set_string("spawnpoint"..tostring(i),minetest.serialize(pos))
+                minetest.chat_send_all("spawnpoint"..tostring(i).." set to "..dump(pos))
+            end
         end,
         on_punch=function(pos,node,puncher,pointed_thing)
-            puncher:get_meta():set_string("spawnpoint"..tostring(i),minetest.serialize(pos))
-            minetest.chat_send_all("spawnpoint"..tostring(i).." set to "..dump(pos))
+            if minetest.is_creative_enabled() then
+                puncher:get_meta():set_string("spawnpoint"..tostring(i),minetest.serialize(pos))
+                minetest.chat_send_all("spawnpoint"..tostring(i).." set to "..dump(pos))
+            end
         end,
         after_dig_node=function(pos,oldnode,oldmetadata,digger)
-            digger:get_meta():set_string("spawnpoint"..tostring(i),"")
-            minetest.chat_send_all("spawnpoint"..tostring(i).." erased")
+            if minetest.is_creative_enabled() then
+                digger:get_meta():set_string("spawnpoint"..tostring(i),"")
+                minetest.chat_send_all("spawnpoint"..tostring(i).." erased")
+            end
         end,
         groups={undiggable=1}
     })
@@ -38,8 +44,10 @@ minetest.register_node("regulus_mapgen:pos1",{
         minetest.chat_send_all("pos1 set to "..dump(pos))
     end,
     on_punch=function(pos,node,puncher,pointed_thing)
-        puncher:get_meta():set_string("pos1",minetest.serialize(pos))
-        minetest.chat_send_all("pos1 set to "..dump(pos))
+        if minetest.is_creative_enabled() then
+            puncher:get_meta():set_string("pos1",minetest.serialize(pos))
+            minetest.chat_send_all("pos1 set to "..dump(pos))
+        end
     end,
     groups={undiggable=1}
 })
@@ -53,8 +61,10 @@ minetest.register_node("regulus_mapgen:pos2",{
         minetest.chat_send_all("pos2 set to "..dump(pos))
     end,
     on_punch=function(pos,node,puncher,pointed_thing)
-        puncher:get_meta():set_string("pos2",minetest.serialize(pos))
-        minetest.chat_send_all("pos2 set to "..dump(pos))
+        if minetest.is_creative_enabled() then
+            puncher:get_meta():set_string("pos2",minetest.serialize(pos))
+            minetest.chat_send_all("pos2 set to "..dump(pos))
+        end
     end,
     groups={undiggable=1}
 })
@@ -213,7 +223,7 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
         minetest.chat_send_all("Level "..levelname.." does not exist")
         return
     end
-    minetest.chat_send_all(dump(level_settings))
+    --minetest.chat_send_all(dump(level_settings))
     
     local random_level_spawn_pos=vector.new(math.random(-300,300),0,math.random(-300,300))
 
@@ -226,7 +236,7 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
     local respawn_pos=level_settings.spawnpoint1
     if spawnpoint_num then
         respawn_pos=level_settings["spawnpoint"..tostring(spawnpoint_num)]
-        minetest.chat_send_all("spawnpoint"..tostring(spawnpoint_num))
+        --minetest.chat_send_all("spawnpoint"..tostring(spawnpoint_num))
     end
     player:set_pos(respawn_pos+random_level_spawn_pos)
 
@@ -246,7 +256,7 @@ regulus_mapgen.load_level=function(player,levelname,spawnpoint_num)
     meta:set_string("spawnpoint4",minetest.serialize(level_settings.spawnpoint4+random_level_spawn_pos or ""))
     minetest.after(1,function()
         level_finished_loading=true
-        minetest.chat_send_all(dump((level_settings.extent or vector.new(100,100,100))))
+        --minetest.chat_send_all(dump((level_settings.extent or vector.new(100,100,100))))
         minetest.fix_light(random_level_spawn_pos,random_level_spawn_pos+(level_settings.extent or vector.new(100,100,100)))
     end)
 end

@@ -13,6 +13,7 @@ local register_npc=function(name,textures,on_rightclick,on_step,on_spot,_notice_
 
         on_activate=function(self, staticdata, dtime_s)
             self.object:set_acceleration(vector.new(0,-10,0))
+            self.object:set_armor_groups({immortal=1})
         end,
 
         on_rightclick=on_rightclick,

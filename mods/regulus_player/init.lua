@@ -2,6 +2,7 @@ regulus_player={}
 
 regulus_player.default_player_size=vector.new(1,1,1)
 --should add custom sounds for damage and stuff
+local mod_storage=minetest.get_mod_storage()
 
 
 minetest.register_on_joinplayer(function(player,last_login)
@@ -12,14 +13,24 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.visual="mesh"
     props.visual_size=regulus_player.default_player_size
     props.mesh="regulus_player_model2.obj"
-    props.textures={"regulus_character_new1.png"},
+    props.textures={"regulus_character_new4.png"},
     minetest.after(0.5,function()
         player:set_properties(props)
+        if mod_storage:get_int("bossfight_in_progress")==1 then
+            regulus_story.play_music("mtgj_boss2")
+        else
+            regulus_story.play_music("mtgj_song2")
+        end
+
+        --show the intro if they are a newplayer
+        if not last_login and not minetest.is_creative_enabled()then
+            regulus_story.show_intro(player)
+        end
     end)
 
     player:get_meta():set_string("powerup","fly")
 
-    if player:get_meta():get_int("finished")~=1 then
+    if player:get_meta():get_int("finished")~=1 and not minetest.is_creative_enabled() then
         player:set_sky({
             base_color="#000000",
             type="plain",
@@ -35,7 +46,10 @@ end)
 
 minetest.register_on_newplayer(function(player)
     --regulus_mapgen.load_level(player,"main")
-    player:set_look_horizontal(2*math.pi*3/4)
+    --player:set_look_horizontal(math.pi*1/4)
+    minetest.after(1,function()
+        player:set_look_horizontal(2*math.pi*3/4)
+    end)
     if not minetest.is_creative_enabled() then
         regulus_mapgen.load_level(player,"room1")
     end

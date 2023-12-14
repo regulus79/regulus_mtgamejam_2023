@@ -63,3 +63,45 @@ regulus_gui.show_subtitles=function(player,text,time)
         player:hud_remove(id)
     end)
 end
+
+regulus_gui.fading_images={}
+
+regulus_gui.fade_image=function(player,image_name,time)
+    local image={
+        hud_elem_type="image",
+        text=image_name,
+        position={x=0.5,y=0.5},
+        scale={x=1,y=1},
+        alignment={x=0,y=1},
+    }
+    local id=player:hud_add(image)
+    local current_time=minetest.get_us_time()
+    --minetest.chat_send_all(dump({id,current_time}))
+    regulus_gui.fading_images[id]={playername=player:get_player_name(),starttime=current_time,endtime=current_time+time*10^6,image_name=image_name}
+    --minetest.chat_send_all(dump(regulus_gui.fading_images[id]))
+end
+
+minetest.register_globalstep(function()
+    for id,info in pairs(regulus_gui.fading_images) do
+        local player=minetest.get_player_by_name(info.playername)
+        local time=minetest.get_us_time()
+        if time>info.starttime and time<info.endtime then
+            local ratio=(time-info.starttime)/(info.endtime-info.starttime)
+            player:hud_change(id, "text",info.image_name.."^[colorize:"..minetest.rgba(0,0,0,256*ratio)..":alpha")
+        else
+            player:hud_remove(id)
+            regulus_gui.fading_images[id]=nil
+        end
+    end
+end)
+
+
+
+
+minetest.register_chatcommand("fade_image",{
+    description="test fade image",
+    func=function(name,param)
+        local player=minetest.get_player_by_name(name)
+        regulus_gui.fade_image(player,"regulus_gray_splash1.png",4)
+    end
+})

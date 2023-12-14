@@ -4,7 +4,7 @@ regulus_powerups={}
 regulus_powerups.list_of_powerups={
     fly={color="#ff4500",motto="Fly, you fools!"},
     tiny={color="#45ff00",motto="Man of Ants"},
-    huge={color="#0045ff",motto=""},
+    shoot={color="#0045ff",motto="Fire at Will"},
 }
 
 regulus_powerups.random_teleport=function(player)
@@ -76,6 +76,63 @@ regulus_powerups.tiny=function(player)
     minetest.after(1.5,function()
         return_to_normal_size(player)
     end)
+end
+
+minetest.register_entity("regulus_powerups:player_projectile",{
+    visual="sprite",
+    textures={"regulus_player_projectile1.png"},
+    physical=true,
+    _timer=0,
+    _lifetime=5,
+    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
+    on_activate=function(self)
+        minetest.add_particlespawner({
+            amount=10,
+            time=0,
+            attached=self.object,
+            texture={
+                name="regulus_player_projectile1.png",
+                scale=10,
+                scale_tween={
+                    10,0
+                }
+            },
+        })
+    end,
+    on_step=function(self,dtime,moveresult)
+        self._timer=self._timer+dtime
+        if self._timer>self._lifetime then
+            self.object:remove()
+        end
+        if moveresult.collides then
+            for _,collision in pairs(moveresult.collisions) do
+                if collision.type=="object" and not collision.object:is_player() and self.object and self.object:get_velocity() then
+                    collision.object:punch(
+                        self.object,
+                        nil,
+                        {
+                            damage_groups={
+                                fleshy=5,
+                            }
+                        },
+                        self.object:get_velocity():normalize()
+                    )
+                    self.object:remove()
+                elseif collision.type=="node" then
+                    self.object:remove()
+                end
+            end
+        end
+    end
+})
+
+local prev_shoot_time=0
+regulus_powerups.shoot=function(player)
+    if minetest.get_us_time()-prev_shoot_time>0.5*10^6 then
+        local obj=minetest.add_entity(player:get_pos()+vector.new(0,1.625,0),"regulus_powerups:player_projectile")
+        obj:set_velocity(player:get_look_dir()*5)
+        prev_shoot_time=minetest.get_us_time()
+    end
 end
 
 
