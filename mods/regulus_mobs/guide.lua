@@ -25,7 +25,7 @@ local register_npc=function(name,textures,on_rightclick,on_step,on_spot,_notice_
                         on_spot(self,player)
                         self._spotted=true
                     end
-                    self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+                    self.object:set_yaw(self.object:get_pos():direction(player:get_pos()):dir_to_rotation().y)
                 end
             end
         end,
@@ -45,7 +45,7 @@ register_npc(
         else
             regulus_story.trigger_dialogue(clicker,"library_idle")
         end
-        self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+        self.object:set_yaw(self.object:get_pos():direction(clicker:get_pos()):dir_to_rotation().y)
     end,
     function(self,dtime)
         for _,player in pairs(minetest.get_connected_players()) do
@@ -64,7 +64,7 @@ register_npc(
                         self._spotted2=true
                     end
                 end
-                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+                self.object:set_yaw((self.object:get_pos():direction(player:get_pos())):dir_to_rotation().y)
             end
         end
     end,
@@ -79,7 +79,7 @@ register_npc(
     function(self,clicker)
         local meta=clicker:get_meta()
         regulus_story.trigger_dialogue(clicker,"intro_idle")
-        self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+        self.object:set_yaw(self.object:get_pos():direction(clicker:get_pos()):dir_to_rotation().y)
     end,
     nil,
     function(self,player)
@@ -104,7 +104,7 @@ register_npc(
         else
             regulus_story.trigger_dialogue(clicker,"second_meeting_idle")
         end
-        self.object:set_yaw(clicker:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+        self.object:set_yaw(self.object:get_pos():direction(clicker:get_pos()):dir_to_rotation().y)
     end,
     function(self,dtime)
         for _,player in pairs(minetest.get_connected_players()) do
@@ -122,7 +122,7 @@ register_npc(
                         self._spotted2=true
                     end
                 end
-                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+                self.object:set_yaw(self.object:get_pos():direction(player:get_pos()):dir_to_rotation().y)
             end
         end
     end,
@@ -143,15 +143,22 @@ register_npc(
                 if meta:get_int("dialogue_bossfight1")~=1 then
                     regulus_story.trigger_dialogue(player,"bossfight1",function()
                         minetest.chat_send_all("Time to shapeshift!")
-                        minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss")
-                        self.object:remove()
+                        minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
+                        minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
+                        local props=self.object:get_properties()
+                        props.is_visible=false
+                        self.object:set_properties(props)
+                        minetest.after(0.5,function()
+                            minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss")
+                            self.object:remove()
+                        end)
                     end)
                 end
                 self._spotted=true
             end
             local dist=self.object:get_pos():distance(player:get_pos())
             if dist<self._notice_dist then
-                self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+                self.object:set_yaw(self.object:get_pos():direction(player:get_pos()):dir_to_rotation().y)
             end
         end
     end,

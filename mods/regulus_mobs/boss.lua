@@ -13,10 +13,11 @@ end
 
 minetest.register_entity("regulus_mobs:boss",{
     visual="mesh",
-    mesh="regulus_player_model1.obj",
+    mesh="regulus_boss.obj",
     physical=true,
-    collide_with_objects=false,
-    collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
+    collide_with_objects=true,
+    collisionbox={-1,-1.5,-1,1,1.5,1},
+    textures={"regulus_boss.png"},
     hp_max=100,
     _state="primary",
     _timer=0,
@@ -25,12 +26,13 @@ minetest.register_entity("regulus_mobs:boss",{
     _projectile_speed=5,
     on_activate=function(self)
         mod_storage:set_int("bossfight_in_progress",1)
-        self._crystal_pos=minetest.find_node_near(self.object:get_pos(),20,"group:crystal") or self.object:get_pos()
+        self._crystal_pos=minetest.find_node_near(self.object:get_pos(),30,"group:crystal") or self.object:get_pos()
+        minetest.chat_send_all(dump(minetest.find_node_near(self.object:get_pos(),30,"group:crystal")))
         for _,player in pairs(minetest.get_connected_players()) do
             regulus_story.trigger_dialogue(player, "bossfight2")
         end
         minetest.add_particlespawner({
-            amount=10,
+            amount=20,
             time=0,
             attached=self.object,
             texture={
@@ -40,14 +42,36 @@ minetest.register_entity("regulus_mobs:boss",{
             vel={
                 min=vector.new(-1,-1,-1),
                 max=vector.new(1,1,1),
-            }
+            },
+            pos={
+                min=vector.new(-1,-1,-1),
+                max=vector.new(1,1,1),
+            },
+            scale=10,
         })
+        local band1=minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss_orbiting_band")
+        band1:get_luaentity()._parent=self.object
+        band1:get_luaentity()._offset=vector.new(0,0.5,0)
+        band1:get_luaentity().automatic_rotate=1
+        local band2=minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss_orbiting_band")
+        band2:get_luaentity()._parent=self.object
+        band2:get_luaentity()._offset=vector.new(0,1.5,0)
+        local props=band2:get_properties()
+        props.automatic_rotate=-1
+        band2:set_properties(props)
+        local band3=minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss_orbiting_band")
+        band3:get_luaentity()._parent=self.object
+        band3:get_luaentity()._offset=vector.new(0,1,0)
+        local props=band3:get_properties()
+        props.automatic_rotate=0.5
+        props.visual_size=vector.new(2,2,2)*2
+        band3:set_properties(props)
     end,
     on_step=function(self,dtime)
         self._timer=self._timer+dtime
         for _,player in pairs(minetest.get_connected_players()) do
             local dist=self.object:get_pos():distance(player:get_pos())
-            self.object:set_yaw(player:get_pos():direction(self.object:get_pos()):dir_to_rotation().y)
+            self.object:set_yaw(self.object:get_pos():direction(player:get_pos()):dir_to_rotation().y)
 
             if self._timer>1.5 then
                 self._timer=0
@@ -62,8 +86,10 @@ minetest.register_entity("regulus_mobs:boss",{
 
             --local movedir=self.object:get_pos():direction(player:get_pos())
             local crystal_dir=self.object:get_pos():direction(self._crystal_pos)
-            local player_dir=self.object:get_pos():direction(player:get_pos()+vector.new(0,3,0))
-            local movedir=crystal_dir:cross(vector.new(0,1,0)):normalize()+player_dir
+            local crystal_dist=self.object:get_pos():distance(self._crystal_pos)
+            local player_dir=self.object:get_pos():direction(player:get_pos()+vector.new(0,5,0))
+            local player_dist=self.object:get_pos():distance(player:get_pos()+vector.new(0,5,0))
+            local movedir=crystal_dir:cross(vector.new(0,1,0)):normalize()+player_dir*player_dist*0.2+(crystal_dir-vector.new(0,crystal_dir.y,0))*(crystal_dist-12)
             self.object:set_velocity(movedir)
         end
     end,
@@ -83,6 +109,8 @@ minetest.register_entity("regulus_mobs:boss",{
     on_death=function(self,killer)
         minetest.set_node(self._crystal_pos, {name="regulus_story:crystal"})
         mod_storage:set_int("bossfight_in_progress",0)
+        minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
+        minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
     end,
 
 
@@ -94,6 +122,7 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
     physical=true,
     _timer=0,
     _lifetime=5,
+    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
     on_activate=function(self)
         minetest.add_particlespawner({
             amount=10,
@@ -133,4 +162,58 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
             end
         end
     end
+})
+
+
+minetest.register_entity("regulus_mobs:boss_orbiting_band",{
+    visual="mesh",
+    mesh="regulus_boss_orbiting_band.obj",
+    textures={"regulus_boss_orbiting_band.png"},
+    use_texture_alpha=true,
+    --backface_culling=false,
+    automatic_rotate=1,
+    visual_size=vector.new(1,3,1)*2,
+    --shaded=false,
+    static_save=false,
+    pointable=false,
+    on_step=function(self,dtime)
+        if self._parent and self._parent:get_pos() and self._offset then
+            self.object:set_pos(self._parent:get_pos()+self._offset)
+        else
+            self.object:remove()
+        end
+    end,
+})
+
+minetest.register_entity("regulus_mobs:light_ball",{
+    visual="mesh",
+    mesh="regulus_light_ball.obj",
+    textures={"regulus_light_ball.png"},
+    use_texture_alpha=true,
+    backface_culling=false,
+    automatic_rotate=1,
+    visual_size=vector.new(20,20,20),
+    pointable=false,
+    shaded=false,
+    on_activate=function(self)
+        minetest.after(1,function()
+            self.object:remove()
+        end)
+    end,
+})
+minetest.register_entity("regulus_mobs:light_ball_backwards",{
+    visual="mesh",
+    mesh="regulus_light_ball.obj",
+    textures={"regulus_light_ball.png"},
+    use_texture_alpha=true,
+    backface_culling=false,
+    automatic_rotate=1,
+    visual_size=vector.new(20,20,20),
+    pointable=false,
+    shaded=false,
+    on_activate=function(self)
+        minetest.after(1,function()
+            self.object:remove()
+        end)
+    end,
 })
