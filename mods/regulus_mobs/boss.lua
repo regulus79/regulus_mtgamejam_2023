@@ -98,7 +98,7 @@ minetest.register_entity("regulus_mobs:boss",{
         if self.object:get_hp()<30 and self._state=="secondary" then
             self._state="final"
             self._shoot_interval=0.5
-            self._projectile_speed=20,
+            self._projectile_speed=20
             --minetest.chat_send_all("FINAL STAGE")
         elseif self.object:get_hp()<70 and self._state=="primary" then
             self._state="secondary"
