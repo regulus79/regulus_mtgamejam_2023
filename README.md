@@ -1,9 +1,12 @@
-# regulus_mtgamejam_2023
-Name TBD
+# The Velvet Crystal
+Regulus's submission to the 2023 Minetest Game Jam
 
-#Licensing
-This game is liscensed under the MIT license, as presented in the file named LICENSE.
+Recover the lost crystal and bring the light back into the world.
+
+## Licensing
 
 All of the code, textures, and sounds are authored by me.
 
-All of the sounds were generated using LMMS; however, I did not use any of the included drum or instrument samples.
+This game code is licensed under the MIT license, a copy of which is contained in the file named LICENSE.
+
+The textures, sounds, and any other media other than the code are licensed under the CC0 license.
