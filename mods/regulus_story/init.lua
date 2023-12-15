@@ -6,13 +6,14 @@ regulus_story={}
 
 regulus_story.dialogues={
     intro={
-        {file="todo",text="Greetings, young one!",length=3},
+        {file="todo",text="Greetings, young one!",length=2},
         {file="todo",text="Congratulations for completing your training",length=3},
         {file="todo",text="You are now a real wizard",length=3},
         {file="todo",text="But alas, now that the crystal is gone, this guild may not remain for long.",length=5},
         {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
         {file="todo",text="Your first mission as a wizard is to retrieve the stolen crystal",length=5},
         {file="todo",text="Along your way, make sure to pick up your new wand at the library.",length=5},
+        {file="todo",text="Good luck",length=1},
     },
     intro_idle={
         {file="todo",text="Go to the library to pick up your wand",length=4},
@@ -55,7 +56,7 @@ regulus_story.dialogues={
     },
     bossfight1={
         {file="todo",text="How did you get here so quickly? I wasn't finished--",length=3},
-        {file="todo",text="No matter.",length=3},
+        {file="todo",text="No matter.",length=2},
         {file="todo",text="I think it is time that I tell you the truth",length=3},
         {file="todo",text="I am not on your side",length=3},
         {file="todo",text="You see that crystal behind me? I am the one who stole it.",length=4},
@@ -115,12 +116,12 @@ end)
 
 regulus_story.is_dialogue_playing=false
 
-regulus_story.voiceline_length_pause_inbetween=0.7
+regulus_story.voiceline_length_pause_inbetween=0.4
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     if predelay then
-        --minetest.after(predelay,function()
-        regulus_story.after_beat(predelay, function()
+        minetest.after(predelay,function()
+        --regulus_story.after_beat(predelay, function()
             regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
         end)
     else
