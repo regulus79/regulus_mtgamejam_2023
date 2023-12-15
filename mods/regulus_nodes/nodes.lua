@@ -133,11 +133,22 @@ minetest.register_node("regulus_nodes:winzone",{
 })
 
 for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
-    minetest.register_node("regulus_nodes:"..powerupname.."_powerup",{
-        description=powerupname.." powerup zone",
-        tiles={"regulus_transparent_white.png^[multiply:"..settings.color.."^[opacity:100"},
+    minetest.register_node("regulus_nodes:"..powerupname.."_powerup_visible",{
+        description=powerupname.." powerup zone visible",
+        tiles={"regulus_transparent_white.png^[multiply:"..settings.color.."^[opacity:200"},
         drawtype="glasslike",
         paramtype="light",
+        use_texture_alpha=true,
+        pointable=minetest.is_creative_enabled(),
+        groups={undiggable=1},
+        walkable=false,
+    })
+    minetest.register_node("regulus_nodes:"..powerupname.."_powerup",{
+        description=powerupname.." powerup zone",
+        tiles={"regulus_transparent_white.png^[multiply:"..settings.color.."^[opacity:0"},
+        drawtype="glasslike",
+        paramtype="light",
+        pointable=minetest.is_creative_enabled(),
         use_texture_alpha=true,
         groups={undiggable=1},
         walkable=false,
@@ -162,7 +173,7 @@ minetest.register_globalstep(function(dtime)
         end
         local nodename_slightly_above=minetest.get_node(player:get_pos()+vector.new(0,0.1,0)).name
         for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
-            if nodename_slightly_above=="regulus_nodes:"..powerupname.."_powerup" then
+            if nodename_slightly_above=="regulus_nodes:"..powerupname.."_powerup" or nodename_slightly_above=="regulus_nodes:"..powerupname.."_powerup_visible" then
                 local old_powerup=player:get_meta():get_string("powerup")
                 if old_powerup~=powerupname then
                     player:get_meta():set_string("powerup",powerupname)

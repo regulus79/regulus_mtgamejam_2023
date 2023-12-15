@@ -161,7 +161,7 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
         if self._timer>self._lifetime then
             self.object:remove()
         end
-        if moveresult.collides then
+        if moveresult.collides and self and self.object and self.object:get_velocity() then
             for _,collision in pairs(moveresult.collisions) do
                 if collision.type=="object" and collision.object:is_player() then
                     collision.object:punch(
@@ -210,7 +210,7 @@ minetest.register_entity("regulus_mobs:boss_projectile2",{
         if self._timer>self._lifetime then
             self.object:remove()
         end
-        if moveresult.collides then
+        if moveresult.collides and self and self.object and self.object:get_velocity() then
             for _,collision in pairs(moveresult.collisions) do
                 if collision.type=="object" and collision.object:is_player() then
                     collision.object:punch(

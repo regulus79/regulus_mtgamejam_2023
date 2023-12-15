@@ -84,7 +84,9 @@ regulus_story.win=function(player)
     if player:get_meta():get_int("finished")==0 then
         player:get_meta():set_int("finished",1)
         local total_time=(minetest.get_us_time()-player:get_meta():get_float("start_time"))/10^6
-        minetest.chat_send_all("You completed the game in "..total_time.." seconds")
+        local minutes=math.floor(total_time/60)
+        local seconds=total_time % 60
+        minetest.chat_send_all("You completed the game in "..minutes..":"..seconds)
         --regulus_mapgen.load_level(player,"you_won")
 
         minetest.after(0.3,function()
@@ -428,7 +430,7 @@ regulus_story.show_intro=function(player)
     regulus_story.do_functions_on_beat({
         function()regulus_story.trigger_voiceline(player,{text="Long ago, the world was peaceful and bright",length=bar*2})end,
         function()regulus_story.trigger_voiceline(player,{text="The guild of wizards kept the world in balance with the power of the velvet crystal",length=bar*3})end,
-        function()regulus_story.trigger_voiceline(player,{text="But one day, a terrible monster appeared",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="But one day, a mysterious monster appeared",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="It tried to steal the crystal, but the guilders fought it off",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="Many believed that the monster was gone forever",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="But they were all wrong; for just this past night, it struck again",length=bar*3})end,

@@ -128,7 +128,7 @@ minetest.register_entity("regulus_powerups:player_projectile",{
 
 local prev_shoot_time=0
 regulus_powerups.shoot=function(player)
-    if minetest.get_us_time()-prev_shoot_time>0.5*10^6 then
+    if minetest.get_us_time()-prev_shoot_time>1.0*10^6 then
         local obj=minetest.add_entity(player:get_pos()+vector.new(0,1.625,0),"regulus_powerups:player_projectile")
         obj:set_velocity(player:get_look_dir()*5)
         prev_shoot_time=minetest.get_us_time()
