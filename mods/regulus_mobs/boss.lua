@@ -25,7 +25,7 @@ minetest.register_entity("regulus_mobs:boss",{
     _shoot_interval=3,
     _projectile_speed=5,
     on_activate=function(self)
-        regulus_story.play_music("mtgj_boss2")
+        regulus_story.play_music("mtgj_boss3")
         mod_storage:set_int("bossfight_in_progress",1)
         self._crystal_pos=minetest.find_node_near(self.object:get_pos(),30,"group:crystal") or self.object:get_pos()
         --minetest.chat_send_all(dump(minetest.find_node_near(self.object:get_pos(),30,"group:crystal")))

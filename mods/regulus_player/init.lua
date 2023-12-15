@@ -17,7 +17,7 @@ minetest.register_on_joinplayer(function(player,last_login)
     minetest.after(0.5,function()
         player:set_properties(props)
         if mod_storage:get_int("bossfight_in_progress")==1 then
-            regulus_story.play_music("mtgj_boss2")
+            regulus_story.play_music("mtgj_boss3")
         else
             regulus_story.play_music("mtgj_song2")
         end
