@@ -74,7 +74,17 @@ local map_trigger_node_colors={"#ffffff","#ffffff","#aaaaaa","#555555"}
 for i,name in pairs({"exit","next1","next2","next3"}) do
     minetest.register_node("regulus_mapgen:"..name,{
         description="Trigger "..name,
-        tiles={"regulus_portal_single.png^[multiply:"..map_trigger_node_colors[i].."^[opacity:200"},
+        tiles={
+            {
+                name="regulus_portal_single_animated.png^[multiply:"..map_trigger_node_colors[i].."^[opacity:200",
+                animation={
+                    type="vertical_frames",
+                    aspect_w=16,
+                    aspect_h=16,
+                    length=1.0,
+                },
+            }
+        },
         groups={undiggable=1},
         walkable=false,
         drawtype="glasslike",
