@@ -7,7 +7,7 @@ dofile(minetest.get_modpath("regulus_mobs").."/boss.lua")
 for _,spawner in pairs({
     {name="guide_room1",texture="regulus_stone5.png",newnode="regulus_nodes:stone5",yaw=-math.pi/2,spawn_every_time=true},
     --{name="random_npc_room1",texture="regulus_stone1.png",newnode="regulus_nodes:stone1"},
-    {name="guide_library",texture="regulus_stone1.png",newnode="regulus_nodes:stone1"},
+    {name="guide_library",texture="regulus_stone1.png",newnode="regulus_nodes:stone1",yaw=math.pi},
     {name="guide_room5",texture="regulus_v_panel.png",newnode="regulus_nodes:v_panel"},
     {name="guide_bossfight",texture="regulus_hex_panel1.png",newnode="regulus_nodes:hex_panel1"},
 }) do

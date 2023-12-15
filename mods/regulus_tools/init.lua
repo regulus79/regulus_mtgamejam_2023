@@ -1,7 +1,7 @@
 --make wear cooldown stuff todo
 
 minetest.register_tool("regulus_tools:test",{
-    description="test",
+    description="Wand",
     inventory_image="regulus_wand1.png",
     --wield_image="testwield.png",
     wield_scale={x=2,y=2,z=1},

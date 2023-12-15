@@ -22,7 +22,7 @@ minetest.register_entity("regulus_mobs:boss",{
     _state="primary",
     _timer=0,
     _crystal_pos=nil,
-    _shoot_interval=3,
+    _shoot_interval=1.5,
     _projectile_speed=5,
     on_activate=function(self)
         regulus_story.play_music("mtgj_boss3")
@@ -74,7 +74,7 @@ minetest.register_entity("regulus_mobs:boss",{
             local dist=self.object:get_pos():distance(player:get_pos())
             self.object:set_yaw(self.object:get_pos():direction(player:get_pos()):dir_to_rotation().y)
 
-            if self._timer>1.5 then
+            if self._timer>self._shoot_interval then
                 self._timer=0
                 local obj=minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:boss_projectile1")
                 obj:get_luaentity()._parent=self.object
@@ -82,6 +82,14 @@ minetest.register_entity("regulus_mobs:boss",{
                     obj:set_velocity(self.object:get_pos():direction(player:get_pos())*self._projectile_speed)
                 else
                     obj:set_velocity(aim(self.object:get_pos(), player, self._projectile_speed))
+                    for i=1,5 do
+                        minetest.after(self._shoot_interval*i/6, function()
+                            if self and self.object and self.object:get_pos() then
+                                local obj2=minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:boss_projectile2")
+                                obj2:set_velocity((self.object:get_pos():direction(player:get_pos())+0.5*vector.new(math.random(-1,1),math.random(-1,1),math.random(-1,1))):normalize()*self._projectile_speed)
+                            end
+                        end)
+                    end
                 end
             end
 
@@ -99,11 +107,15 @@ minetest.register_entity("regulus_mobs:boss",{
             self._state="final"
             self._shoot_interval=0.5
             self._projectile_speed=20
+            minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
+            minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
             --minetest.chat_send_all("FINAL STAGE")
         elseif self.object:get_hp()<70 and self._state=="primary" then
             self._state="secondary"
             self._shoot_interval=1.0
             self._projectile_speed=10
+            minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
+            minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
             --minetest.chat_send_all("SECONDARY STAGE")
         end
     end,
@@ -112,6 +124,12 @@ minetest.register_entity("regulus_mobs:boss",{
         mod_storage:set_int("bossfight_in_progress",0)
         minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
         minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
+        for _, player in pairs(minetest.get_connected_players()) do
+            local meta=player:get_meta()
+            meta:set_string("exit","room1")
+            meta:set_int("exit_spawnpoint_num",3)
+        end
+        regulus_story.play_music("mtgj_song2")
     end,
 
 
@@ -131,6 +149,55 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
             attached=self.object,
             texture={
                 name="regulus_boss_projectile1.png",
+                scale=10,
+                scale_tween={
+                    10,0
+                }
+            },
+        })
+    end,
+    on_step=function(self,dtime,moveresult)
+        self._timer=self._timer+dtime
+        if self._timer>self._lifetime then
+            self.object:remove()
+        end
+        if moveresult.collides then
+            for _,collision in pairs(moveresult.collisions) do
+                if collision.type=="object" and collision.object:is_player() then
+                    collision.object:punch(
+                        self.object,
+                        nil,
+                        {
+                            damage_groups={
+                                fleshy=1,
+                            }
+                        },
+                        self.object:get_velocity():normalize()
+                    )
+                    self.object:remove()
+                elseif collision.type=="node" then
+                    self.object:remove()
+                end
+            end
+        end
+    end
+})
+
+
+minetest.register_entity("regulus_mobs:boss_projectile2",{
+    visual="sprite",
+    textures={"regulus_boss_projectile2.png"},
+    physical=true,
+    _timer=0,
+    _lifetime=5,
+    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
+    on_activate=function(self)
+        minetest.add_particlespawner({
+            amount=10,
+            time=0,
+            attached=self.object,
+            texture={
+                name="regulus_boss_projectile2.png",
                 scale=10,
                 scale_tween={
                     10,0

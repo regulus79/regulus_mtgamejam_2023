@@ -135,7 +135,7 @@ minetest.register_node("regulus_nodes:winzone",{
 for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
     minetest.register_node("regulus_nodes:"..powerupname.."_powerup",{
         description=powerupname.." powerup zone",
-        tiles={"regulus_transparent_white.png^[multiply:"..settings.color},
+        tiles={"regulus_transparent_white.png^[multiply:"..settings.color.."^[opacity:100"},
         drawtype="glasslike",
         paramtype="light",
         use_texture_alpha=true,

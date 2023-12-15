@@ -50,7 +50,7 @@ minetest.register_on_newplayer(function(player)
     minetest.after(1,function()
         player:set_look_horizontal(2*math.pi*3/4)
     end)
-    if not minetest.is_creative_enabled() then
+    if not minetest.is_creative_enabled() or true then
         regulus_mapgen.load_level(player,"room1")
     end
     --player:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
