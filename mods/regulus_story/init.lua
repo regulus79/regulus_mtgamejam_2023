@@ -182,7 +182,7 @@ minetest.register_node("regulus_story:crystal",{
             }
         })
     end,
-
+    sounds={dig="default_dig_crystal"},
     groups={diggable=1,crystal=1},
 })
 
@@ -427,7 +427,7 @@ regulus_story.show_intro=function(player)
     local id=player:hud_add(blackscreen)
     local bar=regulus_story.current_music_spb
     regulus_story.do_functions_on_beat({
-        function()regulus_story.trigger_voiceline(player,{text="Long ago, the world was peaceful",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="Long ago, the world was peaceful and bright",length=bar*2})end,
         function()regulus_story.trigger_voiceline(player,{text="The guild of wizards kept the world in balance with the power of the velvet crystal",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="But one day, a terrible monster appeared",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="It tried to steal the crystal, but the guilders fought it off",length=bar*3})end,
