@@ -6,7 +6,7 @@ for i=1,4 do
     minetest.register_node("regulus_mapgen:spawnpoint"..tostring(i),{
         description="node for setting the spawnpoint"..tostring(i).." in a map",
         tiles={"regulus_transparent_white.png^[multiply:#101010"},
-        drawtype="nodebox",
+        drawtype=minetest.is_creative_enabled and "nodebox" or "airlike",
         node_box={
             type="fixed",
             fixed={-0.5,-0.5,-0.5,0.5,-0.4,0.5},
@@ -74,7 +74,7 @@ local map_trigger_node_colors={"#ffffff","#ffffff","#aaaaaa","#555555"}
 for i,name in pairs({"exit","next1","next2","next3"}) do
     minetest.register_node("regulus_mapgen:"..name,{
         description="Trigger "..name,
-        tiles={"regulus_transparent_white.png^[multiply:"..map_trigger_node_colors[i]},
+        tiles={"regulus_portal_single.png^[multiply:"..map_trigger_node_colors[i].."^[opacity:200"},
         groups={undiggable=1},
         walkable=false,
         drawtype="glasslike",
