@@ -1,4 +1,5 @@
 
+--[[
 minetest.register_node("regulus_portcullis:portcullis_generator",{
     description="portcullis generator",
     tiles={"regulus_portcullis.png"},
@@ -11,3 +12,4 @@ minetest.register_entity("regulus_portcullis:portcullis",{
     visual_size=vector.new(10,10,10),
     textures={"regulus_stone1.png^[darken:#444444"}
 })
+]]
