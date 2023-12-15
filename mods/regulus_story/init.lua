@@ -6,9 +6,9 @@ regulus_story={}
 
 regulus_story.dialogues={
     intro={
-        {file="todo",text="Greetings, young one!",length=2},
+        {file="todo",text="Greetings, young one!",length=3},
         {file="todo",text="Congratulations for completing your training",length=3},
-        {file="todo",text="You are now a real wizard",length=2},
+        {file="todo",text="You are now a real wizard",length=3},
         {file="todo",text="But alas, now that the crystal is gone, this guild may not remain for long.",length=5},
         {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
         {file="todo",text="Your first mission as a wizard is to retrieve the stolen crystal",length=5},
@@ -28,7 +28,7 @@ regulus_story.dialogues={
         {file="todo",text="perhaps you could go find it for me?",length=2},
     },
     library2={
-        {file="todo",text="You found it? Oh, excellent.",length=2},
+        {file="todo",text="You found it? Oh, excellent.",length=3},
         {file="todo",text="The defense obstacles in the base have been active ever since the crystal was stolen",length=6},
         {file="todo",text="You will need your wand to get past them to where the crystal was hidden",length=4},
         {file="todo",text="Good luck on your mission!",length=3},
@@ -37,45 +37,45 @@ regulus_story.dialogues={
         {file="todo",text="Use your wand to fly out of the library",length=4},
     },
     second_meeting1={
-        {file="todo",text="Why, long time no see!",length=2},
+        {file="todo",text="Why, long time no see!",length=3},
         {file="todo",text="I wasn't expecting you to get here so fast.",length=3},
-        {file="todo",text="The crystal is just after this room.",length=2},
+        {file="todo",text="The crystal is just after this room.",length=3},
         {file="todo",text="Is your new wand working okay?",length=3},
     },
     second_meeting2={
         {file="todo",text="",length=1},--pause
-        {file="todo",text="Oh, dear, that is not right. You are so tiny!",length=2},
+        {file="todo",text="Oh, dear, that is not right. You are so tiny!",length=3},
         {file="todo",text="You wand appears to be malfunctioning",length=3},
         {file="todo",text="I suppose you will have to take a detour through that small hole in the wall behind me.",length=5},
         {file="todo",text="You'll still make it to the crystal, but it will take a bit longer.",length=3},
     },
     second_meeting_idle={
-        {file="todo",text="Go through the hole in the wall to get to the next room",length=2},
+        {file="todo",text="Go through the hole in the wall to get to the next room",length=3},
         {file="todo",text="Your wand is malfunctioning. That's is why you become tiny when you use it.",length=3},
     },
     bossfight1={
         {file="todo",text="How did you get here so quickly? I wasn't finished--",length=3},
-        {file="todo",text="No matter.",length=1},
+        {file="todo",text="No matter.",length=3},
         {file="todo",text="I think it is time that I tell you the truth",length=3},
-        {file="todo",text="I am not on your side",length=2},
+        {file="todo",text="I am not on your side",length=3},
         {file="todo",text="You see that crystal behind me? I am the one who stole it.",length=4},
     },
     bossfight2={
-        {file="todo",text="For I am a master wizard",length=2},
-        {file="todo",text="None can compare to me",length=2},
+        {file="todo",text="For I am a master wizard",length=3},
+        {file="todo",text="None can compare to me",length=3},
         {file="todo",text="You shall die, but I will live forever with the energy of this crystal.",length=4},
     },
     bossfight_try_dig_crystal={
         {file="todo",text="",length=2},
-        {file="todo",text="I have set a spell over the crystal",length=2},
+        {file="todo",text="I have set a spell over the crystal",length=3},
         {file="todo",text="No one cannot remove it until I am dead",length=3},
     },
     you_won={
         {file="todo",text="",length=2},
-        {file="todo",text="At last!",length=0.7},
-        {file="todo",text="The crystal has been returned safely!",length=2},
+        {file="todo",text="At last!",length=3},
+        {file="todo",text="The crystal has been returned safely!",length=3},
         {file="todo",text="Thank you, young wizard, for your excellent service.",length=3},
-        {file="todo",text="The sun shall never again be blotted out by the darkness,",length=3},
+        {file="todo",text="The sun shall never again be blotted out by the darkness",length=3},
     }
 }
 
@@ -109,17 +109,18 @@ regulus_story.win=function(player)
 end
 
 minetest.register_on_newplayer(function(player)
-    minetest.chat_send_player(player:get_player_name(),"Game starts now, at "..tostring(minetest.get_us_time()))
+    --minetest.chat_send_player(player:get_player_name(),"Game starts now, at "..tostring(minetest.get_us_time()))
     player:get_meta():set_float("start_time",minetest.get_us_time())
 end)
 
 regulus_story.is_dialogue_playing=false
 
-regulus_story.voiceline_length_pause_inbetween=0.5
+regulus_story.voiceline_length_pause_inbetween=0.7
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     if predelay then
-        minetest.after(predelay,function()
+        --minetest.after(predelay,function()
+        regulus_story.after_beat(predelay, function()
             regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
         end)
     else
@@ -430,7 +431,7 @@ regulus_story.show_intro=function(player)
         function()regulus_story.trigger_voiceline(player,{text="But one day, a terrible monster appeared",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="It tried to steal the crystal, but the guilders fought it off",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="Many believed that the monster was gone forever",length=bar*3})end,
-        function()regulus_story.trigger_voiceline(player,{text="But just this past night, it struck again during the night",length=bar*3})end,
+        function()regulus_story.trigger_voiceline(player,{text="But they were all wrong; for just this past night, it struck again",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="It stealthily stole the crystal and flew off with it to its lair",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="Darkness enveloped the land, and the sun disappeared from the sky",length=bar*3})end,
         function()regulus_story.trigger_voiceline(player,{text="It is up to you, young wizard, to retrieve the crystal and save the land",length=bar*3})end,

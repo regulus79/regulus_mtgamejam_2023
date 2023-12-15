@@ -285,7 +285,9 @@ regulus_mapgen.exit_level=function(player,oldlevel)
             regulus_mapgen.load_level(player,exit_level_name,2)--assuming the prev level had one spawn for the start, and the second spawn by the door to next (this) level
         end
     else
-        minetest.chat_send_all("ERROR, exit level not set")
+        if minetest.is_creative_enabled() then
+            minetest.chat_send_all("ERROR, exit level not set")
+        end
     end
 end
 
