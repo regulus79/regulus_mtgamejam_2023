@@ -3,6 +3,11 @@ Regulus's submission to the 2023 Minetest Game Jam
 
 Recover the lost crystal and bring the light back into the world.
 
+## Note
+Requires minetest v5.6.0 or newer
+Using an older version may cause errors with particlespawners or schematic spawning
+
+
 ## Licensing
 
 All of the code, textures, and sounds are authored by me.
