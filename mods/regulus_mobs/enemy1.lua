@@ -8,7 +8,7 @@ minetest.register_entity("regulus_mobs:enemy1",{
     collide_with_objects=true,
     collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
     textures={"regulus_enemy1.png"},
-    hp_max=10,
+    hp_max=1,
     automatic_face_movement_dir=90,
     _notice_dist=10,
     _attack_dist=1,
