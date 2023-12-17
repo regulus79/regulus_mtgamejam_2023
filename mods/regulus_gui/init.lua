@@ -87,7 +87,7 @@ minetest.register_globalstep(function()
         local time=minetest.get_us_time()
         if time>info.starttime and time<info.endtime then
             local ratio=(time-info.starttime)/(info.endtime-info.starttime)
-            player:hud_change(id, "text",info.image_name.."^[colorize:"..minetest.rgba(0,0,0,256*ratio)..":alpha")
+            player:hud_change(id, "text",info.image_name.."^[opacity:"..(256*ratio))
         else
             player:hud_remove(id)
             regulus_gui.fading_images[id]=nil

@@ -11,7 +11,7 @@ regulus_story.dialogues={
         {file="todo",text="You are the strongest wizard of the guild",length=3},
         {file="todo",text="But alas, now that the crystal is gone, this guild may not remain for long.",length=5},
         {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
-        {file="todo",text="You are our only hope of retieving the crystal",length=5},
+        {file="todo",text="You are our only hope of recovering the crystal",length=5},
         {file="todo",text="Along your way, make sure to pick up your new wand at the library.",length=5},
         {file="todo",text="Good luck",length=1},
     },
