@@ -26,7 +26,7 @@ for _,spawner in pairs({
             --run_at_every_load=true,
             action=function(pos,node)
                 for _,player in pairs(minetest.get_connected_players()) do
-                    if mod_storage:get_int(spawner.name.."_has_spawned")~=1 or spawner.spawn_every_time then
+                    if mod_storage:get_int(spawner.name.."_has_spawned")~=1 or spawner.spawn_every_time or (spawner.name=="guide_library" and player:get_meta():get_int("dialogue_library1")~=1) then
                         --minetest.chat_send_all("help me spawn mob")
                         --minetest.after(0.1,function()
                         local obj=minetest.add_entity(pos+vector.new(0,1,0),"regulus_mobs:"..spawner.name)
