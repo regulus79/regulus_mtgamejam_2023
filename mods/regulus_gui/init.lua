@@ -64,6 +64,25 @@ regulus_gui.show_subtitles=function(player,text,time)
     end)
 end
 
+
+regulus_gui.show_credit=function(player,text,pos,alignment,time)
+    local text_elem={
+        hud_elem_type="text",
+        text=text,
+        position=pos,
+        --scale={x=2,y=2},
+        number=0xFFFFFF,
+        size={x=2},
+        alignment=alignment or {x=0,y=0},
+        style=1,
+    }
+    local id=player:hud_add(text_elem)
+    minetest.after(time,function()
+        player:hud_remove(id)
+    end)
+end
+
+
 regulus_gui.fading_images={}
 
 regulus_gui.fade_image=function(player,image_name,time)
