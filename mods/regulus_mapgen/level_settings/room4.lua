@@ -1,1 +1,1 @@
-return {exit_spawnpoint_num=2,next1="room5",next2="",next3="",level_name="room4",exit="room3",spawnpoint1={y=18,z=2,x=2},spawnpoint2={y=8,z=12,x=19},spawnpoint3={y=48,z=-37,x=2},spawnpoint4={y=48,z=-37,x=2},extent={y=21,z=14,x=21}}
+return {spawnpoint4={y=48,z=-37,x=2},exit="room3",level_name="room4",extent={y=21,z=14,x=21},exit_spawnpoint_num=2,spawnpoint3={y=48,z=-37,x=2},spawnpoint2={y=8,z=12,x=19},spawnpoint1={y=18,z=2,x=2},next1="room4_2",next2="",next3=""}
