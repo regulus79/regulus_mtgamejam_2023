@@ -1,4 +1,4 @@
-!(Logo image for The Velvet Crystal)[menu/header.png]
+!(Logo image for The Velvet Crystal)[/menu/header.png]
 
 # The Velvet Crystal
 Regulus's submission to the 2023 Minetest Game Jam
