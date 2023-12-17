@@ -1,7 +1,9 @@
+!(Logo image for The Velvet Crystal)[menu/header.png]
+
 # The Velvet Crystal
 Regulus's submission to the 2023 Minetest Game Jam
 
-Recover the lost crystal and bring the light back into the world.
+> Recover the lost crystal and bring the light back into the world.
 
 ## Note
 Requires minetest v5.6.0 or newer
