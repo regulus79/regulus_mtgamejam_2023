@@ -82,6 +82,24 @@ regulus_gui.show_credit=function(player,text,pos,alignment,time)
     end)
 end
 
+regulus_gui.show_credit_image=function(player,image,pos,alignment,time)
+    local image_elem={
+        hud_elem_type="image",
+        text=image,
+        position=pos,
+        --scale={x=2,y=2},
+        number=0xFFFFFF,
+        size={x=2},
+        scale={x=1,y=1},
+        alignment=alignment or {x=0,y=0},
+        style=1,
+    }
+    local id=player:hud_add(image_elem)
+    minetest.after(time,function()
+        player:hud_remove(id)
+    end)
+end
+
 
 regulus_gui.fading_images={}
 

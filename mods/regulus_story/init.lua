@@ -86,10 +86,10 @@ regulus_story.win=function(player)
         local total_time=(minetest.get_us_time()-player:get_meta():get_float("start_time"))/10^6
         local minutes=math.floor(total_time/60)
         local seconds=total_time % 60
-        minetest.chat_send_all("You completed the game in "..minutes..":"..seconds)
+        minetest.chat_send_all("You completed the game in "..seconds.." seconds")
         --regulus_mapgen.load_level(player,"you_won")
         regulus_story.play_music("mtgj_victory_extended",false)
-        regulus_story.show_credits(player)
+        regulus_story.show_credits(player,seconds)
 
         minetest.after(0.3,function()
             player:set_sky({
@@ -368,15 +368,12 @@ regulus_story.current_music=nil
 regulus_story.current_music_beat_start=nil
 regulus_story.current_music_spb=60/140--seconds per beat (bpm of my music is 140)
 
-regulus_story.play_music=function(music_name,loop,on_music_start,start_beat)
+regulus_story.play_music=function(music_name,loop,on_music_start)
     if not regulus_story.current_music_beat_start then
         regulus_story.current_music_beat_start=minetest.get_us_time()
     end
     if loop==nil then
         loop=true
-    end
-    if start_beat==nil then
-        start_beat=0
     end
     if regulus_story.current_music then
         minetest.sound_fade(regulus_story.current_music,1,0)
@@ -384,7 +381,7 @@ regulus_story.play_music=function(music_name,loop,on_music_start,start_beat)
         --minetest.chat_send_all(dump(delay_until_beat))
         minetest.after(delay_until_beat,function()
             --minetest.sound_stop(regulus_story.current_music)
-            regulus_story.current_music=minetest.sound_play(music_name,{start_time=start_beat*regulus_story.current_music_spb,loop=loop})
+            regulus_story.current_music=minetest.sound_play(music_name,{loop=loop})
             regulus_story.current_music_beat_start=minetest.get_us_time()
             if on_music_start then
                 on_music_start()
@@ -392,7 +389,7 @@ regulus_story.play_music=function(music_name,loop,on_music_start,start_beat)
         end)
         --minetest.chat_send_all(dump(delay_until_beat))
     else
-        regulus_story.current_music=minetest.sound_play(music_name,{loop=true})
+        regulus_story.current_music=minetest.sound_play(music_name,{loop=loop})
     end
 end
 
@@ -407,7 +404,7 @@ regulus_story.after_beat=function(delay,func,beat_interval)
 end
 
 regulus_story.do_functions_on_beat=function(list_of_funcs,beats_per_execution,predelay_beats)
-    for i,func in ipairs(list_of_funcs) do
+    for i,func in pairs(list_of_funcs) do
         regulus_story.after_beat((i-1)*regulus_story.current_music_spb*beats_per_execution+regulus_story.current_music_spb*predelay_beats,func,1)
     end
 end
@@ -416,7 +413,7 @@ end
 minetest.register_chatcommand("play_music",{
     description="test playing music",
     func=function(name,param)
-        regulus_story.play_music("mtgj_song2")
+        regulus_story.play_music("mtgj_song2",true)
     end
 })
 minetest.register_chatcommand("on_beat",{
@@ -454,7 +451,7 @@ regulus_story.show_intro=function(player)
 end
 
 
-regulus_story.show_credits=function(player)
+regulus_story.show_credits=function(player,total_seconds)
     local blackscreen={
         hud_elem_type="image",
         text="regulus_blackscreen.png",
@@ -466,16 +463,24 @@ regulus_story.show_credits=function(player)
     local beat=regulus_story.current_music_spb
     regulus_story.do_functions_on_beat({
         [1]=function()id=player:hud_add(blackscreen)end,
-        [2]=function()regulus_gui.show_credit(player,"~ The Velvet Crystal ~",{x=0.5,y=0.5},nil,beat*7)end,
-        [3]=function()regulus_gui.show_credit(player,"by Regulus",{x=0.5,y=0.6},nil,beat*7)end,
-        [17]=function()regulus_gui.show_credit(player,"Code - ",{x=0.3,y=0.3},{x=1},beat*2)end,
-        [18]=function()regulus_gui.show_credit(player,"Code - Regulus",{x=0.3,y=0.3},{x=1},beat*10)end,
-        [19]=function()regulus_gui.show_credit(player,"Textures - ",{x=0.5,y=0.5},{x=1},beat*2)end,
-        [20]=function()regulus_gui.show_credit(player,"Textures - Regulus",{x=0.5,y=0.5},{x=1},beat*6)end,
-        [21]=function()regulus_gui.show_credit(player,"Music - ",{x=0.7,y=0.7},{x=1},beat*2)end,
-        [22]=function()regulus_gui.show_credit(player,"Music - Regulus",{x=0.7,y=0.7},{x=1},beat*2)end,
-        [23]=function()player:hud_remove(id)end,
-    },1,12*4-1-2)
+        [1+4]=function()regulus_gui.show_credit_image(player,"header.png",{x=0.5,y=0.5},nil,beat*8)end,
+        --[1+8]=function()regulus_gui.show_credit(player,"by Regulus",{x=0.5,y=0.6},nil,beat*4)end,
+        [1+12]=function()regulus_gui.show_credit(player,"Code - ",{x=0.5,y=0.3},{x=1},beat*2)end,
+        [1+14]=function()regulus_gui.show_credit(player,"Code - Regulus",{x=0.5,y=0.3},{x=1},beat*6)end,
+        [1+16]=function()regulus_gui.show_credit(player,"Textures - ",{x=0.5,y=0.5},{x=1},beat*2)end,
+        [1+18]=function()regulus_gui.show_credit(player,"Textures - Regulus",{x=0.5,y=0.5},{x=1},beat*2)end,
+        [1+20]=function()regulus_gui.show_credit(player,"Story - ",{x=0.2,y=0.2},{x=1},beat*2)end,
+        [1+22]=function()regulus_gui.show_credit(player,"Story - Regulus",{x=0.2,y=0.2},{x=1},beat*6)end,
+        [1+24]=function()regulus_gui.show_credit(player,"Music - ",{x=0.7,y=0.7},{x=1},beat*2)end,
+        [1+26]=function()regulus_gui.show_credit(player,"Music - Regulus",{x=0.7,y=0.7},{x=1},beat*2)end,
+        --[1+28]=function()regulus_gui.show_credit(player,"Playtesters",{x=0.5,y=0.5},nil,beat*2)end,
+        --[1+30]=function()regulus_gui.show_credit(player,"Dalgamer",{x=0.5,y=0.6},{x=1},beat*6)end,
+        --[1+32]=function()regulus_gui.show_credit(player,"archfan",{x=0.5,y=0.7},{x=1},beat*4)end,
+        --[1+34]=function()regulus_gui.show_credit(player,"Maple8",{x=0.5,y=0.8},{x=1},beat*2)end,
+        --[1+38]=function()player:hud_remove(id)end,
+        [1+28]=function()minetest.sound_fade(regulus_story.current_music,0.5,0)end,
+        [1+32]=function()minetest.disconnect_player(player:get_player_name(),"Thank you for playing!")end,
+    },1,(12*4-1-4) + (4-1)*0)
 end
 
 
@@ -484,6 +489,6 @@ minetest.register_chatcommand("show_credits",{
     func=function(name,param)
         regulus_story.play_music("mtgj_victory_extended",false,function()
             regulus_story.show_credits(minetest.get_player_by_name(name))
-        end,12*4-4)
+        end)
     end,
 })
