@@ -86,10 +86,10 @@ regulus_story.win=function(player)
         local total_time=(minetest.get_us_time()-player:get_meta():get_float("start_time"))/10^6
         local minutes=math.floor(total_time/60)
         local seconds=total_time % 60
-        minetest.chat_send_all("You completed the game in "..seconds.." seconds")
+        --minetest.chat_send_all("You completed the game in "..seconds.." seconds")
         --regulus_mapgen.load_level(player,"you_won")
-        regulus_story.play_music("mtgj_victory_extended",false)
-        regulus_story.show_credits(player,seconds)
+        regulus_story.play_music("mtgj_victory_extended",false,function()regulus_story.show_credits(player,seconds)end)
+        
 
         minetest.after(0.3,function()
             player:set_sky({
@@ -479,7 +479,8 @@ regulus_story.show_credits=function(player,total_seconds)
         --[1+34]=function()regulus_gui.show_credit(player,"Maple8",{x=0.5,y=0.8},{x=1},beat*2)end,
         --[1+38]=function()player:hud_remove(id)end,
         [1+28]=function()minetest.sound_fade(regulus_story.current_music,0.5,0)end,
-        [1+32]=function()minetest.disconnect_player(player:get_player_name(),"Thank you for playing!")end,
+        [1+28]=function()regulus_gui.show_credit(player,"Thank you for playing",{x=0.5,y=0.5},nil,beat*4)end,
+        [1+32]=function()minetest.disconnect_player(player:get_player_name(),"You finished the game in "..total_seconds.." seconds")end,
     },1,(12*4-1-4) + (4-1)*0)
 end
 
