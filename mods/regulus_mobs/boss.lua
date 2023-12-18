@@ -129,6 +129,7 @@ minetest.register_entity("regulus_mobs:boss",{
             meta:set_string("exit","room1")
             meta:set_int("exit_spawnpoint_num",3)
         end
+        minetest.sound_play("regulus_boss_die",{gain=1.0})
         regulus_story.play_music("mtgj_song2")
     end,
 
