@@ -37,7 +37,6 @@ regulus_story.dialogues={
         {file="todo",text="Use your wand to fly out of the library",length=4},
     },
     second_meeting1={
-        {file="todo",text="Why, long time no see!",length=3},
         {file="todo",text="I wasn't expecting you to get here so fast.",length=3},
         {file="todo",text="The crystal is just after this room.",length=3},
         {file="todo",text="Is your new wand working okay?",length=3},
@@ -88,7 +87,7 @@ regulus_story.win=function(player)
         local seconds=total_time % 60
         --minetest.chat_send_all("You completed the game in "..seconds.." seconds")
         --regulus_mapgen.load_level(player,"you_won")
-        regulus_story.play_music("mtgj_victory_extended",false,function()regulus_story.show_credits(player,seconds)end)
+        regulus_story.play_music("mtgj_victory_extended",false,function()regulus_story.show_credits(player,total_time)end)
         
 
         minetest.after(0.3,function()
