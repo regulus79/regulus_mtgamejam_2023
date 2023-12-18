@@ -37,8 +37,9 @@ regulus_story.dialogues={
         {file="todo",text="Use your wand to fly out of the library",length=4},
     },
     second_meeting1={
-        {file="todo",text="I wasn't expecting you to get here so fast.",length=3},
-        {file="todo",text="The crystal is just after this room.",length=3},
+        {file="todo",text="Why, long time no see! What are the odds that our paths would meet like this?",length=4},
+        {file="todo",text="I don't have much time to talk, as I am still very busy",length=3},
+        {file="todo",text="I was just passing by here to do...various things...",length=3},
         {file="todo",text="Is your new wand working okay?",length=3},
     },
     second_meeting2={
@@ -67,7 +68,7 @@ regulus_story.dialogues={
     bossfight_try_dig_crystal={
         {file="todo",text="",length=2},
         {file="todo",text="I have set a spell over the crystal",length=3},
-        {file="todo",text="No one cannot remove it until I am dead",length=3},
+        {file="todo",text="It cannot be removed until I am dead",length=3},
     },
     you_won={
         {file="todo",text="",length=2},
@@ -477,7 +478,7 @@ regulus_story.show_credits=function(player,total_seconds)
         --[1+32]=function()regulus_gui.show_credit(player,"archfan",{x=0.5,y=0.7},{x=1},beat*4)end,
         --[1+34]=function()regulus_gui.show_credit(player,"Maple8",{x=0.5,y=0.8},{x=1},beat*2)end,
         --[1+38]=function()player:hud_remove(id)end,
-        [1+28]=function()minetest.sound_fade(regulus_story.current_music,0.5,0)end,
+        [1+28]=function()minetest.sound_fade(regulus_story.current_music,1,0)end,
         [1+28]=function()regulus_gui.show_credit(player,"Thank you for playing",{x=0.5,y=0.5},nil,beat*4)end,
         [1+32]=function()minetest.disconnect_player(player:get_player_name(),"You finished the game in "..total_seconds.." seconds")end,
     },1,(12*4-1-4) + (4-1)*0)
