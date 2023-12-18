@@ -462,6 +462,8 @@ regulus_story.show_credits=function(player,total_seconds)
         scale={x=2,y=2},
         alignment={x=0,y=0},
     }
+    local minutes=math.floor(total_seconds/60)
+    local seconds=total_seconds % 60
     local id=nil
     local beat=regulus_story.current_music_spb
     regulus_story.do_functions_on_beat({
@@ -481,9 +483,9 @@ regulus_story.show_credits=function(player,total_seconds)
         --[1+32]=function()regulus_gui.show_credit(player,"archfan",{x=0.5,y=0.7},{x=1},beat*4)end,
         --[1+34]=function()regulus_gui.show_credit(player,"Maple8",{x=0.5,y=0.8},{x=1},beat*2)end,
         --[1+38]=function()player:hud_remove(id)end,
-        [1+28]=function()minetest.sound_fade(regulus_story.current_music,1,0)end,
         [1+28]=function()regulus_gui.show_credit(player,"Thank you for playing",{x=0.5,y=0.5},nil,beat*4)end,
-        [1+32]=function()minetest.disconnect_player(player:get_player_name(),"You finished the game in "..total_seconds.." seconds")end,
+        [1+32]=function()minetest.sound_fade(regulus_story.current_music,1,0)end,
+        [1+34]=function()minetest.disconnect_player(player:get_player_name(),"You finished the game in "..minutes.." minutes, "..seconds.." seconds")end,
     },1,(12*4-1-4) + (4-1)*0)
 end
 
@@ -492,7 +494,7 @@ minetest.register_chatcommand("show_credits",{
     description="test playing credits",
     func=function(name,param)
         regulus_story.play_music("mtgj_victory_extended",false,function()
-            regulus_story.show_credits(minetest.get_player_by_name(name))
+            regulus_story.show_credits(minetest.get_player_by_name(name),1678)
         end)
     end,
 })
