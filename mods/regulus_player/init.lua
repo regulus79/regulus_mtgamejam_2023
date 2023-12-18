@@ -42,6 +42,7 @@ minetest.register_on_joinplayer(function(player,last_login)
         })
         player:override_day_night_ratio(0.0)
     end
+    regulus_gui.add_vignette(player)
 end)
 
 minetest.register_on_newplayer(function(player)

@@ -151,6 +151,7 @@ register_npc(
                         self.object:set_properties(props)
                         minetest.after(0.5,function()
                             minetest.add_entity(self.object:get_pos(),"regulus_mobs:boss")
+                            regulus_gui.add_cinematic_bars(player)
                             self.object:remove()
                         end)
                     end)

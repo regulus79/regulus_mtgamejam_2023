@@ -103,18 +103,26 @@ end
 
 regulus_gui.fading_images={}
 
-regulus_gui.fade_image=function(player,image_name,time)
+--type can be "in", "out', or "inout"
+regulus_gui.add_fade_image=function(player,image_name,time,type)
     local image={
         hud_elem_type="image",
         text=image_name,
         position={x=0.5,y=0.5},
         scale={x=1,y=1},
-        alignment={x=0,y=1},
+        alignment={x=0,y=0},
     }
     local id=player:hud_add(image)
     local current_time=minetest.get_us_time()
     --minetest.chat_send_all(dump({id,current_time}))
-    regulus_gui.fading_images[id]={playername=player:get_player_name(),starttime=current_time,endtime=current_time+time*10^6,image_name=image_name}
+    regulus_gui.fading_images[id]={
+        playername=player:get_player_name(),
+        starttime=current_time,
+        endtime=current_time+time*10^6,
+        image_name=image_name,
+        type=type,
+        max_opacity=256
+    }
     --minetest.chat_send_all(dump(regulus_gui.fading_images[id]))
 end
 
@@ -124,14 +132,114 @@ minetest.register_globalstep(function()
         local time=minetest.get_us_time()
         if time>info.starttime and time<info.endtime then
             local ratio=(time-info.starttime)/(info.endtime-info.starttime)
-            player:hud_change(id, "text",info.image_name.."^[opacity:"..(256*ratio))
+            if info.type=="in" then
+                ratio=ratio
+            elseif info.type=="out" then
+                ratio=1-ratio
+            elseif info.type=="inout" then
+                ratio=1-math.abs(ratio*2-1)
+            end
+            player:hud_change(id, "text",info.image_name.."^[opacity:"..(info.max_opacity*ratio))
         else
-            player:hud_remove(id)
+            if info.type~="in" then
+                player:hud_remove(id)
+            end
             regulus_gui.fading_images[id]=nil
+        end
+    end
+    if regulus_gui.cinematic_bar_animation then
+        local info=regulus_gui.cinematic_bar_animation
+        local time=minetest.get_us_time()
+        local player=minetest.get_player_by_name(info.playername)
+        if time>info.starttime and time<info.endtime then
+            local ratio=(time-info.starttime)/(info.endtime-info.starttime)
+            if info.type=="in" then
+                ratio=ratio
+            elseif info.type=="out" then
+                ratio=1-ratio
+            end
+            player:hud_change(regulus_gui.cinematic_bar_id1, "position",{x=0.5,y=-0.6+ratio*0.2})
+            player:hud_change(regulus_gui.cinematic_bar_id2, "position",{x=0.5,y=1.6-ratio*0.2})
+        else
+            if info.type~="in" then
+                player:hud_remove(regulus_gui.cinematic_bar_id1)
+                player:hud_remove(regulus_gui.cinematic_bar_id2)
+            end
+            regulus_gui.cinematic_bar_animation=nil
         end
     end
 end)
 
+regulus_gui.vignette_id=nil
+regulus_gui.add_vignette=function(player)
+    regulus_gui.vignette_id=player:hud_add({
+        hud_elem_type="image",
+        text="regulus_vignette2.png^[opacity:0",
+        position={x=0.5,y=0.5},
+        scale={x=1,y=1},
+        alignment={x=0,y=0},
+    })
+    local current_time=minetest.get_us_time()
+    regulus_gui.fading_images[regulus_gui.vignette_id]={
+        playername=player:get_player_name(),
+        starttime=current_time,
+        endtime=current_time+1*10^6,
+        image_name="regulus_vignette2.png",
+        type="in",
+        max_opacity=150
+    }
+end
+
+regulus_gui.remove_vignette=function(player)
+    local current_time=minetest.get_us_time()
+    if regulus_gui.vignette_id then
+        regulus_gui.fading_images[regulus_gui.vignette_id]={
+            playername=player:get_player_name(),
+            starttime=current_time,
+            endtime=current_time+1*10^6,
+            image_name="regulus_vignette2.png",
+            type="out",
+            max_opacity=150
+        }
+    end
+end
+
+
+regulus_gui.cinematic_bar_id1=nil
+regulus_gui.cinematic_bar_id2=nil
+regulus_gui.cinematic_bar_animation=nil
+regulus_gui.add_cinematic_bars=function(player)
+    regulus_gui.cinematic_bar_id1=player:hud_add({
+        hud_elem_type="image",
+        text="regulus_blackscreen.png",
+        position={x=0.5,y=-0.6},
+        scale={x=1,y=1},
+        alignment={x=0,y=0},
+    })
+    regulus_gui.cinematic_bar_id2=player:hud_add({
+        hud_elem_type="image",
+        text="regulus_blackscreen.png",
+        position={x=0.5,y=1.6},
+        scale={x=1,y=1},
+        alignment={x=0,y=0},
+    })
+    local current_time=minetest.get_us_time()
+    regulus_gui.cinematic_bar_animation={
+        playername=player:get_player_name(),
+        starttime=current_time,
+        endtime=current_time+1*10^6,
+        type="in"
+    }
+end
+regulus_gui.remove_cinematic_bars=function(player)
+    local current_time=minetest.get_us_time()
+    regulus_gui.cinematic_bar_animation={
+        playername=player:get_player_name(),
+        starttime=current_time,
+        endtime=current_time+1*10^6,
+        type="out"
+    }
+end
 
 
 
@@ -139,6 +247,22 @@ minetest.register_chatcommand("fade_image",{
     description="test fade image",
     func=function(name,param)
         local player=minetest.get_player_by_name(name)
-        regulus_gui.fade_image(player,"regulus_gray_splash1.png",4)
+        regulus_gui.add_fade_image(player,"regulus_gray_splash1.png",4,"inout")
+    end
+})
+
+
+minetest.register_chatcommand("add_bars",{
+    description="test fade image",
+    func=function(name,param)
+        local player=minetest.get_player_by_name(name)
+        regulus_gui.add_cinematic_bars(player)
+    end
+})
+minetest.register_chatcommand("remove_bars",{
+    description="test fade image",
+    func=function(name,param)
+        local player=minetest.get_player_by_name(name)
+        regulus_gui.remove_cinematic_bars(player)
     end
 })

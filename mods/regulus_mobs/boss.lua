@@ -131,6 +131,9 @@ minetest.register_entity("regulus_mobs:boss",{
         end
         minetest.sound_play("regulus_boss_die",{gain=1.0})
         regulus_story.play_music("mtgj_song2")
+        for _, player in pairs(minetest.get_connected_players()) do
+            regulus_gui.remove_cinematic_bars(player)
+        end
     end,
 
 

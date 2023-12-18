@@ -37,9 +37,10 @@ regulus_story.dialogues={
         {file="todo",text="Use your wand to fly out of the library",length=4},
     },
     second_meeting1={
-        {file="todo",text="Why, long time no see! What are the odds that our paths would meet like this?",length=4},
-        {file="todo",text="I don't have much time to talk, as I am still very busy",length=3},
-        {file="todo",text="I was just passing by here to do...various things...",length=3},
+        {file="todo",text="Why, long time no see!",length=4},
+        {file="todo",text="I'm still very busy, so I can't talk much right now.",length=3},
+        {file="todo",text="I am doing...various important things...around the place",length=3},
+        {file="todo",text="",length=1},--pause
         {file="todo",text="Is your new wand working okay?",length=3},
     },
     second_meeting2={
@@ -89,6 +90,8 @@ regulus_story.win=function(player)
         --minetest.chat_send_all("You completed the game in "..seconds.." seconds")
         --regulus_mapgen.load_level(player,"you_won")
         regulus_story.play_music("mtgj_victory_extended",false,function()regulus_story.show_credits(player,total_time)end)
+        
+        regulus_gui.remove_vignette(player)
         
 
         minetest.after(0.3,function()
