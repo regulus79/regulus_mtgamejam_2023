@@ -306,6 +306,9 @@ minetest.register_node("regulus_story:wand_on_ground",{
         }
     },
     on_punch=function(pos,node,clicker)
+        clicker:hud_set_flags({
+            hotbar=true,
+        })
         clicker:get_inventory():add_item("main",ItemStack("regulus_tools:test"))
         minetest.set_node(pos,{name="air"})
         if minetest.get_node(pos-vector.new(0,1,0)).name=="regulus_story:wand_stand_full" then
@@ -407,8 +410,14 @@ regulus_story.after_beat=function(delay,func,beat_interval)
 end
 
 regulus_story.do_functions_on_beat=function(list_of_funcs,beats_per_execution,predelay_beats)
+    local jobs={}
     for i,func in pairs(list_of_funcs) do
-        regulus_story.after_beat((i-1)*regulus_story.current_music_spb*beats_per_execution+regulus_story.current_music_spb*predelay_beats,func,1)
+        jobs[i]=regulus_story.after_beat((i-1)*regulus_story.current_music_spb*beats_per_execution+regulus_story.current_music_spb*predelay_beats,func,1)
+    end
+    return function()
+        for _,job in pairs(jobs) do
+            job:cancel()
+        end
     end
 end
 
@@ -450,7 +459,6 @@ regulus_story.show_intro=function(player)
         function()regulus_story.trigger_voiceline(player,{text="It is up to you, young wizard, to retrieve the crystal and save the land",length=bar*3})end,
         function()player:hud_remove(id)end,
     },4*4,-1)
-
 end
 
 
@@ -483,7 +491,10 @@ regulus_story.show_credits=function(player,total_seconds)
         --[1+32]=function()regulus_gui.show_credit(player,"archfan",{x=0.5,y=0.7},{x=1},beat*4)end,
         --[1+34]=function()regulus_gui.show_credit(player,"Maple8",{x=0.5,y=0.8},{x=1},beat*2)end,
         --[1+38]=function()player:hud_remove(id)end,
-        [1+28]=function()regulus_gui.show_credit(player,"Thank you for playing",{x=0.5,y=0.5},nil,beat*4)end,
+        [1+28]=function()regulus_gui.show_credit(player,"Thank",{x=0.5,y=0.5},nil,beat)end,
+        [1+29]=function()regulus_gui.show_credit(player,"Thank you",{x=0.5,y=0.5},nil,beat)end,
+        [1+30]=function()regulus_gui.show_credit(player,"Thank you for",{x=0.5,y=0.5},nil,beat)end,
+        [1+31]=function()regulus_gui.show_credit(player,"Thank you for playing!",{x=0.5,y=0.5},nil,beat)end,
         [1+32]=function()minetest.sound_fade(regulus_story.current_music,1,0)end,
         [1+34]=function()minetest.disconnect_player(player:get_player_name(),"You finished the game in "..minutes.." minutes, "..seconds.." seconds")end,
     },1,(12*4-1-4) + (4-1)*0)

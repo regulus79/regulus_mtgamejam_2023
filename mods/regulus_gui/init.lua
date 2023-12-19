@@ -151,6 +151,10 @@ minetest.register_globalstep(function()
         local info=regulus_gui.cinematic_bar_animation
         local time=minetest.get_us_time()
         local player=minetest.get_player_by_name(info.playername)
+        local window_info=minetest.get_player_window_information(player:get_player_name()) or {
+            size={x=1920,y=1080},
+            real_hud_scaling=1
+        }
         if time>info.starttime and time<info.endtime then
             local ratio=(time-info.starttime)/(info.endtime-info.starttime)
             if info.type=="in" then
@@ -158,8 +162,8 @@ minetest.register_globalstep(function()
             elseif info.type=="out" then
                 ratio=1-ratio
             end
-            player:hud_change(regulus_gui.cinematic_bar_id1, "position",{x=0.5,y=-0.6+ratio*0.2})
-            player:hud_change(regulus_gui.cinematic_bar_id2, "position",{x=0.5,y=1.6-ratio*0.2})
+            player:hud_change(regulus_gui.cinematic_bar_id1, "position",{x=0.5,y=-0.5-(0.1-ratio*0.2)*window_info.size.x/1920/window_info.real_hud_scaling})
+            player:hud_change(regulus_gui.cinematic_bar_id2, "position",{x=0.5,y=1.5+(0.1-ratio*0.2)*window_info.size.y/1080/window_info.real_hud_scaling})
         else
             if info.type~="in" then
                 player:hud_remove(regulus_gui.cinematic_bar_id1)
@@ -172,11 +176,15 @@ end)
 
 regulus_gui.vignette_id=nil
 regulus_gui.add_vignette=function(player)
+    local window_info=minetest.get_player_window_information(player:get_player_name()) or {
+        size={x=1920,y=1080},
+        real_hud_scaling=1
+    }
     regulus_gui.vignette_id=player:hud_add({
         hud_elem_type="image",
         text="regulus_vignette2.png^[opacity:0",
         position={x=0.5,y=0.5},
-        scale={x=1,y=1},
+        scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
     })
     local current_time=minetest.get_us_time()
@@ -209,18 +217,22 @@ regulus_gui.cinematic_bar_id1=nil
 regulus_gui.cinematic_bar_id2=nil
 regulus_gui.cinematic_bar_animation=nil
 regulus_gui.add_cinematic_bars=function(player)
+    local window_info=minetest.get_player_window_information(player:get_player_name()) or {
+        size={x=1920,y=1080},
+        real_hud_scaling=1
+    }
     regulus_gui.cinematic_bar_id1=player:hud_add({
         hud_elem_type="image",
         text="regulus_blackscreen.png",
         position={x=0.5,y=-0.6},
-        scale={x=1,y=1},
+        scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
     })
     regulus_gui.cinematic_bar_id2=player:hud_add({
         hud_elem_type="image",
         text="regulus_blackscreen.png",
         position={x=0.5,y=1.6},
-        scale={x=1,y=1},
+        scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
     })
     local current_time=minetest.get_us_time()

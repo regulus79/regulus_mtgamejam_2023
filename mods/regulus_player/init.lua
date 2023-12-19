@@ -5,6 +5,17 @@ regulus_player.default_player_size=vector.new(1,1,1)
 local mod_storage=minetest.get_mod_storage()
 
 
+minetest.hud_replace_builtin("health",{
+    hud_elem_type="statbar",
+    text="regulus_heart.png",
+    text2="regulus_heart_bg.png",
+    number=20,
+    direction=0,
+    position={x=0.5,y=1},
+    offset={x=-24*5,y=-86},
+    size={x=24,y=24}
+})
+
 minetest.register_on_joinplayer(function(player,last_login)
     local props=player:get_properties()
     props.visual_size=vector.new(1,1,1)
@@ -41,8 +52,20 @@ minetest.register_on_joinplayer(function(player,last_login)
             sunrise_visible=false,
         })
         player:override_day_night_ratio(0.0)
+        player:hud_set_hotbar_itemcount(0)
+    end
+    if player:get_meta():get_int("has_wand")~=1 then
+        player:hud_set_flags({
+            hotbar=false,
+        })
+    else
+        player:hud_set_flags({
+            hotbar=true,
+        })
     end
     regulus_gui.add_vignette(player)
+    player:set_inventory_formspec("")
+    player:hud_set_hotbar_itemcount(1)
 end)
 
 minetest.register_on_newplayer(function(player)
