@@ -54,18 +54,20 @@ minetest.register_on_joinplayer(function(player,last_login)
         player:override_day_night_ratio(0.0)
         player:hud_set_hotbar_itemcount(0)
     end
-    if player:get_meta():get_int("has_wand")~=1 then
-        player:hud_set_flags({
-            hotbar=false,
-        })
-    else
-        player:hud_set_flags({
-            hotbar=true,
-        })
+    if not minetest.is_creative_enabled() then
+        if player:get_meta():get_int("has_wand")~=1 then
+            player:hud_set_flags({
+                hotbar=false,
+            })
+        else
+            player:hud_set_flags({
+                hotbar=true,
+            })
+        end
+        regulus_gui.add_vignette(player)
+        player:set_inventory_formspec("")
+        --player:hud_set_hotbar_itemcount(1)
     end
-    regulus_gui.add_vignette(player)
-    player:set_inventory_formspec("")
-    player:hud_set_hotbar_itemcount(1)
 end)
 
 minetest.register_on_newplayer(function(player)
