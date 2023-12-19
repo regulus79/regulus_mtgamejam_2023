@@ -13,7 +13,8 @@ minetest.hud_replace_builtin("health",{
     direction=0,
     position={x=0.5,y=1},
     offset={x=-24*5,y=-86},
-    size={x=24,y=24}
+    size={x=24,y=24},
+    z_index=1,
 })
 
 minetest.register_on_joinplayer(function(player,last_login)
@@ -27,8 +28,9 @@ minetest.register_on_joinplayer(function(player,last_login)
     props.textures={"regulus_character_new4.png"},
     minetest.after(0.5,function()
         player:set_properties(props)
-        if mod_storage:get_int("bossfight_in_progress")==1 then
+        if mod_storage:get_int("bossfight_in_progress")==1 or player:get_meta():get_int("bossfight_in_progress")==1 then
             regulus_story.play_music("mtgj_boss3")
+            regulus_gui.add_cinematic_bars(player)
         else
             regulus_story.play_music("mtgj_song2")
         end

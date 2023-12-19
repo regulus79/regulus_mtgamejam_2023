@@ -186,6 +186,7 @@ regulus_gui.add_vignette=function(player)
         position={x=0.5,y=0.5},
         scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
+        z_index=-400,
     })
     local current_time=minetest.get_us_time()
     regulus_gui.fading_images[regulus_gui.vignette_id]={
@@ -227,6 +228,7 @@ regulus_gui.add_cinematic_bars=function(player)
         position={x=0.5,y=-0.6},
         scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
+        z_index=-100,
     })
     regulus_gui.cinematic_bar_id2=player:hud_add({
         hud_elem_type="image",
@@ -234,6 +236,7 @@ regulus_gui.add_cinematic_bars=function(player)
         position={x=0.5,y=1.6},
         scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
+        z_index=-100,
     })
     local current_time=minetest.get_us_time()
     regulus_gui.cinematic_bar_animation={

@@ -283,7 +283,7 @@ minetest.register_chatcommand("load_level",{
 
 
 regulus_mapgen.exit_level=function(player,oldlevel)
-    if mod_storage:get_int("bossfight_in_progress")==1 then
+    if mod_storage:get_int("bossfight_in_progress")==1 or player:get_meta():get_int("bossfight_in_progress")==1 then
         return
     end
     local exit_level_name=player:get_meta():get_string("exit")

@@ -24,13 +24,19 @@ minetest.register_entity("regulus_mobs:boss",{
     _crystal_pos=nil,
     _shoot_interval=1.5,
     _projectile_speed=5,
-    on_activate=function(self)
+    on_activate=function(self,staticdata)
+        if staticdata=="primary" or staticdata=="secondary" or staticdata=="final" then
+            self._state=staticdata
+        else
+            self._state="primary"
+        end
         regulus_story.play_music("mtgj_boss3")
         mod_storage:set_int("bossfight_in_progress",1)
         self._crystal_pos=minetest.find_node_near(self.object:get_pos(),30,"group:crystal") or self.object:get_pos()
         --minetest.chat_send_all(dump(minetest.find_node_near(self.object:get_pos(),30,"group:crystal")))
         for _,player in pairs(minetest.get_connected_players()) do
             regulus_story.trigger_dialogue(player, "bossfight2")
+            player:get_meta():set_int("bossfight_in_progress",1)
         end
         minetest.add_particlespawner({
             amount=20,
@@ -127,13 +133,15 @@ minetest.register_entity("regulus_mobs:boss",{
         for _, player in pairs(minetest.get_connected_players()) do
             local meta=player:get_meta()
             meta:set_string("exit","room1")
+            meta:set_int("bossfight_in_progress",0)
             meta:set_int("exit_spawnpoint_num",3)
+            regulus_gui.remove_cinematic_bars(player)
         end
         minetest.sound_play("regulus_boss_die",{gain=1.0})
         regulus_story.play_music("mtgj_song2")
-        for _, player in pairs(minetest.get_connected_players()) do
-            regulus_gui.remove_cinematic_bars(player)
-        end
+    end,
+    get_staticdata=function(self)
+        return self._state
     end,
 
 

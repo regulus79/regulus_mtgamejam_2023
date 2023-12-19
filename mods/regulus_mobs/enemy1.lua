@@ -40,6 +40,9 @@ minetest.register_entity("regulus_mobs:enemy1",{
             end
         end
     end,
+    on_death=function(self,killer)
+        minetest.item_drop(ItemStack("regulus_mobs:health_powder"),self.object,self.object:get_pos())
+    end
 })
 
 minetest.register_node("regulus_mobs:spawn_enemy1",{
@@ -67,3 +70,9 @@ if not minetest.is_creative_enabled() then
         end
     })
 end
+
+minetest.register_craftitem("regulus_mobs:health_powder",{
+    description="Health Powder",
+    inventory_image="regulus_health_powder.png",
+    on_use=minetest.item_eat(5),
+})
