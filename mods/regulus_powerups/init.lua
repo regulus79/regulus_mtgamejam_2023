@@ -35,16 +35,18 @@ local default_physics_override={
     sneak_glitch=false,
     new_move=true,
 }
-
 regulus_powerups.fly=function(player)
     --achievement triggering
     regulus_achievements.trigger_achieve(player,"achievements_fly")
     --
     local physics=player:get_physics_override()
+    local is_already_flying=physics.gravity==0
     physics.speed=0
     physics.gravity=0
     player:set_physics_override(physics)
-    player:add_velocity(vector.new(0,1.5,0))
+    if not is_already_flying then
+        player:add_velocity(vector.new(0,1.5,0))
+    end
     minetest.after(1.5,function()
         player:set_physics_override(default_physics_override)
     end)
