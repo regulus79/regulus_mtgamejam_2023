@@ -14,7 +14,6 @@ minetest.hud_replace_builtin("health",{
     position={x=0.5,y=1},
     offset={x=-24*5,y=-86},
     size={x=24,y=24},
-    z_index=1,
 })
 
 minetest.register_on_joinplayer(function(player,last_login)
