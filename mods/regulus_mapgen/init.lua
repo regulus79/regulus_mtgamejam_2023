@@ -299,7 +299,7 @@ regulus_mapgen.exit_level=function(player,oldlevel)
             minetest.chat_send_all("ERROR, exit level not set")
         end
     end
-    if exit_level_name=="room6" then
+    if exit_level_name=="room6" and regulus_story.current_music_name~="mtgj_song2" then
         regulus_story.play_music("mtgj_song2")
     end
 end
@@ -311,6 +311,11 @@ regulus_mapgen.next_level=function(player,number)
         regulus_mapgen.load_level(player,next_level_name,1)--spawnpoint 1 for right next to exit
     else
         minetest.chat_send_all("ERROR, next"..tostring(number).." level not set")
+    end
+    if next_level_name=="bossfight" then
+        if regulus_story.current_music then
+            minetest.sound_fade(regulus_story.current_music,0.25,0)
+        end
     end
 end
 
