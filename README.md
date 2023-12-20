@@ -17,4 +17,4 @@ All of the code, textures, and sounds are authored by me.
 
 This game code is licensed under the MIT license, a copy of which is contained in the file named LICENSE.
 
-The textures, sounds, and any other media other than the code are licensed under the CC0 license.
+The textures, sounds, and any other media other than the code are licensed under the CC0 license, a copy of which is contained in the file named CC0.
