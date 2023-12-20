@@ -108,7 +108,7 @@ minetest.register_entity("regulus_powerups:player_projectile",{
         end
         if moveresult.collides then
             for _,collision in pairs(moveresult.collisions) do
-                if collision.type=="object" and collision.object and (collision.object:get_luaentity().name=="regulus_mobs:boss" or collision.object:get_luaentity().name=="regulus_mobs:enemy1") and self.object and self.object:get_velocity() then
+                if collision.type=="object" and collision.object and collision.object:get_luaentity() and (collision.object:get_luaentity().name=="regulus_mobs:boss" or collision.object:get_luaentity().name=="regulus_mobs:enemy1") and self.object and self.object:get_velocity() then
                     collision.object:punch(
                         self.object,
                         nil,
