@@ -37,10 +37,10 @@ minetest.register_on_joinplayer(function(player,last_login)
         --show the intro if they are a newplayer
         if not last_login and not minetest.is_creative_enabled()then
             regulus_story.show_intro(player)
+            player:get_meta():set_string("powerup","fly")
         end
     end)
 
-    player:get_meta():set_string("powerup","fly")
 
     if player:get_meta():get_int("finished")~=1 and not minetest.is_creative_enabled() then
         player:set_sky({
