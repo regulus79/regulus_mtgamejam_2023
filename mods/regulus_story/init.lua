@@ -208,7 +208,7 @@ minetest.register_node("regulus_story:unbreakable_crystal",{
         },
     },
     on_punch=function(pos,node,puncher)
-        if puncher:get_meta():get_int("dialogue_bossfight_try_dig_crystal")~=1 then
+        if puncher:get_meta():get_int("dialogue_bossfight_try_dig_crystal")~=1 and puncher:get_meta():get_int("bossfight_in_progress")==1 then
             regulus_story.trigger_dialogue(puncher,"bossfight_try_dig_crystal")
         end
     end,
