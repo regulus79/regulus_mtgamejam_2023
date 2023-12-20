@@ -39,7 +39,7 @@ regulus_story.dialogues={
     second_meeting1={
         {file="todo",text="Why, long time no see!",length=4},
         {file="todo",text="I'm still very busy, so I can't talk much right now.",length=3},
-        {file="todo",text="I am doing...various important things...around the place",length=3},
+        {file="todo",text="I've been making preparations around the base to help you rescue the crystal",length=4},
         {file="todo",text="",length=1},--pause
         {file="todo",text="Is your new wand working okay?",length=3},
     },
