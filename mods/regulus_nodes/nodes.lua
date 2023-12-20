@@ -154,6 +154,16 @@ for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
         walkable=false,
     })
 end
+
+minetest.register_node("regulus_nodes:trigger_song1",{
+    description="Trigger song1",
+    drawtype="airlike",
+    paramtype="light",
+    walkable=false,
+    pointable=minetest.is_creative_enabled(),
+    groups={undiggable=1},
+})
+
 --[[
 minetest.register_node("regulus_nodes:tiny_powerup",{
     description="tiny powerup zone",
@@ -204,6 +214,10 @@ minetest.register_globalstep(function(dtime)
             regulus_mapgen.next_level(player,2)
         elseif nodename_slightly_above=="regulus_mapgen:next3" then
             regulus_mapgen.next_level(player,3)
+        elseif nodename_slightly_above=="regulus_nodes:trigger_song1" then
+            if not regulus_story.is_music_queued and regulus_story.current_music_name~="mtgj_song1" then
+                regulus_story.play_music("mtgj_song1")
+            end
         end
     end
 end)

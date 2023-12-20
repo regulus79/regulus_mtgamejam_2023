@@ -31,7 +31,12 @@ minetest.register_on_joinplayer(function(player,last_login)
             regulus_story.play_music("mtgj_boss3")
             regulus_gui.add_cinematic_bars(player)
         else
-            regulus_story.play_music("mtgj_song2")
+            local level_name=player:get_meta():get_string("level_name")
+            if level_name=="room7" or level_name=="room8" then
+                regulus_story.play_music("mtgj_song1")
+            else
+                regulus_story.play_music("mtgj_song2")
+            end
         end
 
         --show the intro if they are a newplayer

@@ -299,6 +299,9 @@ regulus_mapgen.exit_level=function(player,oldlevel)
             minetest.chat_send_all("ERROR, exit level not set")
         end
     end
+    if exit_level_name=="room6" then
+        regulus_story.play_music("mtgj_song2")
+    end
 end
 
 --second param is whether you want to go to next1, next2, or next3

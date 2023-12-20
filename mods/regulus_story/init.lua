@@ -371,6 +371,8 @@ minetest.register_entity("regulus_story:crystal_laser_backward",{
 
 
 regulus_story.current_music=nil
+regulus_story.current_music_name=nil
+regulus_story.is_music_queued=nil
 regulus_story.current_music_beat_start=nil
 regulus_story.current_music_spb=60/140--seconds per beat (bpm of my music is 140)
 
@@ -385,9 +387,12 @@ regulus_story.play_music=function(music_name,loop,on_music_start)
         minetest.sound_fade(regulus_story.current_music,1,0)
         local delay_until_beat=regulus_story.current_music_spb*4-((minetest.get_us_time()-regulus_story.current_music_beat_start)/10^6 % (regulus_story.current_music_spb*4))
         --minetest.chat_send_all(dump(delay_until_beat))
+        regulus_story.is_music_queued=true
         minetest.after(delay_until_beat,function()
+            regulus_story.is_music_queued=false
             --minetest.sound_stop(regulus_story.current_music)
             regulus_story.current_music=minetest.sound_play(music_name,{loop=loop})
+            regulus_story.current_music_name=music_name
             regulus_story.current_music_beat_start=minetest.get_us_time()
             if on_music_start then
                 on_music_start()
