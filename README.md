@@ -22,7 +22,11 @@ The textures, sounds, and any other media other than the code are licensed under
 ## Credits
 
 ### Beta-testers:
+
 Dalgamer
+
 Josiah VanderZee
+
 Archfan
+
 Maple8
