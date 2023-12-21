@@ -1,0 +1,1 @@
+return {spawnpoint1={x=5,y=4,z=5},spawnpoint2={x=32,y=4,z=6},spawnpoint3={x=-31,y=8,z=16},spawnpoint4={x=-31,y=8,z=16},next1="room7",next2="",next3="",exit_spawnpoint_num=2,exit="room6",level_name="room6_2",extent={x=35,y=9,z=22}}
