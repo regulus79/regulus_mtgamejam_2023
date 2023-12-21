@@ -49,7 +49,7 @@ if minetest.is_creative_enabled() then
                 diggable={maxlevel=1,times={0.5}}
             },
             damage_groups={
-                fleshy=5,
+                fleshy=1,
             }
         }
     })
@@ -62,7 +62,7 @@ else
                 diggable={maxlevel=1,times={0.5}}
             },
             damage_groups={
-                fleshy=5,
+                fleshy=1,
             }
         }
     })
