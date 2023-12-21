@@ -130,6 +130,10 @@ minetest.register_entity("regulus_mobs:boss",{
         mod_storage:set_int("bossfight_in_progress",0)
         minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
         minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball_backwards")
+        for i=1,5 do
+            local obj=minetest.add_entity(self.object:get_pos(),"regulus_mobs:enemy1")
+            obj:set_velocity(vector.new(math.random(-1,1),math.random(-1,1),math.random(-1,1)):normalize()*5)
+        end
         for _, player in pairs(minetest.get_connected_players()) do
             local meta=player:get_meta()
             meta:set_string("exit","room1")

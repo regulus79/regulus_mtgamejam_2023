@@ -23,6 +23,7 @@ minetest.register_entity("regulus_mobs:enemy1",{
             local dist=player:get_pos():distance(self.object:get_pos())
             if dist<self._notice_dist then
                 local vel=self.object:get_pos():direction(player:get_pos())+vector.new(math.random(-0.1,0.1),math.random(-0.1,0.1),math.random(-0.1,0.1)):normalize()*0.1
+                vel.y=self.object:get_velocity().y
                 self.object:set_velocity(vel)
             end
             if dist<self._attack_dist and self._timer>self._attack_interval then

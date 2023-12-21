@@ -134,6 +134,21 @@ register_npc(
 
 
 register_npc(
+    "guide_third_meeting",
+    {"regulus_character_new3.png"},
+    nil,
+    nil,
+    function(self,player)
+        local meta=player:get_meta()
+        if meta:get_int("dialogue_third_meeting")~=1 then
+            regulus_story.trigger_dialogue(player,"third_meeting")
+        end
+    end,
+    5
+)
+
+
+register_npc(
     "guide_bossfight",
     {"regulus_character_new3.png"},
     nil,
