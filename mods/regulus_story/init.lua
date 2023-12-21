@@ -54,6 +54,11 @@ regulus_story.dialogues={
         {file="todo",text="Go through the hole in the wall to get to the next room",length=3},
         {file="todo",text="Your wand is malfunctioning. That's is why you become tiny when you use it.",length=3},
     },
+    third_meeting={
+        {file="todo",text="Ah, you made it through!",length=2},
+        {file="todo",text="I'm glad you survived those ants!",length=3},
+        {file="todo",text="I was worried for a second that they killed you.",length=3},
+    },
     bossfight1={
         {file="todo",text="How did you get here so quickly? I wasn't finished--",length=3},
         {file="todo",text="No matter.",length=2},
