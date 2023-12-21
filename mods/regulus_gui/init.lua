@@ -224,19 +224,19 @@ regulus_gui.add_cinematic_bars=function(player)
     }
     regulus_gui.cinematic_bar_id1=player:hud_add({
         hud_elem_type="image",
-        text="regulus_blackscreen.png",
+        text="regulus_blackscreen_cutout.png",
         position={x=0.5,y=-0.6},
         scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
-        z_index=-100,
+        z_index=-1,
     })
     regulus_gui.cinematic_bar_id2=player:hud_add({
         hud_elem_type="image",
-        text="regulus_blackscreen.png",
+        text="regulus_blackscreen_cutout.png",
         position={x=0.5,y=1.6},
         scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
         alignment={x=0,y=0},
-        z_index=-100,
+        z_index=-1,
     })
     local current_time=minetest.get_us_time()
     regulus_gui.cinematic_bar_animation={
