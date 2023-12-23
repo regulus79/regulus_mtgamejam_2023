@@ -193,6 +193,7 @@ minetest.register_node("regulus_story:crystal",{
             }
         })
     end,
+    use_texture_alpha="blend",
     sounds={dig="default_dig_crystal"},
     groups={diggable=1,crystal=1},
 })
@@ -217,6 +218,7 @@ minetest.register_node("regulus_story:unbreakable_crystal",{
             regulus_story.trigger_dialogue(puncher,"bossfight_try_dig_crystal")
         end
     end,
+    use_texture_alpha="blend",
     groups={undiggable=1,crystal=1},
 })
 
@@ -231,7 +233,6 @@ minetest.register_node("regulus_story:crystal_pedistal_original",{
         minetest.set_node(pos+vector.new(0,1,0),{name="regulus_story:crystal"})
     end,
     groups={undiggable=1},
-    use_texture_alpha=true,
     paramtype="light",
     light_source=14,
 })
@@ -362,7 +363,7 @@ minetest.register_entity("regulus_story:crystal_laser_backward",{
     visual="mesh",
     mesh="crystal_laser.obj",
     textures={"regulus_crystal_laser.png"},
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     backface_culling=false,
     automatic_rotate=-1,
     shaded=false,

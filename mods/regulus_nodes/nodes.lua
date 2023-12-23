@@ -85,7 +85,7 @@ minetest.register_node("regulus_nodes:square_window",{
     drawtype="glasslike",
     paramtype="light",
     groups={undiggable=1},
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     sunlight_propagates=true,
 })
 
@@ -115,7 +115,7 @@ minetest.register_node("regulus_nodes:killzone",{
     tiles={"regulus_transparent_white.png^[multiply:#007700"},
     drawtype="glasslike",
     paramtype="light",
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     pointable=minetest.is_creative_enabled(),
     groups={undiggable=1},
     walkable=false,
@@ -127,7 +127,7 @@ minetest.register_node("regulus_nodes:winzone",{
     paramtype="light",
     drawtype="glasslike",
     paramtype="light",
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     groups={undiggable=1},
     walkable=false,
 })
@@ -138,7 +138,7 @@ for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
         tiles={"regulus_transparent_white.png^[multiply:"..settings.color.."^[opacity:200"},
         drawtype="glasslike",
         paramtype="light",
-        use_texture_alpha=true,
+        use_texture_alpha="blend",
         pointable=minetest.is_creative_enabled(),
         groups={undiggable=1},
         walkable=false,
@@ -149,7 +149,7 @@ for powerupname,settings in pairs(regulus_powerups.list_of_powerups) do
         drawtype="glasslike",
         paramtype="light",
         pointable=minetest.is_creative_enabled(),
-        use_texture_alpha=true,
+        use_texture_alpha="blend",
         groups={undiggable=1},
         walkable=false,
     })

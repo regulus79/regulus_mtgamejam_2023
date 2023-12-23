@@ -12,7 +12,7 @@ for i=1,4 do
             fixed={-0.5,-0.5,-0.5,0.5,-0.4,0.5},
         },
         paramtype="light",
-        use_texture_alpha=true,
+        use_texture_alpha="blend",
         after_place_node=function(pos,placer,itemstack,pointed_thing)
             if minetest.is_creative_enabled() then
                 placer:get_meta():set_string("spawnpoint"..tostring(i),minetest.serialize(pos))
@@ -38,7 +38,7 @@ end
 minetest.register_node("regulus_mapgen:pos1",{
     description="node for setting the pos1 for a map schematic",
     tiles={"regulus_transparent_white.png^[multiply:#10ffff"},
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     after_place_node=function(pos,placer,itemstack,pointed_thing)
         placer:get_meta():set_string("pos1",minetest.serialize(pos))
         minetest.chat_send_all("pos1 set to "..dump(pos))
@@ -55,7 +55,7 @@ minetest.register_node("regulus_mapgen:pos1",{
 minetest.register_node("regulus_mapgen:pos2",{
     description="node for setting the pos2 for a map schematic",
     tiles={"regulus_transparent_white.png^[multiply:#ffff10"},
-    use_texture_alpha=true,
+    use_texture_alpha="blend",
     after_place_node=function(pos,placer,itemstack,pointed_thing)
         placer:get_meta():set_string("pos2",minetest.serialize(pos))
         minetest.chat_send_all("pos2 set to "..dump(pos))
@@ -88,7 +88,7 @@ for i,name in pairs({"exit","next1","next2","next3"}) do
         groups={undiggable=1},
         walkable=false,
         drawtype="glasslike",
-        use_texture_alpha=true,
+        use_texture_alpha="blend",
         after_place_node=function(pos,placer,itemstack,pointed_thing)
             --placer:get_meta():set_string(name,minetest.serialize(pos))
             --minetest.chat_send_all(name.." set to "..dump(pos))
