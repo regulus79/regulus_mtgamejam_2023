@@ -176,8 +176,9 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
         self._timer=self._timer+dtime
         if self._timer>self._lifetime then
             self.object:remove()
+            return
         end
-        if moveresult.collides and self and self.object and self.object:get_velocity() then
+        if moveresult.collides then
             for _,collision in pairs(moveresult.collisions) do
                 if collision.type=="object" and collision.object:is_player() then
                     collision.object:punch(
@@ -191,8 +192,11 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
                         self.object:get_velocity():normalize()
                     )
                     self.object:remove()
-                elseif collision.type=="node" then
+                    return
+                end
+                if collision.type=="node" then
                     self.object:remove()
+                    return
                 end
             end
         end
@@ -225,8 +229,9 @@ minetest.register_entity("regulus_mobs:boss_projectile2",{
         self._timer=self._timer+dtime
         if self._timer>self._lifetime then
             self.object:remove()
+            return
         end
-        if moveresult.collides and self and self.object and self.object:get_velocity() then
+        if moveresult.collides then
             for _,collision in pairs(moveresult.collisions) do
                 if collision.type=="object" and collision.object:is_player() then
                     collision.object:punch(
@@ -240,8 +245,11 @@ minetest.register_entity("regulus_mobs:boss_projectile2",{
                         self.object:get_velocity():normalize()
                     )
                     self.object:remove()
-                elseif collision.type=="node" then
+                    return
+                end
+                if collision.type=="node" then
                     self.object:remove()
+                    return
                 end
             end
         end
