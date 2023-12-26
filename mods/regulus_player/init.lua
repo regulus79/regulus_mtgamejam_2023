@@ -70,7 +70,7 @@ minetest.register_on_joinplayer(function(player,last_login)
                 hotbar=true,
             })
         end
-        regulus_gui.add_vignette(player)
+        --regulus_gui.add_vignette(player) --despite attempiting to utilize the window parameters to scale the vignette depnding on screen size, this appearantlye does not work (as shown in Nathan.S's review video)
         player:set_inventory_formspec("")
         --player:hud_set_hotbar_itemcount(1)
     end
