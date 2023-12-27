@@ -184,7 +184,7 @@ regulus_gui.add_vignette=function(player)
         hud_elem_type="image",
         text="regulus_vignette2.png^[opacity:0",
         position={x=0.5,y=0.5},
-        scale={x=1*window_info.size.x/1920/window_info.real_hud_scaling,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
+        scale={x=-100,y=-100},
         alignment={x=0,y=0},
         z_index=-400,
     })
@@ -226,7 +226,7 @@ regulus_gui.add_cinematic_bars=function(player)
         hud_elem_type="image",
         text="regulus_blackscreen_cutout.png",
         position={x=0.5,y=-0.6},
-        scale={x=1*window_info.size.x/1920,y=1*window_info.size.y/1080/window_info.real_hud_scaling},--Do not divide by the real_hud_scaling, since the hotbar will also scale by it, and the cutout must follow the size of the hotbar
+        scale={x=1*window_info.size.x/1920,y=-100},--Do not divide by the real_hud_scaling, since the hotbar will also scale by it, and the cutout must follow the size of the hotbar
         alignment={x=0,y=0},
         z_index=-1,
     })
@@ -234,7 +234,7 @@ regulus_gui.add_cinematic_bars=function(player)
         hud_elem_type="image",
         text="regulus_blackscreen_cutout.png",
         position={x=0.5,y=1.6},
-        scale={x=1*window_info.size.x/1920,y=1*window_info.size.y/1080/window_info.real_hud_scaling},
+        scale={x=1*window_info.size.x/1920,y=-100},
         alignment={x=0,y=0},
         z_index=-1,
     })
