@@ -6,85 +6,143 @@ regulus_story={}
 
 regulus_story.dialogues={
     intro={
-        {file="todo",text="Greetings, young one!",length=2},
-        {file="todo",text="Thank you for coming when we called",length=3},
-        {file="todo",text="You are the strongest wizard of the guild",length=3},
-        {file="todo",text="But alas, now that the crystal is gone, this guild may not remain for long.",length=5},
-        {file="todo",text="The darkness will soon swallow our world unless we get it back.",length=5},
-        {file="todo",text="You are our only hope of recovering the crystal",length=5},
-        {file="todo",text="Along your way, make sure to pick up your new wand at the library.",length=5},
-        {file="todo",text="Good luck",length=1},
+        {file="guardian0101",text="Greetings, young one!"},
+        {file="guardian0102",text="Thank you for coming when we called."},
+        {file="guardian0103",text="You are the strongest wizard of the guild."},
+        {file="guardian0104",text="But alas, now that the crystal is gone, this guild may not remain for long."},
+        {file="guardian0105",text="The darkness will soon swallow our world unless we get it back."},
+        {file="guardian0106",text="You are our only hope of recovering the crystal."},
+        {file="guardian0107",text="Along your way, make sure to pick up your new wand at the library."},
+        {file="guardian0108",text="Good luck."},
     },
     intro_idle={
-        {file="todo",text="Go to the library to pick up your wand",length=4},
+        {file="guardiani101",text="Please, continue to the library to receive your wand."},
     },
     library1={
-        {file="todo",text="Ah, hello there!",length=2},
-        {file="todo",text="I apologize for not noticing you when you came in. ",length=4},
-        {file="todo",text="I was very busy thinking over our strategies to retrieve the crystal.",length=6},
-        {file="todo",text="I believe you were sent to pick up your new wand, yes? ",length=4},
-        {file="todo",text="I left it somewhere in this library, I believe",length=3},
-        {file="todo",text="But I am very busy at the moment,",length=1.5},
-        {file="todo",text="perhaps you could go find it for me?",length=2},
+	{file="librarian0101",text="Ah, hello there!"},
+	{file="librarian0102",text="Sorry I didn't notice when you came in."},
+	{file="librarian0103",text="I've been busy thinking of strategies to recover our lost crystal."},
+	{file="librarian0104",text="Oh, you were sent to pick up your new wand, right? "},
+	{file="librarian0105",text="Hmm, I think left it somewhere in this library..."},
+	{file="librarian0106",text="I'm awfully busy, though; maybe you could find it for me?"},
+    },
+    library_nowand={
+        {file="librariani001",text="I'm sure that your wand is somewhere in this library."},
     },
     library2={
-        {file="todo",text="You found it? Oh, excellent.",length=3},
-        {file="todo",text="The defense obstacles in the base have been active ever since the crystal was stolen",length=6},
-        {file="todo",text="You will need your wand to get past them to where the crystal was hidden",length=4},
-        {file="todo",text="Good luck on your mission!",length=3},
+	{file="librarian0201",text="You found it?  Ah, excellent."},
+	{file="librarian0202",text="The defensive obstacles in the base have been active ever since the crystal was stolen."},
+	{file="librarian0203",text="You'll need your wand to get past them, and reach where the crystal was hidden."},
+	{file="librarian0204",text="It probably won't be easy.  I wish you luck."},
     },
     library_idle={
-        {file="todo",text="Use your wand to fly out of the library",length=4},
+        {file="librariani101",text="You can use your wand to fly out from the library."},
     },
     second_meeting1={
-        {file="todo",text="Why, long time no see!",length=4},
-        {file="todo",text="I'm still very busy, so I can't talk much right now.",length=3},
-        {file="todo",text="I've been making preparations around the base to help you rescue the crystal",length=4},
+        {file="librarian0301",text="Why hello, long time no see!"},
+        {file="librarian0302",text="I'm still quite busy, so I can't talk much right now."},
+        {file="librarian0303",text="I've been making preparations all around the base for the rescue of our crystal."},
         {file="todo",text="",length=1},--pause
-        {file="todo",text="Is your new wand working okay?",length=3},
+        {file="librarian0304",text="Is your new wand treating you well?"},
     },
     second_meeting2={
         {file="todo",text="",length=1},--pause
-        {file="todo",text="Oh, dear, that is not right. You are so tiny!",length=3},
-        {file="todo",text="You wand appears to be malfunctioning",length=3},
-        {file="todo",text="I suppose you will have to take a detour through that small hole in the wall behind me.",length=5},
-        {file="todo",text="You'll still make it to the crystal, but it will take a bit longer.",length=3},
+        {file="librarian0401",text="Oh, dear, that's not right. You're so tiny!"},
+        {file="librarian0402",text="Your wand appears to be malfunctioning."},
+        {file="librarian0403",text="I suppose you will have to take a detour through that little hole in the wall behind me."},
+        {file="librarian0404",text="You'll still make it to the crystal, but it'll take a little longer."},
     },
     second_meeting_idle={
-        {file="todo",text="Go through the hole in the wall to get to the next room",length=3},
-        {file="todo",text="Your wand is malfunctioning. That's is why you become tiny when you use it.",length=3},
+        {file="librariani201",text="Go through the hole in the wall to get to the next room"},
+        {file="librariani202",text="Your wand is making you tiny because it's malfunctioning."},
     },
     third_meeting={
-        {file="todo",text="Ah, you made it through!",length=2},
-        {file="todo",text="I'm glad you survived those ants!",length=3},
-        {file="todo",text="I was worried for a second that they killed you.",length=3},
+        {file="librarian0501",text="Ah, you made it through!"},
+        {file="librarian0502",text="I'm glad you survived those ants!"},
+        {file="librarian0503",text="I was worried for a second that they'd killed you."},
     },
     bossfight1={
-        {file="todo",text="How did you get here so quickly? I wasn't finished--",length=3},
-        {file="todo",text="No matter.",length=2},
-        {file="todo",text="I think it is time that I tell you the truth",length=3},
-        {file="todo",text="I am not on your side",length=3},
-        {file="todo",text="You see that crystal behind me? I am the one who stole it.",length=4},
+        {file="boss0101",text="How'd you get here so quickly? I didn't even have a chance to--"},
+        {file="boss0102",text="Eh, I guess it doesn't matter."},
+        {file="boss0103",text="Maybe it's time that I tell you the truth..."},
+        {file="boss0104",text="You probably should have figured it out sooner."},
+        {file="boss0105",text="You see the crystal behind me?  I'm the one who stole it."},
     },
     bossfight2={
-        {file="todo",text="For I am a master wizard",length=3},
-        {file="todo",text="None can compare to me",length=3},
-        {file="todo",text="You shall die, but I will live forever with the energy of this crystal.",length=4},
+        {chorus=true,file="boss0201",text="For I am a master wizard"},
+        {chorus=true,file="boss0202",text="None can compare to me"},
+        {chorus=true,file="boss0203",text="You shall die, but I will live forever with the energy of this crystal."},
     },
     bossfight_try_dig_crystal={
-        {file="todo",text="",length=2},
-        {file="todo",text="I have set a spell over the crystal",length=3},
-        {file="todo",text="It cannot be removed until I am dead",length=3},
+        {text="",length=2},
+        {chorus=true,file="boss0301",text="I have set a spell over the crystal."},
+        {chorus=true,file="boss0302",text="It cannot be removed while I yet live."},
     },
     you_won={
-        {file="todo",text="",length=2},
-        {file="todo",text="At last!",length=3},
-        {file="todo",text="The crystal has been returned safely!",length=2},
-        {file="todo",text="Thank you, young wizard, for your excellent service.",length=2.5},
-        {file="todo",text="The sun shall never again be blotted out by the darkness",length=3},
+        {text="",length=2},
+        {file="guardian0201",text="At last!"},
+        {file="guardian0202",text="The crystal has been returned safely!"},
+        {file="guardian0203",text="Thank you, young wizard, for your excellent service."},
+        {file="guardian0204",text="The sun shall never again be blotted out by the darkness."},
     }
 }
 
+local ogglengths={
+	mtgj_story_boss0101 = 3.231,
+	mtgj_story_boss0102 = 1.943,
+	mtgj_story_boss0103 = 2.017,
+	mtgj_story_boss0104 = 2.152,
+	mtgj_story_boss0105 = 4.104,
+	mtgj_story_boss0201 = 2.249,
+	mtgj_story_boss0202 = 1.96,
+	mtgj_story_boss0203 = 4.92,
+	mtgj_story_boss0301 = 2.265,
+	mtgj_story_boss0302 = 2.986,
+	mtgj_story_guardian0101 = 1.53,
+	mtgj_story_guardian0102 = 2.266,
+	mtgj_story_guardian0103 = 2.296,
+	mtgj_story_guardian0104 = 4.991,
+	mtgj_story_guardian0105 = 3.94,
+	mtgj_story_guardian0106 = 2.631,
+	mtgj_story_guardian0107 = 3.788,
+	mtgj_story_guardian0108 = 0.833,
+	mtgj_story_guardian0201 = 1.093,
+	mtgj_story_guardian0202 = 2.319,
+	mtgj_story_guardian0203 = 3.845,
+	mtgj_story_guardian0204 = 4.181,
+	mtgj_story_guardiani101 = 3.424,
+	mtgj_story_librarian0101 = 1.134,
+	mtgj_story_librarian0102 = 2.018,
+	mtgj_story_librarian0103 = 3.491,
+	mtgj_story_librarian0104 = 2.22,
+	mtgj_story_librarian0105 = 2.888,
+	mtgj_story_librarian0106 = 2.98,
+	mtgj_story_librarian0201 = 2.321,
+	mtgj_story_librarian0202 = 4.229,
+	mtgj_story_librarian0203 = 3.372,
+	mtgj_story_librarian0204 = 3.196,
+	mtgj_story_librarian0301 = 2.607,
+	mtgj_story_librarian0302 = 3.025,
+	mtgj_story_librarian0303 = 4.038,
+	mtgj_story_librarian0304 = 1.655,
+	mtgj_story_librarian0401 = 3.439,
+	mtgj_story_librarian0402 = 1.977,
+	mtgj_story_librarian0403 = 3.966,
+	mtgj_story_librarian0404 = 3.173,
+	mtgj_story_librarian0501 = 1.47,
+	mtgj_story_librarian0502 = 1.848,
+	mtgj_story_librarian0503 = 2.395,
+	mtgj_story_librariani001 = 2.647,
+	mtgj_story_librariani101 = 2.622,
+	mtgj_story_librariani201 = 2.809,
+	mtgj_story_librariani202 = 2.937,
+}
+for _, seq in pairs(regulus_story.dialogues) do
+	for _, line in pairs(seq) do
+		local fl = line.file and ogglengths["mtgj_story_"..line.file]
+		line.length = line.length or fl and fl + 1
+	end
+end
 
 regulus_story.win=function(player)
     if player:get_meta():get_int("finished")==0 then
@@ -130,13 +188,47 @@ regulus_story.is_dialogue_playing=false
 regulus_story.voiceline_length_pause_inbetween=0.4
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
-    if predelay then
-        minetest.after(predelay,function()
-        --regulus_story.after_beat(predelay, function()
-            regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
-        end)
-    else
+    local function core()
+        if voiceline.file and voiceline.file ~= "todo" then
+            local params={to_player=player:get_player_name()}
+            local mindist
+	    local ppos=player:get_pos()
+	    for _, ent in pairs(minetest.luaentities) do
+		if ent._can_speak then
+		    local pos=ent.object:get_pos()
+		    local dist=pos and vector.distance(pos,ppos)
+		    if dist and ((not mindist) or (dist < mindist)) then
+			mindist = dist
+			params.pos = pos
+		    end
+		end
+	    end
+	    local play = minetest.sound_play
+	    if params.pos then
+		params.pos.y = params.pos.y + 1.5
+		if voiceline.chorus then
+		    local opos = params.pos
+		    play = function(spec, params, ...)
+			local qty = 5
+			local offs = math.random() * math.pi * 2
+			for i = 1, qty do
+			    params.pos = vector.offset(opos,
+				math.sin(i * 2 / qty * math.pi + offs) * 5, 0,
+				math.cos(i * 2 / qty * math.pi + offs) * 5)
+			    params.start_time = i / qty * 0.05
+			    minetest.sound_play(spec, params, ...)
+			end
+		    end
+		end
+	    end
+            play("mtgj_story_"..voiceline.file,params)
+        end
         regulus_gui.show_subtitles(player,voiceline.text,voiceline.length)
+    end
+    if predelay then
+        minetest.after(predelay,core)
+    else
+        core()
     end
 end
 
@@ -397,7 +489,7 @@ regulus_story.play_music=function(music_name,loop,on_music_start)
         minetest.after(delay_until_beat,function()
             regulus_story.is_music_queued=false
             --minetest.sound_stop(regulus_story.current_music)
-            regulus_story.current_music=minetest.sound_play(music_name,{loop=loop})
+            regulus_story.current_music=minetest.sound_play(music_name,{loop=loop,gain=0.25})
             regulus_story.current_music_name=music_name
             regulus_story.current_music_beat_start=minetest.get_us_time()
             if on_music_start then
@@ -406,7 +498,7 @@ regulus_story.play_music=function(music_name,loop,on_music_start)
         end)
         --minetest.chat_send_all(dump(delay_until_beat))
     else
-        regulus_story.current_music=minetest.sound_play(music_name,{loop=loop})
+        regulus_story.current_music=minetest.sound_play(music_name,{loop=loop,gain=0.25})
     end
 end
 
