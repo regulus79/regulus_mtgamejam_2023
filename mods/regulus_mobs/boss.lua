@@ -19,6 +19,7 @@ minetest.register_entity("regulus_mobs:boss",{
     collisionbox={-1,-1.5,-1,1,1.5,1},
     textures={"regulus_boss.png"},
     hp_max=100,
+    _can_speak=true,
     _state="primary",
     _timer=0,
     _crystal_pos=nil,

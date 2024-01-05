@@ -7,6 +7,7 @@ local register_npc=function(name,textures,on_rightclick,on_step,on_spot,_notice_
         physical=true,
         selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
         collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
+	_can_speak=true,
         _spotted=false,
 
         _notice_dist=_notice_dist or 2,
@@ -43,8 +44,10 @@ register_npc(
             regulus_story.trigger_dialogue(clicker,"library1")
         elseif meta:get_int("dialogue_library2")~=1 and meta:get_int("has_wand")==1 then
             regulus_story.trigger_dialogue(clicker,"library2")
-        else
+	elseif meta:get_int("has_wand")==1 then
             regulus_story.trigger_dialogue(clicker,"library_idle")
+	else
+            regulus_story.trigger_dialogue(clicker,"library_nowand")
         end
         self.object:set_yaw(self.object:get_pos():direction(clicker:get_pos()):dir_to_rotation().y)
     end,
