@@ -13,21 +13,26 @@ Using an older version may cause errors with particlespawners or schematic spawn
 
 ## Licensing
 
-All of the ~~code~~, textures, and sounds are authored by me.
-After the game jam, other people (luatic) contributed to the code, so the current version is no longer techincally solely developed by me.
-
 This game code is licensed under the MIT license, a copy of which is contained in the file named LICENSE.
 
 The textures, sounds, and any other media other than the code are licensed under the CC0 license, a copy of which is contained in the file named CC0.
 
 ## Credits
 
+### Contributers
+
+Regulus - Lead developer
+
+Warr1024 - Voice acting and minor code contributions
+
+luatic - Minor code contributions
+
 ### Beta-testers:
 
-Dalgamer
+Dalgamer - Lead Beta-tester
 
 Josiah VanderZee
 
-Archfan
+archfan
 
 Maple8
