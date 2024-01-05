@@ -13,7 +13,8 @@ Using an older version may cause errors with particlespawners or schematic spawn
 
 ## Licensing
 
-All of the code, textures, and sounds are authored by me.
+All of the ~~code~~, textures, and sounds are authored by me.
+After the game jam, other people (luatic) contributed to the code, so the current version is no longer techincally solely developed by me.
 
 This game code is licensed under the MIT license, a copy of which is contained in the file named LICENSE.
 
