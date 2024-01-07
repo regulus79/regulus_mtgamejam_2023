@@ -151,5 +151,7 @@ regulus_powerups.apply_current_powerup=function(player)
     local powerup=player:get_meta():get_string("powerup")
     if regulus_powerups[powerup] then
         regulus_powerups[powerup](player)
+    else
+        regulus_powerups["fly"](player) -- Default powerup, for edge cases where the meta is deleted or not defined
     end
 end
