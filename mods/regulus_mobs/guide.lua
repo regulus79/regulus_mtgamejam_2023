@@ -160,6 +160,7 @@ register_npc(
             if not self._spotted then
                 local meta=player:get_meta()
                 if meta:get_int("dialogue_bossfight1")~=1 then
+                    player:get_meta():set_int("bossfight_in_progress",1)
                     regulus_story.trigger_dialogue(player,"bossfight1",function()
                         --minetest.chat_send_all("Time to shapeshift!")
                         minetest.add_entity(self.object:get_pos()+vector.new(0,1,0),"regulus_mobs:light_ball")
