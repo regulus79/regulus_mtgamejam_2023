@@ -41,11 +41,13 @@ regulus_powerups.fly=function(player)
     --
     local physics=player:get_physics_override()
     local is_already_flying=physics.gravity==0
-    physics.speed=0
-    physics.gravity=0
-    player:set_physics_override(physics)
     if not is_already_flying then
         player:add_velocity(vector.new(0,1.5,0))
+        physics.speed=0
+        physics.gravity=0
+        player:set_physics_override(physics)
+    else
+        player:set_physics_override(default_physics_override)
     end
     minetest.after(1.5,function()
         player:set_physics_override(default_physics_override)
