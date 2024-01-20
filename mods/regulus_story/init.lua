@@ -185,7 +185,7 @@ end)
 
 regulus_story.is_dialogue_playing=false
 
-regulus_story.voiceline_length_pause_inbetween=0.4
+regulus_story.voiceline_length_pause_inbetween=0.1
 
 regulus_story.trigger_voiceline=function(player,voiceline,predelay)
     local function core()
@@ -455,7 +455,7 @@ minetest.register_entity("regulus_story:crystal_laser_backward",{
     visual="mesh",
     mesh="crystal_laser.obj",
     textures={"regulus_crystal_laser.png"},
-    use_texture_alpha="blend",
+    use_texture_alpha=true,
     backface_culling=false,
     automatic_rotate=-1,
     shaded=false,
