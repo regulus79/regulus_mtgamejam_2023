@@ -1,13 +1,15 @@
 
 local register_npc=function(name,textures,on_rightclick,on_step,on_spot,_notice_dist)
     minetest.register_entity("regulus_mobs:"..name,{
-        visual="mesh",
-        mesh="regulus_player_model2.obj",
-        textures=textures,
-        physical=true,
-        selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
-        collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
-	_can_speak=true,
+        initial_properties={
+            visual="mesh",
+            mesh="regulus_player_model2.obj",
+            textures=textures,
+            physical=true,
+            selectionbox={-0.3,0,-0.3,0.3,1.77,0.3},
+            collisionbox={-0.3,0,-0.3,0.3,1.77,0.3},
+        },
+	    _can_speak=true,
         _spotted=false,
 
         _notice_dist=_notice_dist or 2,

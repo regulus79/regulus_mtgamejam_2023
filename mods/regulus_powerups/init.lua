@@ -35,6 +35,7 @@ local default_physics_override={
     sneak_glitch=false,
     new_move=true,
 }
+local powerup_activation_id=nil
 regulus_powerups.fly=function(player)
     --achievement triggering
     regulus_achievements.trigger_achieve(player,"achievements_fly")
@@ -46,12 +47,15 @@ regulus_powerups.fly=function(player)
         physics.speed=0
         physics.gravity=0
         player:set_physics_override(physics)
+        powerup_activation_id=minetest.get_us_time()
     else
         player:set_physics_override(default_physics_override)
     end
-    minetest.after(1.5,function()
-        player:set_physics_override(default_physics_override)
-    end)
+    minetest.after(2,function(activation_id)
+        if activation_id==powerup_activation_id then
+            player:set_physics_override(default_physics_override)
+        end
+    end,powerup_activation_id)
 end
 
 local return_to_normal_size
@@ -83,12 +87,15 @@ regulus_powerups.tiny=function(player)
 end
 
 minetest.register_entity("regulus_powerups:player_projectile",{
-    visual="sprite",
-    textures={"regulus_player_projectile1.png"},
-    physical=true,
+    initial_properties={
+        visual="sprite",
+        textures={"regulus_player_projectile1.png"},
+        physical=true,
+        collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
+        visual_size=vector.new(0.5,0.5,0.5),
+    },
     _timer=0,
     _lifetime=5,
-    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
     on_activate=function(self)
         minetest.add_particlespawner({
             amount=10,
@@ -96,9 +103,9 @@ minetest.register_entity("regulus_powerups:player_projectile",{
             attached=self.object,
             texture={
                 name="regulus_player_projectile1.png",
-                scale=10,
+                scale=5,
                 scale_tween={
-                    10,0
+                    5,0
                 }
             },
         })

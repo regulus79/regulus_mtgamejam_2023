@@ -436,13 +436,15 @@ minetest.register_node("regulus_story:wand_stand_empty",{
 
 
 minetest.register_entity("regulus_story:crystal_laser",{
-    visual="mesh",
-    mesh="crystal_laser.obj",
-    textures={"regulus_crystal_laser.png"},
-    use_texture_alpha=true,
-    backface_culling=false,
-    automatic_rotate=1,
-    shaded=false,
+    initial_properties={
+        visual="mesh",
+        mesh="crystal_laser.obj",
+        textures={"regulus_crystal_laser.png"},
+        use_texture_alpha=true,
+        backface_culling=false,
+        automatic_rotate=1,
+        shaded=false,
+    },
     on_activate=function(self)
         --self.object:set_velocity(vector.new(0,-20,0))
         minetest.after(1.0,function()
@@ -452,13 +454,15 @@ minetest.register_entity("regulus_story:crystal_laser",{
 })
 
 minetest.register_entity("regulus_story:crystal_laser_backward",{
-    visual="mesh",
-    mesh="crystal_laser.obj",
-    textures={"regulus_crystal_laser.png"},
-    use_texture_alpha=true,
-    backface_culling=false,
-    automatic_rotate=-1,
-    shaded=false,
+    initial_properties={
+        visual="mesh",
+        mesh="crystal_laser.obj",
+        textures={"regulus_crystal_laser.png"},
+        use_texture_alpha=true,
+        backface_culling=false,
+        automatic_rotate=-1,
+        shaded=false,
+    },
     on_activate=function(self)
         --self.object:set_velocity(vector.new(0,-20,0))
         minetest.after(1.0,function()
@@ -587,14 +591,14 @@ regulus_story.show_credits=function(player,total_seconds)
         --[1+8]=function()regulus_gui.show_credit(player,"by Regulus",{x=0.5,y=0.6},nil,beat*4)end,
         [1+12]=function()regulus_gui.show_credit(player,"Code - ",{x=0.5,y=0.3},{x=1},beat*4)end,
         [1+16]=function()regulus_gui.show_credit(player,"Code - Regulus",{x=0.5,y=0.3},{x=1},beat*12)end,
-        [1+18]=function()regulus_gui.show_credit(player,"Post-jam:\n Warr1024\n appgurueu",{x=0.5,y=0.4},{x=1},beat*10)end,
+        [1+18]=function()regulus_gui.show_credit(player,"          + Warr1024, appgurueu (post-jam)",{x=0.5,y=0.4},{x=1},beat*10)end,
         [1+20]=function()regulus_gui.show_credit(player,"Textures - ",{x=0.5,y=0.5},{x=1},beat*4)end,
         [1+24]=function()regulus_gui.show_credit(player,"Textures - Regulus",{x=0.5,y=0.5},{x=1},beat*4)end,
         [1+28]=function()regulus_gui.show_credit(player,"Story - ",{x=0.2,y=0.2},{x=1},beat*4)end,
         [1+32]=function()regulus_gui.show_credit(player,"Story - Regulus",{x=0.2,y=0.2},{x=1},beat*12)end,
-        [1+34]=function()regulus_gui.show_credit(player,"Post-jam voice-acting and dialogue tweaks by Warr1024",{x=0.2,y=0.3},{x=1},beat*10)end,
         [1+36]=function()regulus_gui.show_credit(player,"Music - ",{x=0.7,y=0.7},{x=1},beat*4)end,
         [1+40]=function()regulus_gui.show_credit(player,"Music - Regulus",{x=0.7,y=0.7},{x=1},beat*4)end,
+        [1+42]=function()regulus_gui.show_credit(player,"Voice-acting and dialogue revisions by Warr1024 (post-jam)",{x=0.2,y=0.3},{x=1},beat*2)end,
         [1+44]=function()regulus_gui.show_credit(player,"Beta-testers",{x=0.5,y=0.2},nil,beat*20)end,
         [1+48]=function()regulus_gui.show_credit(player,"Dalgamer",{x=0.5,y=0.3},{x=1},beat*16)end,
         [1+52]=function()regulus_gui.show_credit(player,"Josiah VanderZee",{x=0.5,y=0.4},{x=1},beat*12)end,

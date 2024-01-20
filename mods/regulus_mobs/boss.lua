@@ -12,13 +12,15 @@ end
 
 
 minetest.register_entity("regulus_mobs:boss",{
-    visual="mesh",
-    mesh="regulus_boss.obj",
-    physical=true,
-    collide_with_objects=true,
-    collisionbox={-1,-1.5,-1,1,1.5,1},
-    textures={"regulus_boss.png"},
-    hp_max=100,
+    initial_properties={
+        visual="mesh",
+        mesh="regulus_boss.obj",
+        physical=true,
+        collide_with_objects=true,
+        collisionbox={-1,-1.5,-1,1,1.5,1},
+        textures={"regulus_boss.png"},
+        hp_max=100,
+    },
     _can_speak=true,
     _state="primary",
     _timer=0,
@@ -153,12 +155,14 @@ minetest.register_entity("regulus_mobs:boss",{
 })
 
 minetest.register_entity("regulus_mobs:boss_projectile1",{
-    visual="sprite",
-    textures={"regulus_boss_projectile1.png"},
-    physical=true,
+    initial_properties={
+        visual="sprite",
+        textures={"regulus_boss_projectile1.png"},
+        physical=true,
+        collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
+    },
     _timer=0,
     _lifetime=5,
-    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
     on_activate=function(self)
         minetest.add_particlespawner({
             amount=10,
@@ -206,12 +210,14 @@ minetest.register_entity("regulus_mobs:boss_projectile1",{
 
 
 minetest.register_entity("regulus_mobs:boss_projectile2",{
-    visual="sprite",
-    textures={"regulus_boss_projectile2.png"},
-    physical=true,
+    initial_properties={
+        visual="sprite",
+        textures={"regulus_boss_projectile2.png"},
+        physical=true,
+        collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
+    },
     _timer=0,
     _lifetime=5,
-    collisionbox={-0.2,-0.2,-0.2,0.2,0.2,0.2},
     on_activate=function(self)
         minetest.add_particlespawner({
             amount=10,
@@ -259,16 +265,18 @@ minetest.register_entity("regulus_mobs:boss_projectile2",{
 
 
 minetest.register_entity("regulus_mobs:boss_orbiting_band",{
-    visual="mesh",
-    mesh="regulus_boss_orbiting_band.obj",
-    textures={"regulus_boss_orbiting_band.png"},
-    use_texture_alpha=true,
-    --backface_culling=false,
-    automatic_rotate=1,
-    visual_size=vector.new(1,3,1)*2,
-    --shaded=false,
-    static_save=false,
-    pointable=false,
+    initial_properties={
+        visual="mesh",
+        mesh="regulus_boss_orbiting_band.obj",
+        textures={"regulus_boss_orbiting_band.png"},
+        use_texture_alpha=true,
+        --backface_culling=false,
+        automatic_rotate=1,
+        visual_size=vector.new(1,3,1)*2,
+        --shaded=false,
+        static_save=false,
+        pointable=false,
+    },
     on_step=function(self,dtime)
         if self._parent and self._parent:get_pos() and self._offset then
             self.object:set_pos(self._parent:get_pos()+self._offset)
@@ -279,15 +287,17 @@ minetest.register_entity("regulus_mobs:boss_orbiting_band",{
 })
 
 minetest.register_entity("regulus_mobs:light_ball",{
-    visual="mesh",
-    mesh="regulus_light_ball.obj",
-    textures={"regulus_light_ball.png"},
-    use_texture_alpha=true,
-    backface_culling=false,
-    automatic_rotate=1,
-    visual_size=vector.new(20,20,20),
-    pointable=false,
-    shaded=false,
+    initial_properties={
+        visual="mesh",
+        mesh="regulus_light_ball.obj",
+        textures={"regulus_light_ball.png"},
+        use_texture_alpha=true,
+        backface_culling=false,
+        automatic_rotate=1,
+        visual_size=vector.new(20,20,20),
+        pointable=false,
+        shaded=false,
+    },
     on_activate=function(self)
         minetest.after(1,function()
             self.object:remove()
@@ -295,15 +305,17 @@ minetest.register_entity("regulus_mobs:light_ball",{
     end,
 })
 minetest.register_entity("regulus_mobs:light_ball_backwards",{
-    visual="mesh",
-    mesh="regulus_light_ball.obj",
-    textures={"regulus_light_ball.png"},
-    use_texture_alpha=true,
-    backface_culling=false,
-    automatic_rotate=1,
-    visual_size=vector.new(20,20,20),
-    pointable=false,
-    shaded=false,
+    initial_properties={
+        visual="mesh",
+        mesh="regulus_light_ball.obj",
+        textures={"regulus_light_ball.png"},
+        use_texture_alpha=true,
+        backface_culling=false,
+        automatic_rotate=1,
+        visual_size=vector.new(20,20,20),
+        pointable=false,
+        shaded=false,
+    },
     on_activate=function(self)
         minetest.after(1,function()
             self.object:remove()
