@@ -142,7 +142,7 @@ minetest.register_entity("regulus_mobs:boss",{
             meta:set_string("exit","room1")
             meta:set_int("bossfight_in_progress",0)
             meta:set_int("exit_spawnpoint_num",3)
-            regulus_gui.remove_cinematic_bars(player)
+            --regulus_gui.remove_cinematic_bars(player)
         end
         minetest.sound_play("regulus_boss_die",{gain=1.0})
         regulus_story.play_music("mtgj_song2")

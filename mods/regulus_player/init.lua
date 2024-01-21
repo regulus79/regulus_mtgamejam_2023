@@ -29,7 +29,7 @@ minetest.register_on_joinplayer(function(player,last_login)
         player:set_properties(props)
         if mod_storage:get_int("bossfight_in_progress")==1 or player:get_meta():get_int("bossfight_in_progress")==1 then
             regulus_story.play_music("mtgj_boss3")
-            regulus_gui.add_cinematic_bars(player)
+            --regulus_gui.add_cinematic_bars(player)
         else
             local level_name=player:get_meta():get_string("level_name")
             if level_name=="room7" or level_name=="room8" then
