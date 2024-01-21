@@ -90,7 +90,9 @@ regulus_gui.show_credit_image=function(player,image,pos,alignment,time)
         --scale={x=2,y=2},
         number=0xFFFFFF,
         size={x=2},
-        scale={x=1,y=1},
+        --header.png is 1303x246, and most monitors are 16x9, so setting the height of the image in terms of 
+        --screen height (given that width is 80%) should be: 80*16/9*246/1303 ??
+        scale={x=-80,y=-26.850856997},
         alignment=alignment or {x=0,y=0},
         style=1,
     }
