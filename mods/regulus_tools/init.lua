@@ -13,5 +13,6 @@ minetest.register_tool("regulus_tools:test",{
             --minetest.chat_send_all("You used it"..tostring(itemstack:get_wear()))
             --return itemstack
         --end
-    end
+    end,
+    touch_interaction = "short_dig_long_place",
 })
